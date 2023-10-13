@@ -1,3 +1,35 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": [
+    // 기본 설정
+    "next/core-web-vitals",
+    // eslint와 prettier간의 충돌할수 있는 규칙을 제거해주는 세팅
+    "prettier",
+    // airbnb eslint 적용
+    "airbnb",
+    "airbnb-typescript"
+  ],
+  // airbnb-typescript를 사용하기 위해 적용
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  // 예시 (optional). 본인이 원하는 rules 추가하기
+  "rules": {
+    // React를 import하지 않았을 때 경고 비활성화
+    "react/react-in-jsx-scope": "off",
+    // 사용되지 않은 변수에 대한 경고 비활성화
+    "no-unused-vars": "off",
+    // 사용되지 않은 import에 대한 경고를 활성화
+    "unused-imports/no-unused-imports": "error",
+    // undefined로 확인되는 값에서 optional chanining에 대한 경고를 활성화
+    "no-unsafe-optional-chaining": 1,
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        // 모든 변수 선언문에 대해 경고를 발생
+        "vars": "all",
+        // 정규식으로 지정된 패턴에 일치하는 변수 선언문은 경고하지 않음
+        "varsIgnorePattern": "^_"
+      }
+    ]
+  }
 }
