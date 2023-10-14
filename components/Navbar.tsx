@@ -35,8 +35,8 @@ export default function Navbar() {
           <AiOutlineSearch className="font-semibold text-lg m-auto" />
         </button>
       </div>
-      <div className="hidden sm:flex gap-4 align-middle my-auto grow basis-0 justify-end relative">
-        <button className="font-semibold text-sm my-auto px-4 py-3 rounded-full hover:bg-gray-50">
+      <div className="hidden md:flex gap-4 align-middle my-auto grow basis-0 justify-end relative">
+        <button className="hidden lg:block font-semibold text-sm my-auto px-4 py-3 rounded-full hover:bg-gray-50">
           당신의 공간을 등록해주세요
         </button>
         <div
