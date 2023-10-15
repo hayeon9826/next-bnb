@@ -52,7 +52,7 @@ async function seedRooms() {
       const roomData = {
         images: [
           faker.image.urlLoremFlickr({
-            category: 'room',
+            category: 'hotel',
             width: 500,
             height: 500,
           }),
@@ -62,7 +62,7 @@ async function seedRooms() {
             height: 500,
           }),
           faker.image.urlLoremFlickr({
-            category: 'hotel',
+            category: 'bedroom',
             width: 500,
             height: 500,
           }),
@@ -109,7 +109,7 @@ async function seedRooms() {
 
 async function main() {
   //   await seetUsers()
-  await seedRooms()
+  // await seedRooms()
 }
 
 main()
