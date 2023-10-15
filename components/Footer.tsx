@@ -2,11 +2,11 @@ export default function Footer() {
   return (
     <footer className="bg-gray-50 py-2">
       <div className="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between border-b-gray-200 border-b">
-        <span className="text-sm text-gray-800 sm:text-center">
+        <span className="text-xs text-gray-800 sm:text-center">
           © 2023 <span className="hover:underline">nextbnb</span>. All Rights
           Reserved.
         </span>
-        <ul className="flex flex-wrap items-center text-sm text-gray-800 mt-2 sm:mt-0">
+        <ul className="flex flex-wrap items-center text-xs text-gray-800 mt-2 sm:mt-0">
           <li>
             <a href="#" className="mr-4 hover:underline md:mr-6">
               개인정보 처리방침
@@ -25,6 +25,28 @@ export default function Footer() {
           <li>
             <a href="#" className="hover:underline">
               회사 세부정보
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div className="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between border-b-gray-200 border-b">
+        <span className="text-xs text-gray-800 sm:text-center font-semibold">
+          자주찾는 메뉴
+        </span>
+        <ul className="flex flex-wrap items-center text-xs text-gray-800 mt-2 sm:mt-0">
+          <li>
+            <a href="#" className="mr-4 hover:underline md:mr-6">
+              로그인
+            </a>
+          </li>
+          <li>
+            <a href="#" className="mr-4 hover:underline md:mr-6">
+              회원가입
+            </a>
+          </li>
+          <li>
+            <a href="#" className="mr-4 hover:underline md:mr-6">
+              FAQ
             </a>
           </li>
         </ul>

@@ -3,9 +3,17 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import cn from 'classnames'
+import dayjs from 'dayjs'
+import 'dayjs/locale/ko'
 
 import { RxDividerVertical } from 'react-icons/rx'
-import { AiOutlineSearch, AiOutlineMenu, AiOutlineUser } from 'react-icons/ai'
+import {
+  AiOutlineSearch,
+  AiOutlineMenu,
+  AiOutlineUser,
+  AiOutlineMinus,
+  AiOutlinePlus,
+} from 'react-icons/ai'
 import { MdModeOfTravel } from 'react-icons/md'
 
 const menus = [
@@ -14,7 +22,6 @@ const menus = [
   { id: 3, title: 'FAQ', url: '/faqs' },
 ]
 
-type FilterType = 'location' | 'date' | 'guest' | 'search' | 'default'
 type DetailFilterType = 'location' | 'checkIn' | 'checkOut' | 'guest'
 interface FilterProps {
   location?: string
@@ -27,7 +34,7 @@ export default function Navbar() {
   const router = useRouter()
 
   const [showMenu, setShowMenu] = useState<boolean>(false)
-  const [showFilter, setShowFilter] = useState<FilterType>('default')
+  const [showFilter, setShowFilter] = useState<boolean>(false)
   const [detailFilter, setDetailFilter] = useState<DetailFilterType | null>(
     null,
   )
@@ -40,20 +47,13 @@ export default function Navbar() {
 
   console.log(filterValue)
 
-  const DETAIL_FILTER_TITLE = {
-    location: '지역으로 검색하기',
-    checkIn: '체크인 날짜 설정하기',
-    checkOut: '체크아웃 날짜 설정하기',
-    guest: '게스트 수 추가하기',
-  }
-
   return (
     <nav
       className={cn(
-        'border border-b-gray-20 items-center w-full px-4 py-4 md:py-5 sm:px-10 lg:px-20 md:px-12 flex justify-between align-middle fixed top-0 bg-white',
+        'border border-b-gray-20 items-center w-full px-4 py-4 md:py-3 sm:px-10 lg:px-20 md:px-12 flex justify-between align-middle fixed top-0 bg-white',
         {
-          'h-44': showFilter !== 'default',
-          '!items-start': showFilter !== 'default',
+          'h-44': showFilter === true,
+          '!items-start': showFilter === true,
         },
       )}
     >
@@ -61,37 +61,23 @@ export default function Navbar() {
         <MdModeOfTravel className="text-4xl" />
         <div>nextbnb</div>
       </div>
-      {showFilter === 'default' ? (
-        <div className="w-full py-2 sm:w-[340px] border border-gray-20 rounded-full shadow hover:shadow-lg cursor-pointer flex justify-between pl-6 pr-2">
-          <div className="flex justify-center gap-1">
-            <div
-              role="presentation"
-              className="my-auto font-semibold text-sm"
-              onClick={() => setShowFilter('location')}
-            >
-              어디든지
-            </div>
+      {showFilter === false ? (
+        <div className="w-full py-1.5 sm:w-[340px] border border-gray-20 rounded-full shadow hover:shadow-lg cursor-pointer flex justify-between pl-6 pr-2">
+          <div
+            className="flex justify-center gap-1"
+            role="presentation"
+            onClick={() => setShowFilter(true)}
+          >
+            <div className="my-auto font-semibold text-sm">어디든지</div>
             <RxDividerVertical className="text-gray-200 text-2xl my-auto" />
-            <div
-              role="presentation"
-              className="my-auto font-semibold text-sm"
-              onClick={() => setShowFilter('date')}
-            >
-              언제든 일주일
-            </div>
+            <div className="my-auto font-semibold text-sm">언제든 일주일</div>
             <RxDividerVertical className="text-gray-200 text-2xl my-auto" />
-            <div
-              role="presentation"
-              className="my-auto text-sm text-gray-500"
-              onClick={() => setShowFilter('guest')}
-            >
-              게스트 추가
-            </div>
+            <div className="my-auto text-sm text-gray-500">게스트 추가</div>
           </div>
           <button
             role="presentation"
             className="bg-rose-500 text-white rounded-full w-8 h-8"
-            onClick={() => setShowFilter('search')}
+            onClick={() => setShowFilter(true)}
           >
             <AiOutlineSearch className="font-semibold text-lg m-auto" />
           </button>
@@ -122,36 +108,36 @@ export default function Navbar() {
             <div
               role="presentation"
               className="my-auto text-sm underline underline-offset-8 cursor-pointer text-gray-500 hover:text-black"
-              onClick={() => setShowFilter('default')}
+              onClick={() => setShowFilter(false)}
             >
               필터 닫기
             </div>
           </div>
           <div
             className={cn(
-              'w-[90%] sm:max-w-3xl border border-gray-20 rounded-full shadow-sm bg-white hover:shadow-lg cursor-pointer flex justify-between fixed top-20 inset-x-0 mx-auto',
-              { 'bg-gray-100': detailFilter !== null },
+              'w-[90%] sm:max-w-3xl gap-4 border border-gray-20 rounded-lg py-4 sm:py-0 sm:rounded-full shadow-sm bg-white hover:shadow-lg cursor-pointer flex flex-col sm:flex-row justify-between fixed top-20 inset-x-0 mx-auto',
+              { 'bg-gray-200': detailFilter !== null },
             )}
           >
-            <div className="flex justify-center relative">
+            <div className="grid grid-cols-1 sm:grid-cols-4 w-full relative">
               <div
                 role="presentation"
                 onClick={() => setDetailFilter('location')}
                 className={cn(
-                  'my-auto font-semibold text-xs lg:w-60 rounded-full hover:bg-gray-200 py-3 px-6',
+                  'my-auto font-semibold text-xs rounded-full hover:bg-gray-100 py-3 px-6',
                   { 'shadow bg-white': detailFilter === 'location' },
                 )}
               >
                 여행지
                 <div className=" text-gray-500 font-normal text-sm">
-                  여행지 검색
+                  {filterValue?.location || '여행지 검색'}
                 </div>
               </div>
               <div
                 role="presentation"
                 onClick={() => setDetailFilter('checkIn')}
                 className={cn(
-                  'my-auto font-semibold text-xs lg:w-28 rounded-full hover:bg-gray-200 py-3 px-6',
+                  'my-auto font-semibold text-xs rounded-full hover:bg-gray-100 py-3 px-6',
                   {
                     'shadow bg-white': detailFilter === 'checkIn',
                   },
@@ -159,14 +145,14 @@ export default function Navbar() {
               >
                 체크인
                 <div className=" text-gray-500 font-normal text-sm">
-                  날짜 추가
+                  {filterValue?.checkIn || '날짜 추가'}
                 </div>
               </div>
               <div
                 role="presentation"
                 onClick={() => setDetailFilter('checkOut')}
                 className={cn(
-                  'my-auto font-semibold text-xs lg:w-28 rounded-full hover:bg-gray-200 py-3 px-6',
+                  'my-auto font-semibold text-xs  rounded-full hover:bg-gray-100 py-3 px-6',
                   {
                     'shadow bg-white': detailFilter === 'checkOut',
                   },
@@ -174,14 +160,14 @@ export default function Navbar() {
               >
                 체크아웃
                 <div className=" text-gray-500 font-normal text-sm">
-                  날짜 추가
+                  {filterValue?.checkOut || '날짜 추가'}
                 </div>
               </div>
               <div
                 role="presentation"
                 onClick={() => setDetailFilter('guest')}
                 className={cn(
-                  'my-auto text-xs lg:w-40 font-semibold rounded-full hover:bg-gray-200 py-3 px-6',
+                  'my-auto text-xs font-semibold rounded-full hover:bg-gray-100 py-3 px-6',
                   {
                     'shadow bg-white': detailFilter === 'guest',
                   },
@@ -189,26 +175,49 @@ export default function Navbar() {
               >
                 여행자
                 <div className=" text-gray-500 font-normal text-sm">
-                  게스트 추가
+                  {filterValue?.guest
+                    ? `게스트 ${filterValue?.guest}명`
+                    : '게스트 추가'}
                 </div>
               </div>
-              {detailFilter !== null && (
-                <div className="border px-8 py-10 border-gray-20 shadow-lg flex flex-col absolute bg-white w-[90%] sm:max-w-3xl lg:w-[768px] left-0 rounded-xl top-[70px]">
-                  <div className="text-sm font-semibold">
-                    {DETAIL_FILTER_TITLE?.[detailFilter]}
-                  </div>
-                </div>
+              {detailFilter === 'location' && (
+                <Navbar.LocationFilter
+                  filterValue={filterValue}
+                  setFilterValue={setFilterValue}
+                  setDetailFilter={setDetailFilter}
+                />
+              )}
+              {detailFilter === 'checkIn' && (
+                <Navbar.CheckInFilter
+                  filterValue={filterValue}
+                  setFilterValue={setFilterValue}
+                  setDetailFilter={setDetailFilter}
+                />
+              )}
+              {detailFilter === 'checkOut' && (
+                <Navbar.CheckOutFilter
+                  filterValue={filterValue}
+                  setFilterValue={setFilterValue}
+                  setDetailFilter={setDetailFilter}
+                />
+              )}
+              {detailFilter === 'guest' && (
+                <Navbar.GuestFilter
+                  filterValue={filterValue}
+                  setFilterValue={setFilterValue}
+                  setDetailFilter={setDetailFilter}
+                />
               )}
             </div>
             <button
               role="presentation"
-              className="bg-rose-600 text-white rounded-full h-10 w-auto my-auto flex gap-2 px-4 py-2 mr-2 hover:shadow hover:bg-rose-500"
+              className="bg-rose-600 text-white rounded-full h-12 mx-4 sm:h-10 sm:w-24 my-auto flex justify-center gap-1 px-2 sm:px-4 py-2 sm:mr-2 hover:shadow hover:bg-rose-500"
               onClick={() => {
-                setShowFilter('default')
+                setShowFilter(false)
                 setDetailFilter(null)
               }}
             >
-              <AiOutlineSearch className="font-semibold text-xl m-auto" />
+              <AiOutlineSearch className="font-semibold text-xl my-auto" />
               <div className="my-auto">검색</div>
             </button>
           </div>
@@ -241,5 +250,152 @@ export default function Navbar() {
         )}
       </div>
     </nav>
+  )
+}
+
+interface FilterComponentProps {
+  filterValue: FilterProps
+  setFilterValue: React.Dispatch<React.SetStateAction<FilterProps>>
+  setDetailFilter: React.Dispatch<React.SetStateAction<DetailFilterType | null>>
+}
+
+Navbar.LocationFilter = ({
+  filterValue,
+  setFilterValue,
+  setDetailFilter,
+}: FilterComponentProps) => {
+  return (
+    <div className="border px-8 py-10 border-gray-20 shadow-lg flex flex-col absolute bg-white w-full sm:max-w-3xl md:w-[768px] left-0 rounded-xl sm:top-[70px] top-80">
+      <div className="text-sm font-semibold">지역으로 검색하기</div>
+      <div className="flex flex-wrap gap-4 mt-4">
+        {['서울', '부산', '대구', '인천', '광주', '대전', '울산']?.map(
+          (value) => (
+            <div
+              role="presentation"
+              key={value}
+              className={cn(
+                'border rounded-lg px-5 py-2.5 hover:bg-gray-200 focus:bg-rose-500',
+                {
+                  'bg-rose-600 text-white': filterValue.location === value,
+                },
+              )}
+              onClick={() => {
+                setFilterValue({
+                  ...filterValue,
+                  location: value,
+                })
+                setDetailFilter('checkIn')
+              }}
+            >
+              {value}
+            </div>
+          ),
+        )}
+      </div>
+    </div>
+  )
+}
+
+Navbar.CheckInFilter = ({
+  filterValue,
+  setFilterValue,
+  setDetailFilter,
+}: FilterComponentProps) => {
+  return (
+    <div className="border px-8 py-10 border-gray-20 shadow-lg flex flex-col absolute bg-white w-full sm:max-w-3xl md:w-[768px] left-0 rounded-xl sm:top-[70px] top-80">
+      <div className="text-sm font-semibold">체크인 날짜 설정하기</div>
+      <input
+        type="date"
+        className="mt-4 border border-200 py-3 px-2.5 rounded-lg"
+        min={dayjs().format('YYYY-MM-DD')}
+        defaultValue={filterValue.checkIn}
+        onChange={(e) => {
+          setFilterValue({
+            ...filterValue,
+            checkIn: e.target.value,
+          })
+          setDetailFilter('checkOut')
+        }}
+      />
+    </div>
+  )
+}
+
+Navbar.CheckOutFilter = ({
+  filterValue,
+  setFilterValue,
+  setDetailFilter,
+}: FilterComponentProps) => {
+  return (
+    <div className="border px-8 py-10 border-gray-20 shadow-lg flex flex-col absolute bg-white w-full sm:max-w-3xl md:w-[768px] left-0 rounded-xl sm:top-[70px] top-80">
+      <div className="text-sm font-semibold">체크아웃 날짜 설정하기</div>
+      <input
+        type="date"
+        className="mt-4 border border-200 py-3 px-2.5 rounded-lg"
+        min={filterValue.checkIn}
+        defaultValue={filterValue.checkOut}
+        onChange={(e) => {
+          setFilterValue({
+            ...filterValue,
+            checkOut: e.target.value,
+          })
+          setDetailFilter('guest')
+        }}
+      />
+    </div>
+  )
+}
+
+Navbar.GuestFilter = ({
+  filterValue,
+  setFilterValue,
+  setDetailFilter,
+}: FilterComponentProps) => {
+  const [counter, setCounter] = useState<number>(filterValue.guest || 0)
+  return (
+    <div className="border px-8 py-10 border-gray-20 shadow-lg flex flex-col absolute bg-white w-full sm:max-w-3xl md:w-[768px] left-0 rounded-xl sm:top-[70px] top-80">
+      <div className="text-sm font-semibold">게스트 수 추가하기</div>
+      <div className="mt-4 border border-200 py-3 px-4 rounded-lg flex justify-between items-center">
+        <div>
+          <div className="font-semibold text-sm">게스트 수 추가</div>
+          <div className="text-gray-500 text-sm">숙박 인원을 입력해주세요</div>
+        </div>
+        <div className="flex gap-4 items-center justify-center">
+          <button
+            type="button"
+            className="rounded-full border border-gray-400 w-8 h-8 disabled:border-gray-200 hover:border-black"
+            disabled={counter <= 0}
+            onClick={() => {
+              setCounter((val) => val - 1)
+              setFilterValue({
+                ...filterValue,
+                guest: counter - 1,
+              })
+            }}
+          >
+            <AiOutlineMinus
+              className={cn('m-auto', { 'text-gray-200': counter <= 0 })}
+            />
+          </button>
+          <div className="w-3 text-center">{counter}</div>
+          <button
+            type="button"
+            className="rounded-full border border-gray-400 w-8 h-8 hover:border-black disabled:border-gray-200"
+            disabled={counter >= 20}
+            onClick={() => {
+              setCounter((val) => val + 1)
+              setFilterValue({
+                ...filterValue,
+                guest: counter + 1,
+              })
+            }}
+          >
+            <AiOutlinePlus
+              className={cn('m-auto', { 'text-gray-200': counter >= 20 })}
+            />
+          </button>
+        </div>
+      </div>
+    </div>
   )
 }
