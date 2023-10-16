@@ -108,7 +108,7 @@ async function seedRooms() {
 }
 
 async function main() {
-  //   await seetUsers()
+  // await seetUsers()
   // await seedRooms()
 }
 
