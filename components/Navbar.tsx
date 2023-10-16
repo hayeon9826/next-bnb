@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import cn from 'classnames'
 import dayjs from 'dayjs'
@@ -16,6 +16,9 @@ import {
 } from 'react-icons/ai'
 import { MdModeOfTravel } from 'react-icons/md'
 
+import Calendar from 'react-calendar'
+import 'react-calendar/dist/Calendar.css'
+
 const menus = [
   { id: 1, title: '로그인', url: '/users/login' },
   { id: 2, title: '회원가입', url: '/users/signup' },
@@ -29,6 +32,10 @@ interface FilterProps {
   checkOut?: string
   guest?: number
 }
+
+type ValuePiece = Date | null
+
+type Value = ValuePiece | [ValuePiece, ValuePiece]
 
 export default function Navbar() {
   const router = useRouter()
@@ -44,8 +51,6 @@ export default function Navbar() {
     checkOut: '',
     guest: 0,
   })
-
-  console.log(filterValue)
 
   return (
     <nav
@@ -301,21 +306,25 @@ Navbar.CheckInFilter = ({
   setFilterValue,
   setDetailFilter,
 }: FilterComponentProps) => {
+  const onChange = (e: any) => {
+    setFilterValue({
+      ...filterValue,
+      checkIn: dayjs(e).format('YYYY-MM-DD'),
+    })
+    setDetailFilter('checkOut')
+  }
+
   return (
     <div className="border px-8 py-10 border-gray-20 shadow-lg flex flex-col absolute bg-white w-full sm:max-w-3xl md:w-[768px] left-0 rounded-xl sm:top-[70px] top-80">
       <div className="text-sm font-semibold">체크인 날짜 설정하기</div>
-      <input
-        type="date"
-        className="mt-4 border border-200 py-3 px-2.5 rounded-lg"
-        min={dayjs().format('YYYY-MM-DD')}
-        defaultValue={filterValue.checkIn}
-        onChange={(e) => {
-          setFilterValue({
-            ...filterValue,
-            checkIn: e.target.value,
-          })
-          setDetailFilter('checkOut')
-        }}
+      <Calendar
+        className="mt-8 mx-auto"
+        onChange={onChange}
+        minDate={new Date()}
+        defaultValue={
+          filterValue?.checkIn ? new Date(filterValue?.checkIn) : null
+        }
+        formatDay={(locale, date) => dayjs(date).format('DD')}
       />
     </div>
   )
@@ -326,21 +335,25 @@ Navbar.CheckOutFilter = ({
   setFilterValue,
   setDetailFilter,
 }: FilterComponentProps) => {
+  const onChange = (e: any) => {
+    setFilterValue({
+      ...filterValue,
+      checkOut: dayjs(e).format('YYYY-MM-DD'),
+    })
+    setDetailFilter('guest')
+  }
+
   return (
     <div className="border px-8 py-10 border-gray-20 shadow-lg flex flex-col absolute bg-white w-full sm:max-w-3xl md:w-[768px] left-0 rounded-xl sm:top-[70px] top-80">
       <div className="text-sm font-semibold">체크아웃 날짜 설정하기</div>
-      <input
-        type="date"
-        className="mt-4 border border-200 py-3 px-2.5 rounded-lg"
-        min={filterValue.checkIn}
-        defaultValue={filterValue.checkOut}
-        onChange={(e) => {
-          setFilterValue({
-            ...filterValue,
-            checkOut: e.target.value,
-          })
-          setDetailFilter('guest')
-        }}
+      <Calendar
+        className="mt-8 mx-auto"
+        onChange={onChange}
+        minDate={new Date()}
+        defaultValue={
+          filterValue?.checkOut ? new Date(filterValue?.checkOut) : null
+        }
+        formatDay={(locale, date) => dayjs(date).format('DD')}
       />
     </div>
   )
