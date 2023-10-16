@@ -18,24 +18,13 @@ import { MdModeOfTravel } from 'react-icons/md'
 
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
+import { DetailFilterType, FilterProps } from '@/interface'
 
 const menus = [
   { id: 1, title: '로그인', url: '/users/login' },
   { id: 2, title: '회원가입', url: '/users/signup' },
   { id: 3, title: 'FAQ', url: '/faqs' },
 ]
-
-type DetailFilterType = 'location' | 'checkIn' | 'checkOut' | 'guest'
-interface FilterProps {
-  location?: string
-  checkIn?: string
-  checkOut?: string
-  guest?: number
-}
-
-type ValuePiece = Date | null
-
-type Value = ValuePiece | [ValuePiece, ValuePiece]
 
 export default function Navbar() {
   const router = useRouter()
