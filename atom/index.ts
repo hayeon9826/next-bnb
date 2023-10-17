@@ -8,6 +8,7 @@ export const filterState = atom<FilterProps>({
     checkIn: '',
     checkOut: '',
     guest: 0,
+    category: '',
   },
 })
 
