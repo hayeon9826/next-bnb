@@ -195,7 +195,10 @@ export default function Navbar() {
             {menus?.map((menu) => (
               <div
                 key={menu.id}
-                onClick={() => router.push(menu.url)}
+                onClick={() => {
+                  setShowMenu(false)
+                  router.push(menu.url)
+                }}
                 className="h-10 hover:bg-gray-50 cursor-pointer text-sm text-gray-700 pl-3 flex flex-col justify-center"
               >
                 {menu.title}

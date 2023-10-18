@@ -28,6 +28,7 @@
     "react-calendar": "^4.6.0",
     "react-dom": "^18",
     "react-icons": "^4.11.0",
+    "react-query": "^3.39.3",
     "recoil": "^0.7.7",
     "ts-node": "^10.9.1",
     "yarn": "^1.22.19"

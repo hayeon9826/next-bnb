@@ -14,3 +14,9 @@ export interface RoomType {
   address: string
   price: number
 }
+
+export interface FaqType {
+  id: number
+  title: string
+  desc: string
+}

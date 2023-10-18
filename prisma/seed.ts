@@ -27,7 +27,7 @@ const CATEGORY = [
   '골프장',
 ]
 
-async function seetUsers() {
+async function seedUsers() {
   Array.from({ length: 10 }, (v, i) => i).forEach(async () => {
     const userData = {
       email: faker.internet.email(),
@@ -38,6 +38,22 @@ async function seetUsers() {
 
     const res = await prisma.user.create({
       data: userData,
+    })
+
+    console.log(res)
+  })
+}
+
+async function seedFaqs() {
+  await prisma.faq.deleteMany()
+  Array.from({ length: 10 }, (v, i) => i).forEach(async () => {
+    const faqData = {
+      title: faker.lorem.words(),
+      desc: faker.lorem.paragraph(),
+    }
+
+    const res = await prisma.faq.create({
+      data: faqData,
     })
 
     console.log(res)
@@ -108,8 +124,9 @@ async function seedRooms() {
 }
 
 async function main() {
-  // await seetUsers()
+  // await seedUsers()
   // await seedRooms()
+  // await seedFaqs()
 }
 
 main()

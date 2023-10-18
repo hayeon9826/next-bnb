@@ -19,6 +19,12 @@ model User {
   rooms         Room[]
 }
 
+model Faq {
+  id            Int      @id @default(autoincrement())
+  title         String
+  desc          String
+}
+
 
 model Room {
   id            Int    @id @default(autoincrement())

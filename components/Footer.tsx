@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 export default function Footer() {
   return (
     <footer className="bg-gray-50 py-2">
@@ -8,24 +10,24 @@ export default function Footer() {
         </span>
         <ul className="flex flex-wrap items-center text-xs text-gray-800 mt-2 sm:mt-0">
           <li>
-            <a href="#" className="mr-4 hover:underline md:mr-6">
+            <Link href="#" className="mr-4 hover:underline md:mr-6">
               개인정보 처리방침
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#" className="mr-4 hover:underline md:mr-6">
+            <Link href="#" className="mr-4 hover:underline md:mr-6">
               이용약관
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#" className="mr-4 hover:underline md:mr-6">
+            <Link href="#" className="mr-4 hover:underline md:mr-6">
               공지사항
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#" className="hover:underline">
+            <Link href="#" className="hover:underline">
               회사 세부정보
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
@@ -35,19 +37,19 @@ export default function Footer() {
         </span>
         <ul className="flex flex-wrap items-center text-xs text-gray-800 mt-2 sm:mt-0">
           <li>
-            <a href="#" className="mr-4 hover:underline md:mr-6">
+            <Link href="#" className="mr-4 hover:underline md:mr-6">
               로그인
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#" className="mr-4 hover:underline md:mr-6">
+            <Link href="#" className="mr-4 hover:underline md:mr-6">
               회원가입
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#" className="mr-4 hover:underline md:mr-6">
+            <Link href="/faqs" className="hover:underline">
               FAQ
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
