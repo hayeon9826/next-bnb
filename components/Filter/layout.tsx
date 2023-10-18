@@ -15,7 +15,7 @@ export default function FilterLayout({
   return (
     <div
       className={cn(
-        'border px-8 py-10 border-gray-20 shadow-lg flex flex-col absolute bg-white w-full sm:max-w-3xl md:w-[768px] left-0 rounded-xl sm:top-[70px] top-80',
+        'z-10 border px-8 py-10 border-gray-20 shadow-lg flex flex-col absolute bg-white w-full sm:max-w-3xl md:w-[768px] left-0 rounded-xl sm:top-[70px] top-80',
         {
           hidden: !isShow,
         },

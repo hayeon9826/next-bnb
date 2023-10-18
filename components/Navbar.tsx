@@ -29,14 +29,17 @@ export default function Navbar() {
   return (
     <nav
       className={cn(
-        'border border-b-gray-20 items-center w-full px-4 py-4 md:py-3 sm:px-10 lg:px-20 md:px-12 flex justify-between align-middle fixed top-0 bg-white',
+        'z-10 h-20 border border-b-gray-20 items-center w-full px-4 py-4 md:py-3 sm:px-10 lg:px-20 md:px-12 flex justify-between align-middle fixed top-0 bg-white',
         {
-          'h-44': showFilter === true,
+          '!h-44': showFilter === true,
           '!items-start': showFilter === true,
         },
       )}
     >
-      <div className="hidden font-semibold text-lg sm:text-xl text-rose-500 cursor-pointer grow basis-0 sm:flex sm:gap-2 h-14 items-center">
+      <div
+        onClick={() => router.push('/')}
+        className="hidden font-semibold text-lg sm:text-xl text-rose-500 cursor-pointer grow basis-0 sm:flex sm:gap-2 h-14 items-center"
+      >
         <MdModeOfTravel className="text-4xl" />
         <div>nextbnb</div>
       </div>
