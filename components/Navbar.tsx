@@ -11,7 +11,6 @@ import { MdModeOfTravel } from 'react-icons/md'
 import { SearchFilter } from './Filter'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { detailFilterState, filterState } from '@/atom'
-import Link from 'next/link'
 
 const menus = [
   { id: 1, title: '로그인', url: '/users/login' },
@@ -37,9 +36,12 @@ export default function Navbar() {
         },
       )}
     >
-      <div className="hidden font-semibold text-lg sm:text-xl text-rose-500 cursor-pointer grow basis-0 sm:flex sm:gap-2 h-14 items-center">
+      <div
+        onClick={() => router.push('/')}
+        className="hidden font-semibold text-lg sm:text-xl text-rose-500 cursor-pointer grow basis-0 sm:flex sm:gap-2 h-14 items-center"
+      >
         <MdModeOfTravel className="text-4xl" />
-        <Link href="/">nextbnb</Link>
+        <div>nextbnb</div>
       </div>
       {showFilter === false ? (
         <div className="w-full py-1.5 sm:w-[340px] border border-gray-20 rounded-full shadow hover:shadow-lg cursor-pointer flex justify-between pl-6 pr-2">

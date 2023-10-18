@@ -1,12 +1,5 @@
+import { RoomType } from '@/interface'
 import { ReactNode } from 'react'
-
-interface RoomType {
-  id: number
-  images: string[]
-  title: string
-  address: string
-  price: number
-}
 
 export function RoomItem({ room }: { room: RoomType }) {
   return (
@@ -28,7 +21,7 @@ export function RoomItem({ room }: { room: RoomType }) {
 
 export function GridLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="sm:px-4 md:px-8 lg:px-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 my-20 max-w-7xl mx-auto">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mb-20 mt-16 max-w-7xl mx-auto">
       {children}
     </div>
   )

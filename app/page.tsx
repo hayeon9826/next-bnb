@@ -1,9 +1,9 @@
 import CategoryList from '@/components/CategoryList'
 import { GridLayout, RoomItem } from '@/components/RoomGrid'
-import { PrismaClient } from '@prisma/client'
+import { RoomType } from '@/interface'
 
 export default async function Home() {
-  const { data } = await getRooms()
+  const data: RoomType[] = await getRooms()
 
   return (
     <>
@@ -16,10 +16,13 @@ export default async function Home() {
 }
 
 async function getRooms() {
-  const prisma = new PrismaClient()
-  const data = await prisma.room.findMany()
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/rooms`, {
+    cache: 'force-cache',
+  })
 
-  return {
-    data,
+  if (!res.ok) {
+    throw new Error('Failed to fetch data')
   }
+
+  return res.json()
 }
