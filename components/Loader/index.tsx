@@ -10,13 +10,13 @@ export function Loader({ className }: { className?: string }) {
   )
 }
 
-export function LoaderGrid({ className }: { className?: string }) {
+export function GridLoader({ className }: { className?: string }) {
   return (
     <GridLayout>
-      {[...Array(12)].map((e, i) => (
+      {[...Array(8)].map((e, i) => (
         <div
           key={i}
-          className="rounded-md w-full h-72 md:h-56 object-fit bg-gray-200 animate-pulse"
+          className="rounded-md w-full h-80 md:h-56 object-fit bg-gray-200 animate-pulse"
         />
       ))}
     </GridLayout>

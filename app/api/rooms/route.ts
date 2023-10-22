@@ -26,5 +26,11 @@ export async function GET(req: Request) {
         status: 200,
       },
     )
+  } else {
+    const rooms = await prisma.room.findMany()
+
+    return NextResponse.json(rooms, {
+      status: 200,
+    })
   }
 }

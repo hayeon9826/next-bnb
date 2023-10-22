@@ -12,7 +12,22 @@ export interface RoomType {
   images: string[]
   title: string
   address: string
+  lat: string
+  lng: string
+  category: string
+  desc: string
+  bedroomDesc?: string
   price: number
+  freeCancel: boolean
+  selfCheckIn: boolean
+  officeSpace: boolean
+  hasMountainView: boolean
+  hasShampoo: boolean
+  hasFreeLaundry: boolean
+  hasAirConditioner: boolean
+  hasWifi: boolean
+  hasBarbeque: boolean
+  hasFreeParking: boolean
 }
 
 export interface FaqType {

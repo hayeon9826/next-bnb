@@ -48,3 +48,7 @@ export const CATEGORY = [
   { title: '신규', icon: keyIcon },
   { title: '서핑', icon: surfingIcon },
 ]
+
+/** @example - Blur Data URL 생성: https://png-pixel.com/  */
+export const BLUR_DATA_URL =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mM8fOJEPQAHfQLUAsZOIAAAAABJRU5ErkJggg=='
