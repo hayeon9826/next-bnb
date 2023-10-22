@@ -18,6 +18,7 @@ export default function Home() {
   const isPageEnd = !!pageRef?.isIntersecting
 
   const fetchRooms = async ({ pageParam = 1 }) => {
+    // Error Boundary 테스트: 아래 url 변경 후 테스트하기
     const { data } = await axios('/api/rooms?page=' + pageParam, {
       params: {
         limit: 12,
@@ -61,29 +62,26 @@ export default function Home() {
   }, [fetchNext, isPageEnd, hasNextPage])
 
   if (isError) {
-    return (
-      <div className="w-full h-screen mx-auto pt-[10%] text-red-500 text-center font-semibold">
-        다시 시도해주세요
-      </div>
-    )
+    throw new Error('room API fetching error')
   }
 
   return (
     <>
       <CategoryList />
-      <GridLayout>
-        {isLoading || isFetching ? (
-          <LoaderGrid />
-        ) : (
-          rooms?.pages?.map((page, index) => (
+
+      {isLoading || isFetching ? (
+        <LoaderGrid />
+      ) : (
+        <GridLayout>
+          {rooms?.pages?.map((page, index) => (
             <React.Fragment key={index}>
               {page.data.map((room: RoomType) => (
                 <RoomItem room={room} key={room.id} />
               ))}
             </React.Fragment>
-          ))
-        )}
-      </GridLayout>
+          ))}
+        </GridLayout>
+      )}
       {(isFetching || hasNextPage || isFetchingNextPage) && <Loader />}
       <div className="w-full touch-none h-10 mb-10" ref={ref} />
     </>

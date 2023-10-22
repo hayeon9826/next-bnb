@@ -25,6 +25,7 @@ export default async function FaqPage() {
 }
 
 async function getData() {
+  // Error Boundary 테스트: 아래 url 변경 후 테스트하기
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/faqs`, {
     cache: 'force-cache',
   })
