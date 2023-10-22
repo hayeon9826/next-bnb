@@ -46,13 +46,18 @@ export default function Map() {
         // 마커가 표시될 위치입니다
         var markerPosition = new window.kakao.maps.LatLng(room.lat, room.lng)
 
-        // 마커를 생성합니다
-        var marker = new window.kakao.maps.Marker({
+        // 커스텀 오버레이에 표시할 내용입니다
+        // HTML 문자열 또는 Dom Element 입니다
+        var content = `<div class="custom_overlay">${room.price?.toLocaleString()}원</div>`
+
+        // 커스텀 오버레이를 생성합니다
+        var customOverlay = new window.kakao.maps.CustomOverlay({
           position: markerPosition,
+          content: content,
         })
 
-        // 마커가 지도 위에 표시되도록 설정합니다
-        marker.setMap(map)
+        // 커스텀 오버레이를 지도에 표시합니다
+        customOverlay.setMap(map)
       })
     })
   }
