@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 
 import { useInfiniteQuery } from 'react-query'
 import axios from 'axios'
@@ -10,7 +10,6 @@ import { Loader, LoaderGrid } from '@/components/Loader'
 import { GridLayout, RoomItem } from '@/components/RoomGrid'
 import useIntersectionObserver from '@/hooks/useIntersectionObserver'
 import { RoomType } from '@/interface'
-import React from 'react'
 
 export default function Home() {
   const ref = useRef<HTMLDivElement | null>(null)
@@ -61,14 +60,13 @@ export default function Home() {
     return () => clearTimeout(timerId)
   }, [fetchNext, isPageEnd, hasNextPage])
 
-  if (isError) {
+  if (!!isError) {
     throw new Error('room API fetching error')
   }
 
   return (
     <>
       <CategoryList />
-
       {isLoading || isFetching ? (
         <LoaderGrid />
       ) : (
