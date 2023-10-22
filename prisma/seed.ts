@@ -60,6 +60,30 @@ async function seedFaqs() {
   })
 }
 
+async function updateRoomsLatLng() {
+  const roomData = await prisma.room.findMany()
+
+  // 가져온 데이터를 업데이트합니다.
+  for (const room of roomData) {
+    // 업데이트 로직을 작성합니다.
+    // Generate random latitude and longitude
+    const randomLatitude = getRandomLatitude()
+    const randomLongitude = getRandomLongitude()
+
+    console.log(`Random Latitude: ${randomLatitude}`)
+    console.log(`Random Longitude: ${randomLongitude}`)
+
+    // room 업데이트
+    await prisma.room.update({
+      where: { id: room.id },
+      data: {
+        lat: randomLatitude,
+        lng: randomLongitude,
+      },
+    })
+  }
+}
+
 async function seedRooms() {
   const totalUsers = await prisma.user.count()
   if (totalUsers > 1) {
@@ -123,10 +147,39 @@ async function seedRooms() {
   }
 }
 
+// 서울 위도값 랜덤 생성 함수
+function getRandomLatitude() {
+  const minLatitude = 37.4316
+  const maxLatitude = 37.701
+
+  return faker.number
+    .float({
+      min: minLatitude,
+      max: maxLatitude,
+      precision: 0.000001,
+    })
+    ?.toString()
+}
+
+// 서울 경도값 랜덤 생성 함수
+function getRandomLongitude() {
+  const minLongitude = 126.7963
+  const maxLongitude = 127.1839
+
+  return faker.number
+    .float({
+      min: minLongitude,
+      max: maxLongitude,
+      precision: 0.000001,
+    })
+    ?.toString()
+}
+
 async function main() {
   // await seedUsers()
   // await seedRooms()
   // await seedFaqs()
+  // await updateRoomsLatLng()
 }
 
 main()

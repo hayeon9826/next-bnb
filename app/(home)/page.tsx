@@ -4,14 +4,14 @@ import React, { useCallback, useEffect, useRef } from 'react'
 
 import { useInfiniteQuery } from 'react-query'
 import axios from 'axios'
-import { BsMap } from 'react-icons/bs'
 import { useRouter } from 'next/navigation'
 
 import CategoryList from '@/components/CategoryList'
-import { Loader, LoaderGrid } from '@/components/Loader'
+import { Loader, GridLoader } from '@/components/Loader'
 import { GridLayout, RoomItem } from '@/components/RoomGrid'
 import useIntersectionObserver from '@/hooks/useIntersectionObserver'
 import { RoomType } from '@/interface'
+import { MapButton } from '@/components/Map'
 
 export default function Home() {
   const router = useRouter()
@@ -55,9 +55,7 @@ export default function Home() {
     let timerId: NodeJS.Timeout | undefined
 
     if (isPageEnd && hasNextPage) {
-      timerId = setTimeout(() => {
-        fetchNext()
-      }, 500)
+      fetchNext()
     }
 
     return () => clearTimeout(timerId)
@@ -70,8 +68,8 @@ export default function Home() {
   return (
     <>
       <CategoryList />
-      {isLoading || isFetching ? (
-        <LoaderGrid />
+      {isLoading ? (
+        <GridLoader />
       ) : (
         <GridLayout>
           {rooms?.pages?.map((page, index) => (
@@ -83,12 +81,7 @@ export default function Home() {
           ))}
         </GridLayout>
       )}
-      <button
-        onClick={() => router.push('/map')}
-        className="flex gap-2 items-center text-sm bg-black rounded-full text-white px-5 py-3.5 shadow-sm sticky bottom-12 mx-auto hover:shadow-lg"
-      >
-        지도 표시하기 <BsMap className="text-xs" />
-      </button>
+      <MapButton onClick={() => router.push('/map')} />
       {(isFetching || hasNextPage || isFetchingNextPage) && <Loader />}
       <div className="w-full touch-none h-10 mb-10" ref={ref} />
     </>
