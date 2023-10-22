@@ -31,3 +31,22 @@
 .react-calendar__tile--active:enabled:focus {
   background: #f43f5e;
 }
+
+.custom_overlay {
+  background-color: white;
+  border-radius: 20px;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid lightgray;
+  box-shadow:
+    0 12px 20px rgba(0, 0, 0, 0.2),
+    0 8px 8px rgba(0, 0, 0, 0.12);
+}
+
+.custom_overlay:hover {
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.22);
+  font-weight: bold;
+}
