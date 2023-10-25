@@ -5,8 +5,19 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url)
   const page = searchParams.get('page') as string
   const limit = searchParams.get('limit') as string
+  const id = searchParams.get('id') as string
 
-  if (page) {
+  if (id) {
+    const room = await prisma.room.findFirst({
+      where: {
+        id: id ? parseInt(id) : {},
+      },
+    })
+
+    return NextResponse.json(room, {
+      status: 200,
+    })
+  } else if (page) {
     const count = await prisma.room.count()
     const skipPage = parseInt(page) - 1
     const rooms = await prisma.room.findMany({

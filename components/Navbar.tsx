@@ -166,14 +166,14 @@ export default function Navbar() {
             </div>
             <button
               role="presentation"
-              className="bg-rose-600 text-white rounded-full h-12 mx-4 sm:h-10 sm:w-24 my-auto flex justify-center gap-1 px-2 sm:px-4 py-2 sm:mr-2 hover:shadow hover:bg-rose-500"
+              className="bg-rose-600 text-white rounded-full h-12 mx-4 sm:h-10 md:w-24 my-auto flex justify-center gap-1 px-2 sm:px-4 py-2 sm:mr-2 hover:shadow hover:bg-rose-500"
               onClick={() => {
                 setShowFilter(false)
                 setDetailFilter(null)
               }}
             >
               <AiOutlineSearch className="font-semibold text-xl my-auto" />
-              <div className="my-auto">검색</div>
+              <div className="my-auto hidden md:block">검색</div>
             </button>
           </div>
         </div>
