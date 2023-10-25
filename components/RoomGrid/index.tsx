@@ -1,4 +1,5 @@
 import { ReactNode } from 'react'
+import Link from 'next/link'
 
 import Image from 'next/image'
 import { RoomType } from '@/interface'
@@ -7,21 +8,23 @@ import { BLUR_DATA_URL } from '@/constants'
 export function RoomItem({ room }: { room: RoomType }) {
   return (
     <div key={room.id}>
-      <Image
-        src={room.images?.[0]}
-        alt="room image"
-        width={500}
-        height={500}
-        className="rounded-md w-full h-auto object-fit"
-        placeholder="blur"
-        blurDataURL={BLUR_DATA_URL}
-      />
-      <div className="mt-2 font-semibold text-sm">{room.title}</div>
-      <div className="mt-1 text-gray-400 text-sm">{room.address}</div>
-      <div className="mt-1 text-sm">
-        {room.price?.toLocaleString()}원
-        <span className="text-gray-500"> /박</span>
-      </div>
+      <Link href={`/rooms/${room.id}`}>
+        <Image
+          src={room.images?.[0]}
+          alt="room image"
+          width={500}
+          height={500}
+          className="rounded-md w-full h-auto object-fit"
+          placeholder="blur"
+          blurDataURL={BLUR_DATA_URL}
+        />
+        <div className="mt-2 font-semibold text-sm">{room.title}</div>
+        <div className="mt-1 text-gray-400 text-sm">{room.address}</div>
+        <div className="mt-1 text-sm">
+          {room.price?.toLocaleString()}원
+          <span className="text-gray-500"> /박</span>
+        </div>
+      </Link>
     </div>
   )
 }

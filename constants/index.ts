@@ -52,3 +52,31 @@ export const CATEGORY = [
 /** @example - Blur Data URL 생성: https://png-pixel.com/  */
 export const BLUR_DATA_URL =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mM8fOJEPQAHfQLUAsZOIAAAAABJRU5ErkJggg=='
+
+type FEATURE_DESC_TYPE =
+  | 'FREE_CANCEL'
+  | 'PAID_CANCEL'
+  | 'SELF_CHECKIN'
+  | 'SELF_CHECKIN_DISALLOWED'
+  | 'HAS_OFFICE_SPACE'
+  | 'NO_OFFICE_SPACE'
+
+const FEATURE_TYPE = {
+  FREE_CANCEL: 'FREE_CANCEL',
+  PAID_CANCEL: 'PAID_CANCEL',
+  SELF_CHECKIN: 'SELF_CHECKIN',
+  SELF_CHECKIN_DISALLOWED: 'SELF_CHECKIN_DISALLOWED',
+  HAS_OFFICE_SPACE: 'HAS_OFFICE_SPACE',
+  NO_OFFICE_SPACE: 'NO_OFFICE_SPACE',
+}
+
+type FeatureType = (typeof FEATURE_TYPE)[keyof typeof FEATURE_TYPE]
+
+export const FeatureDesc: Record<FeatureType, string> = {
+  [FEATURE_TYPE.FREE_CANCEL]: '무료 취소가 가능합니다.',
+  [FEATURE_TYPE.PAID_CANCEL]: '무료 취소가 불가능합니다.',
+  [FEATURE_TYPE.SELF_CHECKIN]: '셀프 체크인이 가능합니다.',
+  [FEATURE_TYPE.SELF_CHECKIN_DISALLOWED]: '셀프 체크인이 불가능합니다.',
+  [FEATURE_TYPE.HAS_OFFICE_SPACE]: '사무 시설이 있습니다.',
+  [FEATURE_TYPE.NO_OFFICE_SPACE]: '사무 시설이 없습니다.',
+}

@@ -28,6 +28,17 @@ export interface RoomType {
   hasWifi: boolean
   hasBarbeque: boolean
   hasFreeParking: boolean
+  userId?: number
+  user?: UserType
+}
+
+interface UserType {
+  id: number
+  email: string
+  name?: string
+  image?: string
+  desc?: string
+  rooms?: RoomType[]
 }
 
 export interface FaqType {

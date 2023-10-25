@@ -7,7 +7,6 @@ export default function Error({
   error: Error & { digest?: string }
   reset: () => void
 }) {
-  console.log(error)
   return (
     <div>
       <div className="text-center h-[60vh] flex flex-col justify-center">
