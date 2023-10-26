@@ -53,8 +53,7 @@ export default function HeaderSection({ data }: { data: RoomType }) {
               src={data?.images?.[0]}
               alt="room img"
               fill
-              objectPosition="middle"
-              style={{ objectFit: 'cover' }}
+              style={{ objectFit: 'cover', objectPosition: 'middle' }}
               className="rounded-lg absolute bottom-0 top-0 my-auto"
               placeholder="blur"
               blurDataURL={BLUR_DATA_URL}

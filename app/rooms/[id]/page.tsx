@@ -1,5 +1,6 @@
 import FeatureSection from '@/components/RoomDetail/FeatureSection'
 import HeaderSection from '@/components/RoomDetail/HeaderSection'
+import MapSection from '@/components/RoomDetail/MapSection'
 import { BLUR_DATA_URL } from '@/constants'
 import { RoomType } from '@/interface'
 
@@ -18,6 +19,7 @@ export default async function RoomPage({ params }: ParamsProps) {
     <div className="my-28 max-w-6xl mx-auto">
       <HeaderSection data={data} />
       <FeatureSection data={data} />
+      <MapSection data={data} />
     </div>
   )
 }
