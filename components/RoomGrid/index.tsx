@@ -14,7 +14,7 @@ export function RoomItem({ room }: { room: RoomType }) {
           alt="room image"
           width={500}
           height={500}
-          className="rounded-md w-full h-auto object-fit"
+          className="rounded-md w-full h-auto object-fit hover:shadow-lg"
           placeholder="blur"
           blurDataURL={BLUR_DATA_URL}
         />

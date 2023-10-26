@@ -10,12 +10,6 @@ const DEFAULT_LAT = '37.565337'
 const DEFAULT_LNG = '126.9772095'
 const ZOOM_LEVEL = 7
 
-export const mapState = atom({
-  key: 'map',
-  default: null,
-  dangerouslyAllowMutability: true,
-})
-
 export const currentRoomState = atom<RoomType | null>({
   key: 'room',
   default: null,
