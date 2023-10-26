@@ -73,7 +73,11 @@ export default function ReservationSection({ data }: { data: RoomType }) {
               className="w-full px-4 py-3 border border-gray-400 rounded-md text-xs mt-1"
             >
               {[...Array(20)]?.map((_, i) => (
-                <option value={i + 1} key={i}>
+                <option
+                  value={i + 1}
+                  key={i}
+                  selected={filterValue?.guest === i + 1}
+                >
                   {i + 1}
                 </option>
               ))}
