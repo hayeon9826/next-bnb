@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import cn from 'classnames'
+import { signOut, useSession } from 'next-auth/react'
 
 import { RxDividerVertical } from 'react-icons/rx'
 import { AiOutlineSearch, AiOutlineMenu, AiOutlineUser } from 'react-icons/ai'
@@ -12,19 +13,25 @@ import { SearchFilter } from './Filter'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { detailFilterState, filterState } from '@/atom'
 
-const menus = [
-  { id: 1, title: '로그인', url: '/users/login' },
-  { id: 2, title: '회원가입', url: '/users/signup' },
-  { id: 3, title: 'FAQ', url: '/faqs' },
-]
-
 export default function Navbar() {
   const router = useRouter()
+  const { status } = useSession()
 
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const [showFilter, setShowFilter] = useState<boolean>(false)
   const [detailFilter, setDetailFilter] = useRecoilState(detailFilterState)
   const filterValue = useRecoilValue(filterState)
+
+  const LOGIN_MENU = [
+    { id: 1, title: '로그인', url: '/users/signin' },
+    { id: 2, title: '회원가입', url: '/users/signin' },
+    { id: 3, title: 'FAQ', url: '/faqs' },
+  ]
+
+  const LOGOUT_MENU = [
+    { id: 1, title: '로그아웃', url: '/', signOut: true },
+    { id: 3, title: 'FAQ', url: '/faqs' },
+  ]
 
   return (
     <nav
@@ -192,18 +199,32 @@ export default function Navbar() {
         </div>
         {showMenu && (
           <div className="border border-gray-20 shadow-lg py-2 flex flex-col absolute bg-white w-60 rounded-lg top-16">
-            {menus?.map((menu) => (
-              <div
-                key={menu.id}
-                onClick={() => {
-                  setShowMenu(false)
-                  router.push(menu.url)
-                }}
-                className="h-10 hover:bg-gray-50 cursor-pointer text-sm text-gray-700 pl-3 flex flex-col justify-center"
-              >
-                {menu.title}
-              </div>
-            ))}
+            {status === 'unauthenticated'
+              ? LOGIN_MENU?.map((menu) => (
+                  <div
+                    key={menu.id}
+                    onClick={() => {
+                      setShowMenu(false)
+                      router.push(menu.url)
+                    }}
+                    className="h-10 hover:bg-gray-50 cursor-pointer text-sm text-gray-700 pl-3 flex flex-col justify-center"
+                  >
+                    {menu.title}
+                  </div>
+                ))
+              : LOGOUT_MENU?.map((menu) => (
+                  <div
+                    key={menu.id}
+                    onClick={() => {
+                      setShowMenu(false)
+                      router.push(menu.url)
+                      menu?.signOut ? signOut() : null
+                    }}
+                    className="h-10 hover:bg-gray-50 cursor-pointer text-sm text-gray-700 pl-3 flex flex-col justify-center"
+                  >
+                    {menu.title}
+                  </div>
+                ))}
           </div>
         )}
       </div>
