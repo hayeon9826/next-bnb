@@ -32,6 +32,15 @@ export default function SignInPage() {
     }
   }
 
+  const handleClickKakao = () => {
+    try {
+      signIn('kakao', { callbackUrl: '/' })
+    } catch (e) {
+      console.log(e)
+      toast.error('다시 시도해주세요')
+    }
+  }
+
   useEffect(() => {
     if (status === 'authenticated') {
       toast.error('접근할 수 없습니다')
@@ -72,6 +81,7 @@ export default function SignInPage() {
         </button>
         <button
           type="button"
+          onClick={handleClickKakao}
           className="relative border border-gray-700 rounded-md py-3 text-sm hover:bg-black/5 text-center font-semibold"
         >
           <RiKakaoTalkFill className="absolute left-5 my-auto inset-y-0 text-yellow-950 text-xl" />
