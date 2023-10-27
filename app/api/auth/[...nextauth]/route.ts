@@ -3,6 +3,7 @@ import { PrismaAdapter } from '@auth/prisma-adapter'
 import prisma from '@/db'
 
 import GoogleProvider from 'next-auth/providers/google'
+import NaverProvider from 'next-auth/providers/naver'
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -15,6 +16,10 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || '',
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+    }),
+    NaverProvider({
+      clientId: process.env.NAVER_CLIENT_ID || '',
+      clientSecret: process.env.NAVER_CLIENT_SECRET || '',
     }),
   ],
   pages: {

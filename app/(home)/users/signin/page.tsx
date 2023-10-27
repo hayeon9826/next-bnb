@@ -23,6 +23,15 @@ export default function SignInPage() {
     }
   }
 
+  const handleClickNaver = () => {
+    try {
+      signIn('naver', { callbackUrl: '/' })
+    } catch (e) {
+      console.log(e)
+      toast.error('다시 시도해주세요')
+    }
+  }
+
   useEffect(() => {
     if (status === 'authenticated') {
       toast.error('접근할 수 없습니다')
@@ -55,6 +64,7 @@ export default function SignInPage() {
         </button>
         <button
           type="button"
+          onClick={handleClickNaver}
           className="relative border border-gray-700 rounded-md py-3 text-sm hover:bg-black/5 text-center font-semibold"
         >
           <SiNaver className="text-green-400 absolute left-6 my-auto inset-y-0" />

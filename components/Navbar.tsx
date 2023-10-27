@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import cn from 'classnames'
+import Image from 'next/image'
 import { signOut, useSession } from 'next-auth/react'
 
 import { RxDividerVertical } from 'react-icons/rx'
@@ -15,7 +16,7 @@ import { detailFilterState, filterState } from '@/atom'
 
 export default function Navbar() {
   const router = useRouter()
-  const { status } = useSession()
+  const { status, data: session } = useSession()
 
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const [showFilter, setShowFilter] = useState<boolean>(false)
@@ -195,7 +196,15 @@ export default function Navbar() {
           onClick={() => setShowMenu((val) => !val)}
         >
           <AiOutlineMenu />
-          <AiOutlineUser />
+          {status === 'authenticated' && session?.user?.image ? (
+            <img
+              src={session?.user?.image}
+              className="rounded-full w-4 h-4 my-auto"
+              alt="profile img"
+            />
+          ) : (
+            <AiOutlineUser />
+          )}
         </div>
         {showMenu && (
           <div className="border border-gray-20 shadow-lg py-2 flex flex-col absolute bg-white w-60 rounded-lg top-16">
