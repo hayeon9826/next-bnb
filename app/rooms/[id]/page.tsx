@@ -1,11 +1,7 @@
 import FeatureSection from '@/components/RoomDetail/FeatureSection'
 import HeaderSection from '@/components/RoomDetail/HeaderSection'
 import MapSection from '@/components/RoomDetail/MapSection'
-import { BLUR_DATA_URL } from '@/constants'
 import { RoomType } from '@/interface'
-
-import cn from 'classnames'
-import { useState } from 'react'
 
 interface ParamsProps {
   params: { id: string }

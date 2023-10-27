@@ -6,9 +6,10 @@ import { RoomType } from '@/interface'
 import cn from 'classnames'
 
 import Image from 'next/image'
-import { CiShare1, CiHeart } from 'react-icons/ci'
+import { CiHeart } from 'react-icons/ci'
 import { AiOutlineUnorderedList, AiOutlineCloseCircle } from 'react-icons/ai'
 import { BLUR_DATA_URL } from '@/constants'
+import ShareButtonModal from './ShareButtonModal'
 
 export default function HeaderSection({ data }: { data: RoomType }) {
   const [showImageModal, setShowImageModal] = useState<boolean>(false)
@@ -21,10 +22,7 @@ export default function HeaderSection({ data }: { data: RoomType }) {
           {data?.address}
         </div>
         <div className="flex gap-2 text-xs md:text-sm mt-2">
-          <button className="flex gap-2 items-center" type="button">
-            <CiShare1 />
-            <span className="underline">공유하기</span>
-          </button>
+          <ShareButtonModal data={data} />
           <button className="flex gap-2 items-center" type="button">
             <CiHeart />
             <span className="underline">저장</span>
