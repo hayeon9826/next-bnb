@@ -2,6 +2,7 @@ import FeatureSection from '@/components/RoomDetail/FeatureSection'
 import HeaderSection from '@/components/RoomDetail/HeaderSection'
 import HostInfoSection from '@/components/RoomDetail/HostInfoSection'
 import MapSection from '@/components/RoomDetail/MapSection'
+import Comment from '@/components/Comment'
 import { RoomType } from '@/interface'
 
 interface ParamsProps {
@@ -16,6 +17,7 @@ export default async function RoomPage({ params }: ParamsProps) {
     <div className="my-28 max-w-6xl mx-auto">
       <HeaderSection data={data} />
       <FeatureSection data={data} />
+      <Comment data={data} />
       <MapSection data={data} />
       <HostInfoSection data={data} />
     </div>

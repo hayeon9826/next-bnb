@@ -9,7 +9,7 @@ import axios from 'axios'
 import { useQuery } from 'react-query'
 
 export default function LikeButton({ roomId }: { roomId: number }) {
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
 
   const fetchRoom = async () => {
     const { data } = await axios(`/api/rooms?id=${roomId}`)
@@ -54,7 +54,7 @@ export default function LikeButton({ roomId }: { roomId: number }) {
       type="button"
     >
       {/* 로그인된 사용자가 좋아요를 눌렀다면? */}
-      {room?.likes?.length ? (
+      {status === 'authenticated' && room?.likes?.length ? (
         <>
           <AiFillHeart className="hover:text-red-600 focus:text-red-600 text-red-500" />
           <span className="underline">취소</span>
