@@ -4,6 +4,7 @@ import Image from 'next/image'
 import dayjs from 'dayjs'
 import 'dayjs/locale/ko'
 import BackButton from '@/components/BackButton'
+import RefundButton from '@/components/Booking/RefundButton'
 
 export default async function BookingPage({
   params,
@@ -76,12 +77,7 @@ export default async function BookingPage({
           <div>{`₩${booking?.totalAmount.toLocaleString()}`}</div>
         </div>
         <div className="flex justify-between gap-4 pt-6 items-center">
-          <button
-            disabled={!canRefund}
-            className="px-5 py-2.5 bg-rose-600 hover:bg-rose-500 text-white rounded-md disabled:bg-gray-300"
-          >
-            예약 취소하기
-          </button>
+          <RefundButton canRefund={canRefund} booking={booking} />
           <div className="text-sm text-gray-600">
             여행 출발 7일전까지만 환불이 가능합니다.
           </div>
