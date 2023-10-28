@@ -1,8 +1,9 @@
+import SubmitButton from '@/components/Booking/SubmitButton'
 import { BLUR_DATA_URL } from '@/constants'
 import { RoomType } from '@/interface'
 import Image from 'next/image'
 
-interface ParamsProps {
+export interface BookingParamsProps {
   params: { id: string }
   searchParams: {
     checkIn: string
@@ -16,7 +17,7 @@ interface ParamsProps {
 export default async function BookingPage({
   params,
   searchParams,
-}: ParamsProps) {
+}: BookingParamsProps) {
   const id = params.id
   const checkIn = searchParams.checkIn
   const checkOut = searchParams.checkOut
@@ -81,7 +82,7 @@ export default async function BookingPage({
               <div>
                 훌륭한 게스트가 되기 위한 몇 가지 간단한 규칙을 지켜주실 것을
                 모든 게스트에게 당부드리고 있습니다.
-                <ul className="list-disc mt-4">
+                <ul className="list-disc mt-4 px-4">
                   <li>숙소 이용규칙을 준수하세요.</li>
                   <li>호스트의 집도 자신의 집처럼 아껴주세요.</li>
                 </ul>
@@ -99,11 +100,7 @@ export default async function BookingPage({
               </span>
               의 조치를 취할 수 있다는 사실에 동의하는 것입니다.
             </div>
-            <div>
-              <button className="bg-rose-600 hover:bg-rose-500 px-6 py-3 text-white rounded-md">
-                확인 및 결제
-              </button>
-            </div>
+            <SubmitButton />
           </div>
           <div className="rounded-md border border-gray-300 p-6 max-h-[480px]">
             <div className="flex border-b gap-4 pb-6">

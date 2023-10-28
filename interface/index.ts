@@ -22,6 +22,21 @@ export interface LikeApiProps {
   totalPage?: number
 }
 
+export interface BookingType {
+  roomId: number
+  userId: number
+  checkIn: string
+  checkOut: string
+  guestCount: number
+  totalAmount: number
+  totalDays: number
+  status: 'SUCCESS' | 'CANCEL'
+  room: RoomType
+  user: UserType
+  createdAt: string
+  updatedAt: string
+}
+
 export interface RoomType {
   id: number
   images: string[]
@@ -47,6 +62,7 @@ export interface RoomType {
   user?: UserType
   likes?: Like[]
   comments?: CommentType[]
+  bookings?: BookingType[]
 }
 
 interface Account {
@@ -66,6 +82,7 @@ export interface UserType {
   accounts: Account[]
   createdAt?: string
   comments?: CommentType[]
+  bookings?: BookingType[]
 }
 
 export interface CommentType {
