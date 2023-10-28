@@ -92,7 +92,7 @@ export default function ShareButtonModal({ data }: { data: RoomType }) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
                   <button
                     className="rounded-full p-2 hover:bg-black/5 mb-4"
                     onClick={closeModal}

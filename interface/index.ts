@@ -71,8 +71,10 @@ export interface CommentType {
 }
 
 export interface CommentApiProps {
-  totalCount?: number
-  comments: CommentType[]
+  totalCount: number
+  data: CommentType[]
+  page?: number
+  totalPage?: number
 }
 
 export interface FaqType {

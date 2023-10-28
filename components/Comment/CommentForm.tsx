@@ -4,6 +4,7 @@ import { toast } from 'react-hot-toast'
 
 import { RoomType } from '@/interface'
 import axios from 'axios'
+import { useQueryClient } from 'react-query'
 
 interface CommentFormProps {
   room: RoomType
@@ -12,6 +13,7 @@ interface CommentFormProps {
 
 export default function CommentForm({ room, refetch }: CommentFormProps) {
   const [comment, setComment] = useState<string>('')
+  const queryClient = useQueryClient()
 
   const handleSubmit = async () => {
     const res = await axios.post('/api/comments', {
@@ -23,6 +25,7 @@ export default function CommentForm({ room, refetch }: CommentFormProps) {
       toast.success('댓글을 생성했습니다.')
       setComment('')
       refetch?.()
+      queryClient.invalidateQueries(`comments-infinite-${room.id}`)
     } else {
       toast.error('다시 시도해주세요.')
     }

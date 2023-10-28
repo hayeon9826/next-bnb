@@ -13,11 +13,17 @@ export async function GET(req: Request) {
 
   const session = await getServerSession(authOptions)
 
+  // infinite query
   if (page) {
-    const count = await prisma.comment.count()
+    const count = await prisma.comment.count({
+      where: { roomId: parseInt(roomId) },
+    })
     const skipPage = parseInt(page) - 1
     const comments = await prisma.comment.findMany({
-      orderBy: { id: 'asc' },
+      orderBy: { id: 'desc' },
+      where: {
+        roomId: parseInt(roomId),
+      },
       take: parseInt(limit),
       skip: skipPage * 12,
       include: {
@@ -37,7 +43,9 @@ export async function GET(req: Request) {
       },
     )
   } else {
-    const count = await prisma.comment.count()
+    const count = await prisma.comment.count({
+      where: { roomId: parseInt(roomId) },
+    })
     const comments = await prisma.comment.findMany({
       orderBy: { createdAt: 'desc' },
       take: parseInt(limit),
@@ -52,7 +60,7 @@ export async function GET(req: Request) {
     })
 
     return NextResponse.json(
-      { comments: comments, totalCount: count },
+      { data: comments, totalCount: count },
       {
         status: 200,
       },

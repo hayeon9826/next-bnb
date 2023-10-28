@@ -21,27 +21,30 @@ export default function CommentListModal({
   roomId,
 }: CommentListModalProps) {
   const ref = useRef<HTMLDivElement | null>(null)
-  const pageRef = useIntersectionObserver(ref, {})
+  const pageRef = useIntersectionObserver(ref, {
+    rootMargin: '10%',
+    enableObserver: !!ref.current,
+  })
   const isPageEnd = !!pageRef?.isIntersecting
 
   const fetchComments = async ({ pageParam = 1 }) => {
-    const { data } = await axios('/api/comments?page=' + pageParam, {
-      params: {
-        limit: 12,
-        page: pageParam,
+    const { data } = await axios(
+      `/api/comments?roomId=${roomId}&page=` + pageParam,
+      {
+        params: {
+          limit: 12,
+          page: pageParam,
+        },
       },
-    })
-
+    )
     return data
   }
 
   const {
     data: comments,
-    isFetching,
     fetchNextPage,
-    isFetchingNextPage,
+    isFetching,
     hasNextPage,
-    refetch,
   } = useInfiniteQuery(`comments-infinite-${roomId}`, fetchComments, {
     getNextPageParam: (lastPage: any) =>
       lastPage.data?.length > 0 ? lastPage.page + 1 : undefined,
@@ -58,7 +61,9 @@ export default function CommentListModal({
     let timerId: NodeJS.Timeout | undefined
 
     if (isPageEnd && hasNextPage) {
-      fetchNext()
+      timerId = setTimeout(() => {
+        fetchNext()
+      }, 500)
     }
 
     return () => clearTimeout(timerId)
@@ -90,7 +95,7 @@ export default function CommentListModal({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-5xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-full max-w-5xl transform overflow-hidden rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
                 <button
                   className="rounded-full p-2 hover:bg-black/5 mb-4"
                   onClick={closeModal}
@@ -103,7 +108,7 @@ export default function CommentListModal({
                 >
                   후기 전체 보기
                 </Dialog.Title>
-                <div className="mt-8 flex flex-col gap-8 mx-auto max-w-lg mb-10">
+                <div className="mt-8 flex flex-col gap-8 mx-auto max-w-lg">
                   {comments?.pages?.map((page, index) => (
                     <React.Fragment key={index}>
                       {page.data.map((comment: CommentType) => (
@@ -131,10 +136,11 @@ export default function CommentListModal({
                       ))}
                     </React.Fragment>
                   ))}
-                  {(isFetching || hasNextPage || isFetchingNextPage) && (
-                    <Loader className="mt-8" />
-                  )}
-                  <div className="w-full touch-none h-10 mb-10" ref={ref} />
+                  {(hasNextPage || isFetching) && <Loader className="mt-8" />}
+                  <div
+                    className="w-full touch-none h-10 mb-10  z-10"
+                    ref={ref}
+                  />
                 </div>
               </Dialog.Panel>
             </Transition.Child>

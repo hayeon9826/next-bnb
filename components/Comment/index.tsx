@@ -13,17 +13,17 @@ export default function Comment({ room }: { room: RoomType }) {
     return data
   }
 
-  const { data: comments, refetch } = useQuery(
-    `comments-${room.id}`,
-    fetchComments,
-    {
-      enabled: !!room.id,
-    },
-  )
+  const {
+    data: comments,
+    refetch,
+    isLoading,
+  } = useQuery(`comments-${room.id}`, fetchComments, {
+    enabled: !!room.id,
+  })
 
   return (
     <div className="border-b border-gray-300 py-8 px-4 text-gray-800">
-      <CommentList data={comments} roomId={room.id} />
+      <CommentList comments={comments} roomId={room.id} isLoading={isLoading} />
       <CommentForm room={room} refetch={refetch} />
     </div>
   )

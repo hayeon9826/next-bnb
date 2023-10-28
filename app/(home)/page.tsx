@@ -59,7 +59,9 @@ export default function Home() {
     let timerId: NodeJS.Timeout | undefined
 
     if (isPageEnd && hasNextPage) {
-      fetchNext()
+      timerId = setTimeout(() => {
+        fetchNext()
+      }, 500)
     }
 
     return () => clearTimeout(timerId)
