@@ -14,6 +14,11 @@ interface BookingProps {
   totalDays: string
 }
 
+interface RefundProps {
+  id: string
+  status: 'CANCEL' | 'SUCCESS'
+}
+
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url)
   const id = searchParams.get('id') as string
@@ -106,6 +111,33 @@ export async function POST(req: Request) {
   })
 
   return NextResponse.json(booking, {
+    status: 200,
+  })
+}
+
+export async function PATCH(req: Request) {
+  // 데이터 수정을 처리한다 (환불)
+  const formData = await req.json()
+  const { id, status }: RefundProps = formData
+  const session = await getServerSession(authOptions)
+
+  if (!session?.user) {
+    return NextResponse.json(
+      { error: 'unauthorized user' },
+      {
+        status: 401,
+      },
+    )
+  }
+
+  const result = await prisma.booking.update({
+    where: {
+      id: parseInt(id),
+    },
+    data: { status: status },
+  })
+
+  return NextResponse.json(result, {
     status: 200,
   })
 }
