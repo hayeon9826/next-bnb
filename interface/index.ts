@@ -32,13 +32,21 @@ export interface RoomType {
   user?: UserType
 }
 
-interface UserType {
+interface Account {
+  id: string
+  provider: string
+}
+
+export interface UserType {
   id: number
   email: string
   name?: string
   image?: string
   desc?: string
+  phone?: string
+  address?: string
   rooms?: RoomType[]
+  accounts: Account[]
 }
 
 export interface FaqType {
