@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import cn from 'classnames'
-import Image from 'next/image'
+import { usePathname } from 'next/navigation'
+
 import { signOut, useSession } from 'next-auth/react'
 
 import { RxDividerVertical } from 'react-icons/rx'
@@ -13,8 +14,22 @@ import { MdModeOfTravel } from 'react-icons/md'
 import { SearchFilter } from './Filter'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { detailFilterState, filterState } from '@/atom'
+import Link from 'next/link'
+
+const LOGIN_MENU = [
+  { id: 1, title: '로그인', url: '/users/signin' },
+  { id: 2, title: '회원가입', url: '/users/signin' },
+  { id: 3, title: 'FAQ', url: '/faqs' },
+]
+
+const LOGOUT_MENU = [
+  { id: 1, title: '마이페이지', url: '/users/mypage' },
+  { id: 2, title: '로그아웃', url: '/', signOut: true },
+  { id: 3, title: 'FAQ', url: '/faqs' },
+]
 
 export default function Navbar() {
+  const pathname = usePathname()
   const router = useRouter()
   const { status, data: session } = useSession()
 
@@ -22,36 +37,25 @@ export default function Navbar() {
   const [showFilter, setShowFilter] = useState<boolean>(false)
   const [detailFilter, setDetailFilter] = useRecoilState(detailFilterState)
   const filterValue = useRecoilValue(filterState)
+  const handleGoMain = () => router.push('/')
 
-  const LOGIN_MENU = [
-    { id: 1, title: '로그인', url: '/users/signin' },
-    { id: 2, title: '회원가입', url: '/users/signin' },
-    { id: 3, title: 'FAQ', url: '/faqs' },
-  ]
+  const isUsersPath = pathname.includes('/users')
+  const isBookingsPath = pathname.includes('/bookings')
 
-  const LOGOUT_MENU = [
-    { id: 1, title: '마이페이지', url: '/users/mypage' },
-    { id: 2, title: '로그아웃', url: '/', signOut: true },
-    { id: 3, title: 'FAQ', url: '/faqs' },
-  ]
+  if (isBookingsPath) {
+    return <Navbar.DefaultNavbar />
+  }
+
+  if (isUsersPath) {
+    return (
+      <Navbar.DefaultNavbar>
+        <Navbar.RightMenu setShowMenu={setShowMenu} showMenu={showMenu} />
+      </Navbar.DefaultNavbar>
+    )
+  }
 
   return (
-    <nav
-      className={cn(
-        '!z-10 h-20 border border-b-gray-20 items-center w-full px-4 py-4 md:py-3 sm:px-10 lg:px-20 md:px-12 flex justify-between align-middle fixed top-0 bg-white',
-        {
-          '!h-44': showFilter === true,
-          '!items-start': showFilter === true,
-        },
-      )}
-    >
-      <div
-        onClick={() => router.push('/')}
-        className="hidden font-semibold text-lg sm:text-xl text-rose-500 cursor-pointer grow basis-0 sm:flex sm:gap-2 h-14 items-center"
-      >
-        <MdModeOfTravel className="text-4xl" />
-        <div>nextbnb</div>
-      </div>
+    <Navbar.DefaultNavbar showFilter={showFilter}>
       {showFilter === false ? (
         <div className="w-full py-1.5 sm:w-[340px] border border-gray-20 rounded-full shadow hover:shadow-lg cursor-pointer flex justify-between pl-6 pr-2">
           <div
@@ -187,57 +191,98 @@ export default function Navbar() {
           </div>
         </div>
       )}
+      <Navbar.RightMenu setShowMenu={setShowMenu} showMenu={showMenu} />
+    </Navbar.DefaultNavbar>
+  )
+}
 
-      <div className="hidden md:flex gap-4 grow basis-0 justify-end relative  h-14 items-center">
-        <button className="hidden lg:block font-semibold text-sm px-4 py-3 rounded-full hover:bg-gray-50 max-h-10">
-          당신의 공간을 등록해주세요
-        </button>
-        <div
-          className="flex gap-3 rounded-full border border-gray-20 shadow-sm px-4 py-3 hover:shadow-lg cursor-pointer max-h-10"
-          onClick={() => setShowMenu((val) => !val)}
-        >
-          <AiOutlineMenu />
-          {status === 'authenticated' && session?.user?.image ? (
-            <img
-              src={session?.user?.image}
-              className="rounded-full w-4 h-4 my-auto"
-              alt="profile img"
-            />
-          ) : (
-            <AiOutlineUser />
-          )}
-        </div>
-        {showMenu && (
-          <div className="border border-gray-20 shadow-lg py-2 flex flex-col absolute bg-white w-60 rounded-lg top-16">
-            {status === 'unauthenticated'
-              ? LOGIN_MENU?.map((menu) => (
-                  <div
-                    key={menu.id}
-                    onClick={() => {
-                      setShowMenu(false)
-                      router.push(menu.url)
-                    }}
-                    className="h-10 hover:bg-gray-50 cursor-pointer text-sm text-gray-700 pl-3 flex flex-col justify-center"
-                  >
-                    {menu.title}
-                  </div>
-                ))
-              : LOGOUT_MENU?.map((menu) => (
-                  <div
-                    key={menu.id}
-                    onClick={() => {
-                      setShowMenu(false)
-                      router.push(menu.url)
-                      menu?.signOut ? signOut({ callbackUrl: '/' }) : null
-                    }}
-                    className="h-10 hover:bg-gray-50 cursor-pointer text-sm text-gray-700 pl-3 flex flex-col justify-center"
-                  >
-                    {menu.title}
-                  </div>
-                ))}
-          </div>
+interface DefaultNavbarProps {
+  showFilter?: boolean
+  children?: React.ReactNode
+}
+
+Navbar.DefaultNavbar = ({ showFilter, children }: DefaultNavbarProps) => {
+  return (
+    <nav
+      className={cn(
+        '!z-10 h-20 border border-b-gray-20 items-center w-full px-4 py-4 md:py-3 sm:px-10 lg:px-20 md:px-12 flex justify-between align-middle fixed top-0 bg-white',
+        {
+          '!h-44': showFilter === true,
+          '!items-start': showFilter === true,
+        },
+      )}
+    >
+      <Link
+        href="/"
+        className="hidden font-semibold text-lg sm:text-xl text-rose-500 cursor-pointer grow basis-0 sm:flex sm:gap-2 h-14 items-center"
+      >
+        <MdModeOfTravel className="text-4xl" />
+        <div>nextbnb</div>
+      </Link>
+      {children}
+    </nav>
+  )
+}
+
+interface RightMenuProps {
+  showMenu: boolean
+  setShowMenu: Dispatch<SetStateAction<boolean>>
+}
+
+Navbar.RightMenu = ({ setShowMenu, showMenu }: RightMenuProps) => {
+  const { status, data: session } = useSession()
+  const router = useRouter()
+
+  return (
+    <div className="hidden md:flex gap-4 grow basis-0 justify-end relative  h-14 items-center">
+      <button className="hidden lg:block font-semibold text-sm px-4 py-3 rounded-full hover:bg-gray-50 max-h-10">
+        당신의 공간을 등록해주세요
+      </button>
+      <div
+        className="flex gap-3 rounded-full border border-gray-20 shadow-sm px-4 py-3 hover:shadow-lg cursor-pointer max-h-10"
+        onClick={() => setShowMenu((val) => !val)}
+      >
+        <AiOutlineMenu />
+        {status === 'authenticated' && session?.user?.image ? (
+          <img
+            src={session?.user?.image}
+            className="rounded-full w-4 h-4 my-auto"
+            alt="profile img"
+          />
+        ) : (
+          <AiOutlineUser />
         )}
       </div>
-    </nav>
+      {showMenu && (
+        <div className="border border-gray-20 shadow-lg py-2 flex flex-col absolute bg-white w-60 rounded-lg top-16">
+          {status === 'unauthenticated'
+            ? LOGIN_MENU?.map((menu) => (
+                <div
+                  key={menu.id}
+                  onClick={() => {
+                    setShowMenu(false)
+                    router.push(menu.url)
+                  }}
+                  className="h-10 hover:bg-gray-50 cursor-pointer text-sm text-gray-700 pl-3 flex flex-col justify-center"
+                >
+                  {menu.title}
+                </div>
+              ))
+            : LOGOUT_MENU?.map((menu) => (
+                <div
+                  key={menu.id}
+                  onClick={() => {
+                    setShowMenu(false)
+                    router.push(menu.url)
+                    menu?.signOut ? signOut({ callbackUrl: '/' }) : null
+                  }}
+                  className="h-10 hover:bg-gray-50 cursor-pointer text-sm text-gray-700 pl-3 flex flex-col justify-center"
+                >
+                  {menu.title}
+                </div>
+              ))}
+        </div>
+      )}
+    </div>
   )
 }

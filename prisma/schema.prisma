@@ -61,6 +61,7 @@ model User {
   sessions      Session[]
   likes         Like[]
   comments      Comment[]
+  bookings      Booking[]
   createdAt DateTime @default(now())
 }
 
@@ -117,7 +118,29 @@ model Room {
   user          User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
   likes         Like[]
   comments      Comment[]
+  bookings      Booking[]
   @@index([userId])
 }
 
 
+model Booking {
+  id            Int      @id @default(autoincrement())
+  roomId        Int
+  userId        Int
+  checkIn       DateTime
+  checkOut      DateTime  
+  guestCount    Int
+  totalAmount   Int
+  totalDays     Int
+  status        BookingStatus
+  room          Room     @relation(fields: [roomId], references: [id])
+  user          User     @relation(fields: [userId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now())
+}
+
+
+enum BookingStatus {
+  SUCCESS
+  CANCEL
+}
