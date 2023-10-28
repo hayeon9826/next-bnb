@@ -54,20 +54,26 @@ export default function Mypage() {
             <h2 className="text-sm text-gray-500">나의 숙소 관리하기</h2>
           </div>
         </div>
-        <div className="shadow-lg rounded-lg flex flex-col justify-between p-4 gap-12 cursor-pointer hover:shadow-xl">
+        <Link
+          href="/users/likes"
+          className="shadow-lg rounded-lg flex flex-col justify-between p-4 gap-12 cursor-pointer hover:shadow-xl"
+        >
           <AiOutlineHeart className="text-xl md:text-3xl" />
           <div>
             <h1 className="font-semibold">찜한 숙소</h1>
             <h2 className="text-sm text-gray-500">찜한 숙소 모아보기</h2>
           </div>
-        </div>
-        <div className="shadow-lg rounded-lg flex flex-col justify-between p-4 gap-12 cursor-pointer hover:shadow-xl">
+        </Link>
+        <Link
+          href="/users/comments"
+          className="shadow-lg rounded-lg flex flex-col justify-between p-4 gap-12 cursor-pointer hover:shadow-xl"
+        >
           <AiOutlineComment className="text-xl md:text-3xl" />
           <div>
-            <h1 className="font-semibold">나의 댓글</h1>
-            <h2 className="text-sm text-gray-500">나의 댓글 모아보기</h2>
+            <h1 className="font-semibold">나의 후기</h1>
+            <h2 className="text-sm text-gray-500">나의 후기 모아보기</h2>
           </div>
-        </div>
+        </Link>
       </div>
     </div>
   )

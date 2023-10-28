@@ -6,6 +6,9 @@ import CommentListModal from './CommentListModal'
 import { CommentApiProps } from '@/interface'
 import { Loader } from '../Loader'
 
+import dayjs from 'dayjs'
+import 'dayjs/locale/ko'
+
 export default function CommentList({
   comments,
   roomId,
@@ -48,7 +51,7 @@ export default function CommentList({
                     {comment?.user?.name || '-'}
                   </h1>
                   <div className="text-gray-500 text-xs">
-                    {comment?.createdAt}
+                    {dayjs(comment?.createdAt)?.format('YYYY-MM-DD HH:MM:ss')}
                   </div>
                 </div>
               </div>
@@ -56,7 +59,7 @@ export default function CommentList({
               <button
                 type="button"
                 onClick={openModal}
-                className="underline font-semibold text-left flex gap-1 items-center justify-start"
+                className="underline font-semibold text-left flex gap-1 items-center justify-start hover:text-gray-500"
               >
                 더보기 <BiChevronRight className="text-xl" />
               </button>
@@ -65,15 +68,15 @@ export default function CommentList({
         )}
       </div>
       {comments?.totalCount === 0 ? (
-        <div className="mt-8 mb-20">
+        <div className="mt-8 mb-10">
           <button className="border border-gray-700 font-semibold rounded-lg px-6 py-4 flex items-center gap-4 hover:bg-black/5">
             아직 작성된 후기가 없습니다.
           </button>
         </div>
       ) : (
-        <div className="mt-8 mb-20" onClick={openModal}>
+        <div className="mt-8 mb-10" onClick={openModal}>
           <button className="border border-gray-700 font-semibold rounded-lg px-6 py-4 flex items-center gap-4 hover:bg-black/5">
-            후기 {comments?.totalCount || 0}개 모두보기
+            후기 {comments?.totalCount || 0}개 모두 보기
           </button>
         </div>
       )}
