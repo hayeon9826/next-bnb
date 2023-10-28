@@ -38,6 +38,7 @@ export interface RoomType {
   userId?: number
   user?: UserType
   likes?: Like[]
+  comments?: CommentType[]
 }
 
 interface Account {
@@ -56,6 +57,24 @@ export interface UserType {
   rooms?: RoomType[]
   accounts: Account[]
   createdAt?: string
+  comments?: CommentType[]
+}
+
+export interface CommentType {
+  id: number
+  createdAt: string
+  roomId: number
+  userId: number
+  body: string
+  room: RoomType
+  user: UserType
+}
+
+export interface CommentApiProps {
+  totalCount: number
+  data: CommentType[]
+  page?: number
+  totalPage?: number
 }
 
 export interface FaqType {

@@ -2,10 +2,10 @@ import { GridLayout } from '../RoomGrid'
 
 export function Loader({ className }: { className?: string }) {
   return (
-    <div className={`flex gap-4 justify-center mt-10 ${className}`}>
-      <div className="w-2 h-2 animate-ping rounded-full bg-gray-500" />
-      <div className="w-2 h-2 animate-ping rounded-full bg-gray-500" />
-      <div className="w-2 h-2 animate-ping rounded-full bg-gray-500" />
+    <div className={`flex gap-3 justify-center mt-10 ${className}`}>
+      <div className="w-1 h-1 animate-ping rounded-full bg-gray-600" />
+      <div className="w-1 h-1 animate-ping rounded-full bg-gray-600" />
+      <div className="w-1 h-1 animate-ping rounded-full bg-gray-600" />
     </div>
   )
 }

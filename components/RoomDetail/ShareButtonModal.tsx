@@ -92,7 +92,7 @@ export default function ShareButtonModal({ data }: { data: RoomType }) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
                   <button
                     className="rounded-full p-2 hover:bg-black/5 mb-4"
                     onClick={closeModal}
@@ -115,7 +115,7 @@ export default function ShareButtonModal({ data }: { data: RoomType }) {
                       blurDataURL={BLUR_DATA_URL}
                       className="rounded-md"
                     />
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-1 flex-wrap">
                       <div className="text-gray-800">{data?.title}</div>
                       <div className="text-gray-600">·</div>
                       <div className="text-gray-600">{data?.category}</div>
