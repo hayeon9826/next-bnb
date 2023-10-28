@@ -9,6 +9,9 @@ import axios from 'axios'
 import { CommentType } from '@/interface'
 import { Loader } from '../Loader'
 
+import dayjs from 'dayjs'
+import 'dayjs/locale/ko'
+
 interface CommentListModalProps {
   isOpen: boolean
   closeModal: () => void
@@ -125,7 +128,9 @@ export default function CommentListModal({
                                 {comment?.user?.name || '-'}
                               </h1>
                               <div className="text-gray-500 text-xs">
-                                {comment?.createdAt}
+                                {dayjs(comment?.createdAt)?.format(
+                                  'YYYY-MM-DD HH:MM:ss',
+                                )}
                               </div>
                             </div>
                           </div>
@@ -137,10 +142,7 @@ export default function CommentListModal({
                     </React.Fragment>
                   ))}
                   {(hasNextPage || isFetching) && <Loader className="mt-8" />}
-                  <div
-                    className="w-full touch-none h-10 mb-10  z-10"
-                    ref={ref}
-                  />
+                  <div className="w-full touch-none h-10" ref={ref} />
                 </div>
               </Dialog.Panel>
             </Transition.Child>

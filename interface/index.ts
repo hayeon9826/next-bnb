@@ -7,11 +7,19 @@ export interface FilterProps {
   category?: string
 }
 
-interface Like {
+export interface Like {
   id: number
   roomId: number
   userId: number
   createdAt: string
+  room: RoomType
+}
+
+export interface LikeApiProps {
+  totalCount: number
+  data: Like[]
+  page?: number
+  totalPage?: number
 }
 
 export interface RoomType {

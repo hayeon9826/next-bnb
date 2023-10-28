@@ -42,7 +42,7 @@ export default function CommentForm({ room, refetch }: CommentFormProps) {
   }
 
   return (
-    <form className="mt-8">
+    <form className="mt-20">
       <textarea
         rows={3}
         onChange={onChange}

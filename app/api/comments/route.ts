@@ -10,19 +10,24 @@ export async function GET(req: Request) {
   const roomId = searchParams.get('roomId') as string
   const page = searchParams.get('page') as string
   const limit = searchParams.get('limit') as string
+  const my = searchParams.get('my') as string
 
   const session = await getServerSession(authOptions)
 
   // infinite query
   if (page) {
     const count = await prisma.comment.count({
-      where: { roomId: parseInt(roomId) },
+      where: {
+        roomId: roomId ? parseInt(roomId) : {},
+        userId: my ? session?.user?.id : {},
+      },
     })
     const skipPage = parseInt(page) - 1
     const comments = await prisma.comment.findMany({
       orderBy: { id: 'desc' },
       where: {
-        roomId: parseInt(roomId),
+        roomId: roomId ? parseInt(roomId) : {},
+        userId: my ? session?.user?.id : {},
       },
       take: parseInt(limit),
       skip: skipPage * 12,
