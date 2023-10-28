@@ -30,7 +30,8 @@ export default function Navbar() {
   ]
 
   const LOGOUT_MENU = [
-    { id: 1, title: '로그아웃', url: '/', signOut: true },
+    { id: 1, title: '마이페이지', url: '/users/mypage' },
+    { id: 2, title: '로그아웃', url: '/', signOut: true },
     { id: 3, title: 'FAQ', url: '/faqs' },
   ]
 
@@ -227,7 +228,7 @@ export default function Navbar() {
                     onClick={() => {
                       setShowMenu(false)
                       router.push(menu.url)
-                      menu?.signOut ? signOut() : null
+                      menu?.signOut ? signOut({ callbackUrl: '/' }) : null
                     }}
                     className="h-10 hover:bg-gray-50 cursor-pointer text-sm text-gray-700 pl-3 flex flex-col justify-center"
                   >

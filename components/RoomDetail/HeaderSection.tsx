@@ -7,12 +7,12 @@ import cn from 'classnames'
 
 import Image from 'next/image'
 import { CiHeart } from 'react-icons/ci'
-import { AiOutlineUnorderedList, AiOutlineCloseCircle } from 'react-icons/ai'
+import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { BLUR_DATA_URL } from '@/constants'
 import ShareButtonModal from './ShareButtonModal'
+import ImageListButtonModal from './ImageListButtonModal'
 
 export default function HeaderSection({ data }: { data: RoomType }) {
-  const [showImageModal, setShowImageModal] = useState<boolean>(false)
   const SHOW_DOUBLE_IMG_BANNER = data?.images?.length > 2
   return (
     <>
@@ -58,46 +58,7 @@ export default function HeaderSection({ data }: { data: RoomType }) {
             />
           </div>
         )}
-        <button
-          onClick={() => setShowImageModal(true)}
-          className="absolute right-6 bottom-8 bg-white text-black rounded-md px-4 py-1.5 text-sm border-black flex gap-2 items-center"
-        >
-          <AiOutlineUnorderedList />
-          사진 모두 보기
-        </button>
-        <div
-          className={cn(
-            'fixed inset-0 w-screen overflow-y-auto bg-white mx-auto z-10 hidden',
-            {
-              '!block': showImageModal,
-            },
-          )}
-        >
-          <div className="fixed w-full shadow-sm bg-white border-b flex flex-row-reverse">
-            <button
-              type="button"
-              className="p-4"
-              onClick={() => setShowImageModal(false)}
-            >
-              <AiOutlineCloseCircle className="text-2xl text-gray-600" />
-            </button>
-          </div>
-          <div className="flex flex-col gap-4 my-20">
-            {data?.images?.map((img) => (
-              <Image
-                key={img}
-                src={img}
-                alt="room img"
-                width={500}
-                height={500}
-                style={{ objectFit: 'cover' }}
-                className="mx-auto"
-                placeholder="blur"
-                blurDataURL={BLUR_DATA_URL}
-              />
-            ))}
-          </div>
-        </div>
+        <ImageListButtonModal data={data} />
       </div>
     </>
   )

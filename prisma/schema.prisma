@@ -54,6 +54,8 @@ model User {
   emailVerified DateTime?
   image         String?
   desc          String?
+  phone         String?
+  address       String?
   rooms         Room[]
   accounts      Account[]
   sessions      Session[]
