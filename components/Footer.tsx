@@ -37,12 +37,12 @@ export default function Footer() {
         </span>
         <ul className="flex flex-wrap items-center text-xs text-gray-800 mt-2 sm:mt-0">
           <li>
-            <Link href="#" className="mr-4 hover:underline md:mr-6">
+            <Link href="/users/signin" className="mr-4 hover:underline md:mr-6">
               로그인
             </Link>
           </li>
           <li>
-            <Link href="#" className="mr-4 hover:underline md:mr-6">
+            <Link href="/users/signin" className="mr-4 hover:underline md:mr-6">
               회원가입
             </Link>
           </li>

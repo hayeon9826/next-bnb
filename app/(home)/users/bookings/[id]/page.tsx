@@ -3,6 +3,7 @@ import Image from 'next/image'
 
 import dayjs from 'dayjs'
 import 'dayjs/locale/ko'
+import BackButton from '@/components/BackButton'
 
 export default async function BookingPage({
   params,
@@ -15,7 +16,10 @@ export default async function BookingPage({
 
   return (
     <div className="max-w-5xl mx-auto px-4 pt-10 pb-20">
-      <h1 className="text-xl md:text-3xl font-semibold">예약 상세 내역</h1>
+      <h1 className="text-xl md:text-3xl font-semibold relative">
+        <BackButton className="absolute -top-4 -left-16" />
+        예약 상세 내역
+      </h1>
       <div className="rounded-md border border-gray-300 p-6 mt-10">
         <div className="flex border-b gap-4 pb-6">
           <Image
@@ -67,7 +71,6 @@ export default async function BookingPage({
             <div>{`₩0`}</div>
           </div>
         </div>
-
         <div className="flex justify-between gap-4 border-b py-6">
           <div>총 합계 (KRW)</div>
           <div>{`₩${booking?.totalAmount.toLocaleString()}`}</div>

@@ -31,7 +31,6 @@ const LOGOUT_MENU = [
 export default function Navbar() {
   const pathname = usePathname()
   const router = useRouter()
-  const { status, data: session } = useSession()
 
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const [showFilter, setShowFilter] = useState<boolean>(false)
@@ -42,16 +41,16 @@ export default function Navbar() {
   const isUsersPath = pathname.includes('/users')
   const isBookingsPath = pathname.includes('/bookings')
 
-  if (isBookingsPath) {
-    return <Navbar.DefaultNavbar />
-  }
-
   if (isUsersPath) {
     return (
       <Navbar.DefaultNavbar>
         <Navbar.RightMenu setShowMenu={setShowMenu} showMenu={showMenu} />
       </Navbar.DefaultNavbar>
     )
+  }
+
+  if (isBookingsPath) {
+    return <Navbar.DefaultNavbar />
   }
 
   return (

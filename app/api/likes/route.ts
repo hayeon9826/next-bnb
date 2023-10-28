@@ -44,7 +44,7 @@ export async function GET(req: Request) {
       page: parseInt(page),
       data: likes,
       totalCount: count,
-      totalPage: Math.ceil(count / 12),
+      totalPage: Math.ceil(count / parseInt(limit)),
     },
     {
       status: 200,

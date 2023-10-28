@@ -35,7 +35,7 @@ export async function GET(req: Request) {
     const rooms = await prisma.room.findMany({
       orderBy: { id: 'asc' },
       take: parseInt(limit),
-      skip: skipPage * 12,
+      skip: skipPage * parseInt(limit),
     })
 
     return NextResponse.json(
@@ -43,7 +43,7 @@ export async function GET(req: Request) {
         page: parseInt(page),
         data: rooms,
         totalCount: count,
-        totalPage: Math.ceil(count / 12),
+        totalPage: Math.ceil(count / parseInt(limit)),
       },
       {
         status: 200,
