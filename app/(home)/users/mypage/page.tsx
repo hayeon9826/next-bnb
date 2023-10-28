@@ -5,7 +5,7 @@ import axios from 'axios'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { AiOutlineUser, AiOutlineHeart, AiOutlineComment } from 'react-icons/ai'
-import { BsHouseAdd, BsHouseCheck } from 'react-icons/bs'
+import { BsHouseAdd, BsHouseCheck, BsBookmarkCheck } from 'react-icons/bs'
 import { useQuery } from 'react-query'
 
 export default function Mypage() {
@@ -72,6 +72,16 @@ export default function Mypage() {
           <div>
             <h1 className="font-semibold">나의 후기</h1>
             <h2 className="text-sm text-gray-500">나의 후기 모아보기</h2>
+          </div>
+        </Link>
+        <Link
+          href="/users/bookings"
+          className="shadow-lg rounded-lg flex flex-col justify-between p-4 gap-12 cursor-pointer hover:shadow-xl"
+        >
+          <BsBookmarkCheck className="text-xl md:text-3xl" />
+          <div>
+            <h1 className="font-semibold">나의 예약</h1>
+            <h2 className="text-sm text-gray-500">예약 일정 모아보기</h2>
           </div>
         </Link>
       </div>

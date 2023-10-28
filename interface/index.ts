@@ -23,6 +23,7 @@ export interface LikeApiProps {
 }
 
 export interface BookingType {
+  id: number
   roomId: number
   userId: number
   checkIn: string
@@ -93,6 +94,13 @@ export interface CommentType {
   body: string
   room: RoomType
   user: UserType
+}
+
+export interface BookingApiProps {
+  totalCount: number
+  data: BookingType[]
+  page?: number
+  totalPage?: number
 }
 
 export interface CommentApiProps {

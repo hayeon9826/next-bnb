@@ -30,7 +30,7 @@ export async function GET(req: Request) {
         userId: my ? session?.user?.id : {},
       },
       take: parseInt(limit),
-      skip: skipPage * 12,
+      skip: skipPage * parseInt(limit),
       include: {
         user: true,
       },
@@ -41,7 +41,7 @@ export async function GET(req: Request) {
         page: parseInt(page),
         data: comments,
         totalCount: count,
-        totalPage: Math.ceil(count / 12),
+        totalPage: Math.ceil(count / parseInt(limit)),
       },
       {
         status: 200,
