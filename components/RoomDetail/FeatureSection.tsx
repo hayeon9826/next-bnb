@@ -31,7 +31,7 @@ export default function FeatureSection({ data }: { data: RoomType }) {
               {data?.user?.desc ?? '호스트 설명이 없습니다.'}
             </p>
           </div>
-          <Image
+          <img
             src={data?.user?.image || '/images/logo.png'}
             alt="logo"
             width={50}

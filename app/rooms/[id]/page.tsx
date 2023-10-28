@@ -1,5 +1,6 @@
 import FeatureSection from '@/components/RoomDetail/FeatureSection'
 import HeaderSection from '@/components/RoomDetail/HeaderSection'
+import HostInfoSection from '@/components/RoomDetail/HostInfoSection'
 import MapSection from '@/components/RoomDetail/MapSection'
 import { RoomType } from '@/interface'
 
@@ -16,6 +17,7 @@ export default async function RoomPage({ params }: ParamsProps) {
       <HeaderSection data={data} />
       <FeatureSection data={data} />
       <MapSection data={data} />
+      <HostInfoSection data={data} />
     </div>
   )
 }

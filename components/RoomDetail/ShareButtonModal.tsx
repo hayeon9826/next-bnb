@@ -41,14 +41,14 @@ export default function ShareButtonModal({ data }: { data: RoomType }) {
   }
 
   const handleShareTwitter = () => {
-    window &&
+    typeof window !== 'undefined' &&
       window.open(
         `https://www.twitter.com/intent/tweet?&url=${window.location.href}`,
       )
   }
 
   const handleShareFacebook = () => {
-    window &&
+    typeof window !== 'undefined' &&
       window.open(
         `https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`,
       )
@@ -131,13 +131,16 @@ export default function ShareButtonModal({ data }: { data: RoomType }) {
                       <AiOutlineCopy className="text-xl md:text-3xl" />
                       링크 복사
                     </button>
-                    <Link
-                      href={`mailto:?subject=nextBnb 숙소 공유하기&body=${window.location.href}`}
-                      className="border border-gray-300 font-semibold rounded-lg px-6 py-4 flex items-center gap-4 hover:bg-black/5"
-                    >
-                      <AiOutlineMail className="text-xl md:text-3xl" />
-                      이메일
-                    </Link>
+                    {typeof window !== 'undefined' && (
+                      <Link
+                        href={`mailto:?subject=nextBnb 숙소 공유하기&body=${window.location.href}`}
+                        className="border border-gray-300 font-semibold rounded-lg px-6 py-4 flex items-center gap-4 hover:bg-black/5"
+                      >
+                        <AiOutlineMail className="text-xl md:text-3xl" />
+                        이메일
+                      </Link>
+                    )}
+
                     {/* 트위터 공유하기 문서: https://developer.twitter.com/en/docs/twitter-for-websites/tweet-button/overview */}
                     <button
                       onClick={handleShareTwitter}
