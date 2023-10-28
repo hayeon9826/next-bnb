@@ -11,6 +11,7 @@ import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { BLUR_DATA_URL } from '@/constants'
 import ShareButtonModal from './ShareButtonModal'
 import ImageListButtonModal from './ImageListButtonModal'
+import LikeButton from './LikeButton'
 
 export default function HeaderSection({ data }: { data: RoomType }) {
   const SHOW_DOUBLE_IMG_BANNER = data?.images?.length > 2
@@ -23,10 +24,7 @@ export default function HeaderSection({ data }: { data: RoomType }) {
         </div>
         <div className="flex gap-2 text-xs md:text-sm mt-2">
           <ShareButtonModal data={data} />
-          <button className="flex gap-2 items-center" type="button">
-            <CiHeart />
-            <span className="underline">저장</span>
-          </button>
+          <LikeButton data={data} />
         </div>
       </div>
       <div className="mt-6 relative">
