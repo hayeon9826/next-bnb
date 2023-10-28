@@ -22,6 +22,7 @@ export async function GET(req: Request) {
           where: session ? { userId: session.user.id } : {},
         },
         user: true,
+        comments: true,
       },
     })
 

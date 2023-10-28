@@ -7,10 +7,15 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import dayjs from 'dayjs'
 import 'dayjs/locale/ko'
 import { calculatedFilterState } from '@/atom/selector'
+import { useCallback } from 'react'
+import { useRouter } from 'next/navigation'
 
-export default function ReservationSection({ data }: { data: RoomType }) {
+export default function BookingSection({ data }: { data: RoomType }) {
+  const router = useRouter()
   const [filterValue, setFilterValue] = useRecoilState(filterState)
   const { dayCount, guestCount } = useRecoilValue(calculatedFilterState)
+  const totalAmount = data?.price * dayCount * guestCount
+  const checkFormValid = totalAmount > 0
 
   const onChangeCheckIn = (e: any) => {
     setFilterValue({
@@ -32,11 +37,13 @@ export default function ReservationSection({ data }: { data: RoomType }) {
     })
   }
 
-  const totalValue = `₩${(
-    data?.price *
-    dayCount *
-    guestCount
-  )?.toLocaleString()}`
+  const totalValue = `₩${totalAmount?.toLocaleString()}`
+
+  const handleSubmit = useCallback(() => {
+    router.push(
+      `/rooms/${data.id}/bookings?checkIn=${filterValue?.checkIn}&checkOut=${filterValue?.checkOut}&guestCount=${guestCount}&totalAmount=${totalAmount}&totalDays=${dayCount}`,
+    )
+  }, [data, filterValue, guestCount, totalAmount, dayCount])
 
   return (
     <div className="w-full">
@@ -87,8 +94,10 @@ export default function ReservationSection({ data }: { data: RoomType }) {
           </div>
           <div className="mt-6">
             <button
-              type="submit"
-              className="bg-rose-500 hover:bg-rose-600 text-white rounded-md py-2.5 w-full"
+              type="button"
+              disabled={!checkFormValid}
+              onClick={handleSubmit}
+              className="bg-rose-500 hover:bg-rose-600 text-white rounded-md py-2.5 w-full disabled:bg-gray-300"
             >
               예약하기
             </button>

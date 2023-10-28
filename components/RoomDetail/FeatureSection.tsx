@@ -15,7 +15,7 @@ import { GiBarbecue } from 'react-icons/gi'
 import { FeatureDesc } from '@/constants'
 
 import cn from 'classnames'
-import ReservationSection from './ReservationSection'
+import BookingSection from './BookingSection'
 import CalendarSection from './CalendarSection'
 
 export default function FeatureSection({ data }: { data: RoomType }) {
@@ -150,7 +150,7 @@ export default function FeatureSection({ data }: { data: RoomType }) {
           <CalendarSection />
         </div>
       </div>
-      <ReservationSection data={data} />
+      <BookingSection data={data} />
     </div>
   )
 }
