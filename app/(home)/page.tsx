@@ -51,6 +51,10 @@ export default function Home() {
     }
   }, [fetchNextPage])
 
+  const goToMapPage = () => {
+    router.replace('/map')
+  }
+
   useEffect(() => {
     let timerId: NodeJS.Timeout | undefined
 
@@ -81,7 +85,7 @@ export default function Home() {
           ))}
         </GridLayout>
       )}
-      <MapButton onClick={() => router.push('/map')} />
+      <MapButton onClick={goToMapPage} />
       {(isFetching || hasNextPage || isFetchingNextPage) && <Loader />}
       <div className="w-full touch-none h-10 mb-10" ref={ref} />
     </>

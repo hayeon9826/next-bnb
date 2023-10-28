@@ -6,7 +6,7 @@ import axios from 'axios'
 
 import Script from 'next/script'
 
-import { BsMap } from 'react-icons/bs'
+import { BsMap, BsList } from 'react-icons/bs'
 import { useQuery } from 'react-query'
 import { useSetRecoilState } from 'recoil'
 import { currentRoomState } from '@/atom'
@@ -122,6 +122,17 @@ export function MapButton({ onClick }: MapButtonProps) {
       className="flex gap-2 items-center text-sm bg-black rounded-full text-white px-5 py-3.5 shadow-sm sticky bottom-12 mx-auto hover:shadow-lg"
     >
       지도 표시하기 <BsMap className="text-xs" />
+    </button>
+  )
+}
+
+export function ListButton({ onClick }: MapButtonProps) {
+  return (
+    <button
+      onClick={onClick}
+      className="flex gap-2 justify-center w-36 items-center text-sm bg-black rounded-full text-white px-5 py-3.5 shadow-sm fixed z-10 inset-x-0 bottom-12 mx-auto hover:shadow-xl"
+    >
+      목록 표시하기 <BsList className="text-xs" />
     </button>
   )
 }

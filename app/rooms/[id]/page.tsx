@@ -17,7 +17,7 @@ export default async function RoomPage({ params }: ParamsProps) {
     <div className="my-28 max-w-6xl mx-auto">
       <HeaderSection data={data} />
       <FeatureSection data={data} />
-      <Comment data={data} />
+      <Comment room={data} />
       <MapSection data={data} />
       <HostInfoSection data={data} />
     </div>

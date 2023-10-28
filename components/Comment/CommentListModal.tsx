@@ -1,17 +1,69 @@
-import { Fragment } from 'react'
+'use client'
+
+import React, { Fragment, useCallback, useEffect, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { AiOutlineClose } from 'react-icons/ai'
-import { COMMENTS } from './CommentList'
+import { useInfiniteQuery } from 'react-query'
+import useIntersectionObserver from '@/hooks/useIntersectionObserver'
+import axios from 'axios'
+import { CommentType } from '@/interface'
+import { Loader } from '../Loader'
 
 interface CommentListModalProps {
   isOpen: boolean
   closeModal: () => void
+  roomId: number
 }
 
 export default function CommentListModal({
   isOpen,
   closeModal,
+  roomId,
 }: CommentListModalProps) {
+  const ref = useRef<HTMLDivElement | null>(null)
+  const pageRef = useIntersectionObserver(ref, {})
+  const isPageEnd = !!pageRef?.isIntersecting
+
+  const fetchComments = async ({ pageParam = 1 }) => {
+    const { data } = await axios('/api/comments?page=' + pageParam, {
+      params: {
+        limit: 12,
+        page: pageParam,
+      },
+    })
+
+    return data
+  }
+
+  const {
+    data: comments,
+    isFetching,
+    fetchNextPage,
+    isFetchingNextPage,
+    hasNextPage,
+    refetch,
+  } = useInfiniteQuery(`comments-infinite-${roomId}`, fetchComments, {
+    getNextPageParam: (lastPage: any) =>
+      lastPage.data?.length > 0 ? lastPage.page + 1 : undefined,
+  })
+
+  const fetchNext = useCallback(async () => {
+    const res = await fetchNextPage()
+    if (res.isError) {
+      console.log(res.error)
+    }
+  }, [fetchNextPage])
+
+  useEffect(() => {
+    let timerId: NodeJS.Timeout | undefined
+
+    if (isPageEnd && hasNextPage) {
+      fetchNext()
+    }
+
+    return () => clearTimeout(timerId)
+  }, [fetchNext, isPageEnd, hasNextPage])
+
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={closeModal}>
@@ -51,31 +103,38 @@ export default function CommentListModal({
                 >
                   후기 전체 보기
                 </Dialog.Title>
-                <h1 className="font-semibold text-xl mb-2 mt-4">후기 248개</h1>
                 <div className="mt-8 flex flex-col gap-8 mx-auto max-w-lg mb-10">
-                  {COMMENTS?.map((comment) => (
-                    <div key={comment?.id} className="flex flex-col gap-2">
-                      <div className="flex gap-2 items-center">
-                        <img
-                          src={comment?.imageUrl || '/images/logo.png'}
-                          width={50}
-                          height={50}
-                          className="rounded-full"
-                        />
-                        <div>
-                          <h1 className="font-semibold">
-                            {comment?.name || '-'}
-                          </h1>
-                          <div className="text-gray-500 text-xs">
-                            {comment?.createdAt}
+                  {comments?.pages?.map((page, index) => (
+                    <React.Fragment key={index}>
+                      {page.data.map((comment: CommentType) => (
+                        <div key={comment?.id} className="flex flex-col gap-2">
+                          <div className="flex gap-2 items-center">
+                            <img
+                              src={comment?.user?.image || '/images/logo.png'}
+                              width={50}
+                              height={50}
+                              className="rounded-full"
+                            />
+                            <div>
+                              <h1 className="font-semibold">
+                                {comment?.user?.name || '-'}
+                              </h1>
+                              <div className="text-gray-500 text-xs">
+                                {comment?.createdAt}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="text-gray-600 text-sm">
+                            {comment?.body}
                           </div>
                         </div>
-                      </div>
-                      <div className="text-gray-600 text-sm">
-                        {comment?.comment}
-                      </div>
-                    </div>
+                      ))}
+                    </React.Fragment>
                   ))}
+                  {(isFetching || hasNextPage || isFetchingNextPage) && (
+                    <Loader className="mt-8" />
+                  )}
+                  <div className="w-full touch-none h-10 mb-10" ref={ref} />
                 </div>
               </Dialog.Panel>
             </Transition.Child>

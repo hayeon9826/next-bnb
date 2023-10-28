@@ -57,12 +57,12 @@ export default function LikeButton({ roomId }: { roomId: number }) {
       {status === 'authenticated' && room?.likes?.length ? (
         <>
           <AiFillHeart className="hover:text-red-600 focus:text-red-600 text-red-500" />
-          <span className="underline">취소</span>
+          <span className="underline">취소하기</span>
         </>
       ) : (
         <>
           <AiOutlineHeart className="hover:text-red-600 focus:text-red-600" />
-          <span className="underline">저장</span>
+          <span className="underline">저장하기</span>
         </>
       )}
     </button>

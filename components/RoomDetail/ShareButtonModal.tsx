@@ -115,7 +115,7 @@ export default function ShareButtonModal({ data }: { data: RoomType }) {
                       blurDataURL={BLUR_DATA_URL}
                       className="rounded-md"
                     />
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-1 flex-wrap">
                       <div className="text-gray-800">{data?.title}</div>
                       <div className="text-gray-600">·</div>
                       <div className="text-gray-600">{data?.category}</div>
