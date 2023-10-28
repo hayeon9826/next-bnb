@@ -10,7 +10,7 @@ export async function GET(req: Request) {
 
   if (!session?.user) {
     return NextResponse.json(
-      { error: 'unauthrized user' },
+      { error: 'unauthorized user' },
       {
         status: 401,
       },
@@ -38,7 +38,7 @@ export async function PUT(req: Request) {
 
   if (!session?.user) {
     return NextResponse.json(
-      { error: 'unauthrized user' },
+      { error: 'unauthorized user' },
       {
         status: 401,
       },

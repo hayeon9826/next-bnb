@@ -7,6 +7,13 @@ export interface FilterProps {
   category?: string
 }
 
+interface Like {
+  id: number
+  roomId: number
+  userId: number
+  createdAt: string
+}
+
 export interface RoomType {
   id: number
   images: string[]
@@ -30,6 +37,7 @@ export interface RoomType {
   hasFreeParking: boolean
   userId?: number
   user?: UserType
+  likes?: Like[]
 }
 
 interface Account {
@@ -47,6 +55,7 @@ export interface UserType {
   address?: string
   rooms?: RoomType[]
   accounts: Account[]
+  createdAt?: string
 }
 
 export interface FaqType {

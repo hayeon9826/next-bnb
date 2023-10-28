@@ -15,6 +15,7 @@ import LikeButton from './LikeButton'
 
 export default function HeaderSection({ data }: { data: RoomType }) {
   const SHOW_DOUBLE_IMG_BANNER = data?.images?.length > 2
+
   return (
     <>
       <h1 className="text-lg md:text-3xl font-medium px-4">{data?.title}</h1>
@@ -24,7 +25,7 @@ export default function HeaderSection({ data }: { data: RoomType }) {
         </div>
         <div className="flex gap-2 text-xs md:text-sm mt-2">
           <ShareButtonModal data={data} />
-          <LikeButton data={data} />
+          <LikeButton roomId={data.id} />
         </div>
       </div>
       <div className="mt-6 relative">

@@ -2,13 +2,15 @@
 
 import { filterState } from '@/atom'
 import { RoomType } from '@/interface'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 
 import dayjs from 'dayjs'
 import 'dayjs/locale/ko'
+import { calculatedFilterState } from '@/atom/selector'
 
 export default function ReservationSection({ data }: { data: RoomType }) {
   const [filterValue, setFilterValue] = useRecoilState(filterState)
+  const { dayCount, guestCount } = useRecoilValue(calculatedFilterState)
 
   const onChangeCheckIn = (e: any) => {
     setFilterValue({
@@ -29,6 +31,12 @@ export default function ReservationSection({ data }: { data: RoomType }) {
       guest: e?.target?.value,
     })
   }
+
+  const totalValue = `₩${(
+    data?.price *
+    dayCount *
+    guestCount
+  )?.toLocaleString()}`
 
   return (
     <div className="w-full">
@@ -67,14 +75,11 @@ export default function ReservationSection({ data }: { data: RoomType }) {
             <label className="text-xs font-semibold">인원</label>
             <select
               onChange={onChangeGuest}
+              value={filterValue?.guest}
               className="w-full px-4 py-3 border border-gray-400 rounded-md text-xs mt-1"
             >
               {[...Array(20)]?.map((_, i) => (
-                <option
-                  value={i + 1}
-                  key={i}
-                  selected={filterValue?.guest === i + 1}
-                >
+                <option value={i + 1} key={i}>
                   {i + 1}
                 </option>
               ))}
@@ -95,9 +100,10 @@ export default function ReservationSection({ data }: { data: RoomType }) {
         <div className="mt-4 flex flex-col gap-2 border-b-gray-300 border-b pb-4  text-xs md:text-sm">
           <div className="flex justify-between">
             <div className="text-gray-600 underline">
-              {data?.price?.toLocaleString()} x 5박
+              {`₩`}
+              {data?.price?.toLocaleString()} x {dayCount}박
             </div>
-            <div className="text-gray-500">₩271,470</div>
+            <div className="text-gray-500">{totalValue}</div>
           </div>
           <div className="flex justify-between">
             <div className="text-gray-600 underline">청소비</div>
@@ -110,7 +116,7 @@ export default function ReservationSection({ data }: { data: RoomType }) {
         </div>
         <div className="flex justify-between mt-6">
           <div>총 합계</div>
-          <div>₩271,470</div>
+          <div>{totalValue}</div>
         </div>
       </div>
     </div>
