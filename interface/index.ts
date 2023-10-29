@@ -31,7 +31,7 @@ export interface BookingType {
   guestCount: number
   totalAmount: number
   totalDays: number
-  status: 'SUCCESS' | 'CANCEL'
+  status: BookingStatus
   room: RoomType
   user: UserType
   createdAt: string
@@ -120,4 +120,16 @@ export interface LocationType {
   lat?: string | null
   lng?: string | null
   zoom?: number
+}
+
+export enum BookingStatus {
+  CANCEL = 'CANCEL',
+  FAILED = 'FAILED',
+  SUCCESS = 'SUCCESS',
+}
+
+export const bookingStatusMessage: { [key in BookingStatus]: string } = {
+  [BookingStatus.CANCEL]: '취소된 여행',
+  [BookingStatus.FAILED]: '예약 실패',
+  [BookingStatus.SUCCESS]: '예약된 여행',
 }

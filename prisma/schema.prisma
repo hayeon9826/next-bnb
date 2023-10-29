@@ -127,6 +127,7 @@ model Booking {
   id            Int      @id @default(autoincrement())
   roomId        Int
   userId        Int
+  paymentId     Int?
   checkIn       DateTime
   checkOut      DateTime  
   guestCount    Int
@@ -135,6 +136,7 @@ model Booking {
   status        BookingStatus
   room          Room     @relation(fields: [roomId], references: [id])
   user          User     @relation(fields: [userId], references: [id])
+  payments      Payment[]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @default(now())
 }
@@ -143,4 +145,59 @@ model Booking {
 enum BookingStatus {
   SUCCESS
   CANCEL
+  FAILED
+}
+
+model Payment {
+  id         Int      @id @default(autoincrement())
+  paymentKey String       // 토스 페이먼츠에서 받은 고유한 결제키
+  bookingId  Int          // 해당 결제와 연관된 예약 ID
+  amount     Int          // 결제 금액
+  status     PaymentStatus // 결제 처리 상태
+  type       PaymentType  // 결제 타입 정보
+  orderId    String       // 주문한 결제를 식별하는 역할
+  orderName  String?      // 주문명
+  mId        String?      // 상점아이디(MID). 토스페이먼츠에서 발급
+  method     String?      // 결제수단
+  totalAmnount Int        // 총 결제 금액
+  approvedAt String?      // 결제 승인이 일어난 날짜와 시간
+  requestedAt String?     // 결제가 일어난 날짜와 시간 정보
+  cardNumber String?      // 카드번호입니다. 번호의 일부는 마스킹
+  cardAcquirerCode String?// 카드 매입사 숫자 코드
+  cardApproveNo  String?  // 카드사 승인 번호
+  cardType   String?      // 카드 종류: 신용, 체크, 기프트, 미확인 
+  cardOwnerType  String?  // 카드의 소유자 타입
+  cardAcquireStatus  CardAcquireStatus? // 카드 결제의 매입 상태
+  booking    Booking  @relation(fields: [bookingId], references: [id])
+  receiptUrl String      // 발행된 영수증 url 정보
+  checkoutUrl String     // 결제창 url 정보
+  failureCode String?    // 오류 타입을 보여주는 에러 코드
+  failureMessage String? // 에러 메시지
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
+}
+
+enum PaymentStatus {
+  READY
+  IN_PROGRESS
+  WAITING_FOR_DEPOSIT
+  DONE
+  CANCELED
+  PARTIAL_CANCELED
+  ABORTED
+  EXPIRED
+}
+
+enum PaymentType {
+  NORMAL
+  BILLING
+  BRANDPAY
+}
+
+enum CardAcquireStatus {
+  READY
+  REQUESTED
+  COMPLETED
+  CANCEL_REQUESTED
+  CANCELED
 }
