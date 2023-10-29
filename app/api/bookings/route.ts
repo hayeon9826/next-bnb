@@ -32,7 +32,11 @@ export async function GET(req: Request) {
         id: id ? parseInt(id) : {},
       },
       include: {
-        room: true,
+        room: {
+          include: {
+            comments: true,
+          },
+        },
       },
     })
 

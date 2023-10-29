@@ -40,7 +40,7 @@ export default async function BookingPage({
               <h1 className="text-sm">{booking?.room?.title}</h1>
             </div>
             <div className="text-xs text-gray-500">
-              후기 {booking?.room?.comments?.length}개
+              후기 {booking?.room?.comments?.length || 0}개
             </div>
           </div>
         </div>

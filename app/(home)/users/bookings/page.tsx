@@ -1,7 +1,7 @@
 'use client'
 
 import { ListLoader } from '@/components/Loader'
-import { BookingType } from '@/interface'
+import { BookingType, bookingStatusMessage } from '@/interface'
 import axios from 'axios'
 import { useSession } from 'next-auth/react'
 import React from 'react'
@@ -55,7 +55,7 @@ export default function BookingsPage() {
         나의 예약 일정입니다.
       </div>
       {isLoading ? (
-        <ListLoader className="mb-20 mt-10 md:grid-cols-1" />
+        <ListLoader className="mb-20 mt-10 md:!grid-cols-1" />
       ) : (
         <div className="mb-20 mt-10 flex flex-col gap-8">
           {bookings?.pages?.map((page, index) => (
@@ -66,9 +66,7 @@ export default function BookingsPage() {
                   className="flex flex-col gap-6 border-b w-full pb-8 hover:bg-black/5 cursor-pointer p-6"
                 >
                   <div className="text-lg md:text-xl font-semibold">
-                    {booking?.status === 'CANCEL'
-                      ? '취소된 여행'
-                      : '예약된 여행'}
+                    {bookingStatusMessage?.[booking.status]}
                   </div>
                   <div className="flex gap-4 items-center">
                     <img
