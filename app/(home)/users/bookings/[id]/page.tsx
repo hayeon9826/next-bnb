@@ -5,6 +5,7 @@ import dayjs from 'dayjs'
 import 'dayjs/locale/ko'
 import BackButton from '@/components/BackButton'
 import RefundButton from '@/components/Booking/RefundButton'
+import { Payment, paymentStatusMessage } from '@/interface'
 
 export default async function BookingPage({
   params,
@@ -13,7 +14,9 @@ export default async function BookingPage({
 }) {
   const id = params.id
   const booking = await getData(id)
-  const canRefund = dayjs(booking?.checkIn).diff(dayjs(), 'days') > 7
+  const canRefund =
+    dayjs(booking?.checkIn).diff(dayjs(), 'days') > 7 ||
+    booking?.payments?.[0]?.status === 'DONE'
 
   return (
     <div className="max-w-5xl mx-auto px-4 pt-10 pb-20">
@@ -86,47 +89,72 @@ export default async function BookingPage({
       <h1 className="text-xl md:text-3xl font-semibold mt-16">
         결제 상세 내역
       </h1>
-      <div className="rounded-md border border-gray-300 p-6 mt-10">
-        <div className="flex flex-col gap-6 border-b pb-8">
-          <h2 className="text-lg md:text-2xl font-semibold">
-            결제 방식 확인하기
-          </h2>
-          <div className="rounded-md border-black p-4 border-2 cursor-pointer hover:bg-black/5">
-            <h3 className="font-semibold">결제 완료</h3>
-            <div className="text-gray-500 text-sm mt-1">
-              2023-11-03 12:34:33
+      {booking?.payments
+        .slice(0)
+        .reverse()
+        ?.map((payment: Payment) => (
+          <div
+            className="rounded-md border border-gray-300 p-6 mt-10"
+            key={payment.id}
+          >
+            <div className="flex flex-col gap-6 border-b pb-8">
+              <h2 className="text-lg md:text-2xl font-semibold">
+                결제 내역 확인하기
+              </h2>
+              <div className="rounded-md border-black p-4 border-2 cursor-pointer hover:bg-black/5">
+                <h3 className="font-semibold">
+                  {paymentStatusMessage?.[payment?.status]}
+                </h3>
+                <div className="text-gray-500 text-sm mt-1">
+                  {dayjs(payment?.approvedAt)?.format('YYYY-MM-DD HH:MM:ss')}
+                </div>
+                <div className="text-gray-500 text-sm mt-1">
+                  상점아이디(MID) {payment?.mId || '-'}
+                </div>
+                <div className="text-gray-500 text-sm mt-1">
+                  결제 방식: {payment?.method || '-'}
+                </div>
+                <div className="text-gray-500 text-sm mt-1">
+                  {payment?.cardNumber || '카드 정보가 없습니다.'}
+                </div>
+                <div className="text-gray-800 text-sm mt-1">
+                  {`총액 ₩${booking?.totalAmount?.toLocaleString()}를 결제했습니다.`}
+                </div>
+              </div>
+              <div>
+                <a
+                  href={payment?.receiptUrl}
+                  target="_blank"
+                  className="px-4 py-2.5 rounded-md bg-rose-500 hover:bg-rose-600 text-white"
+                >
+                  영수증 확인하기
+                </a>
+              </div>
             </div>
-            <div className="text-gray-500 text-sm mt-1">
-              VISA 1234 1234 **** 1234
+            <div className="flex flex-col gap-4 border-b pb-6">
+              <h1 className="text-lg md:text-xl mt-4">요금 세부정보</h1>
+              <div className="flex justify-between gap-4 text-gray-600">
+                <div>
+                  {`₩${booking?.room?.price?.toLocaleString()}`} x{' '}
+                  {booking?.totalDays}박
+                </div>
+                <div>{`₩${booking?.totalAmount?.toLocaleString()}`}</div>
+              </div>
+              <div className="flex justify-between gap-4 text-gray-600">
+                <div className="underline">nextBnb 서비스 수수료</div>
+                <div>{`₩0`}</div>
+              </div>
             </div>
-            <div className="text-gray-800 text-sm mt-1">
-              {`총액 ₩${booking?.totalAmount?.toLocaleString()}를 결제했습니다.`}
+            <div className="flex justify-between gap-4 border-b py-6">
+              <div>총 합계 (KRW)</div>
+              <div>{`₩${booking?.totalAmount.toLocaleString()}`}</div>
+            </div>
+            <div className="pt-6 text-sm text-gray-600">
+              해외에서 결제가 처리되기 때문에 카드 발행사에서 추가 수수료를
+              부과할 수 있습니다.
             </div>
           </div>
-        </div>
-        <div className="flex flex-col gap-4 border-b pb-6">
-          <h1 className="text-lg md:text-xl mt-4">요금 세부정보</h1>
-          <div className="flex justify-between gap-4 text-gray-600">
-            <div>
-              {`₩${booking?.room?.price?.toLocaleString()}`} x{' '}
-              {booking?.totalDays}박
-            </div>
-            <div>{`₩${booking?.totalAmount?.toLocaleString()}`}</div>
-          </div>
-          <div className="flex justify-between gap-4 text-gray-600">
-            <div className="underline">nextBnb 서비스 수수료</div>
-            <div>{`₩0`}</div>
-          </div>
-        </div>
-        <div className="flex justify-between gap-4 border-b py-6">
-          <div>총 합계 (KRW)</div>
-          <div>{`₩${booking?.totalAmount.toLocaleString()}`}</div>
-        </div>
-        <div className="pt-6 text-sm text-gray-600">
-          해외에서 결제가 처리되기 때문에 카드 발행사에서 추가 수수료를 부과할
-          수 있습니다.
-        </div>
-      </div>
+        ))}
     </div>
   )
 }

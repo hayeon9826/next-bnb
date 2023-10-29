@@ -92,10 +92,11 @@ export default async function BookingPage({
               아래 버튼을 선택하면{' '}
               <span className="underline font-semibold">
                 호스트가 설정한 숙소 이용규칙, 게스트에게 적용되는 기본 규칙,
-                에어비앤비 재예약 및 환불 정책
+                nextBnb 재예약 및 환불 정책
               </span>
-              에 동의하며, 피해에 대한 책임이 본인에게 있을 경우 에어비앤비가
+              에 동의하며, 피해에 대한 책임이 본인에게 있을 경우 nextBnb가
               <span className="underline font-semibold">
+                {' '}
                 결제 수단으로 청구
               </span>
               의 조치를 취할 수 있다는 사실에 동의하는 것입니다.

@@ -11,11 +11,11 @@ import { useEffect, useRef } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { Loader } from '@/components/Loader'
+import axios from 'axios'
 
 /** @doc 토스 페이먼츠 결제 구현 참고: https://codesandbox.io/p/sandbox/payment-widget-nextjs-ts-sample-9yv4vx?file=%2Fpages%2Findex.tsx%3A14%2C43 **/
 
 const clientKey = 'test_ck_ALnQvDd2VJxlmO25aWae8Mj7X41m'
-const customerKey = 'test_sk_PBal2vxj81yQwB2qb7oK85RQgOAN'
 
 export default function PaymentPage() {
   const searchParams = useSearchParams()
@@ -23,17 +23,17 @@ export default function PaymentPage() {
   const price = searchParams.get('totalAmount') || '0'
   const totalDays = searchParams.get('totalDays') || '0'
   const roomTitle = searchParams.get('roomTitle') || 'nextBnB 숙박예약'
+  const customerKey = searchParams.get('customerKey') || nanoid()
+  const bookingId = searchParams.get('bookingId')
   const paymentWidgetRef = useRef<PaymentWidgetInstance | null>(null)
   const paymentMethodsWidgetRef = useRef<ReturnType<
     PaymentWidgetInstance['renderPaymentMethods']
   > | null>(null)
 
   useAsync(async () => {
-    console.log('useAsync!!')
     // ------  결제위젯 초기화 ------
     // 비회원 결제에는 customerKey 대신 ANONYMOUS를 사용하세요.
     const paymentWidget = await loadPaymentWidget(clientKey, customerKey) // 회원 결제
-    console.log(paymentWidget, '@@@@paymentWidget')
     // ------  결제위젯 렌더링 ------
     // https://docs.tosspayments.com/reference/widget-sdk#renderpaymentmethods선택자-결제-금액-옵션
     const paymentMethodsWidget = paymentWidget.renderPaymentMethods(
@@ -51,7 +51,6 @@ export default function PaymentPage() {
 
   useEffect(() => {
     const paymentMethodsWidget = paymentMethodsWidgetRef.current
-    console.log(paymentMethodsWidget, '@@@@@paymentMethodsWidget')
     if (paymentMethodsWidget == null) {
       return
     }
@@ -86,14 +85,27 @@ export default function PaymentPage() {
               // ## Q. 결제 요청 후 계속 로딩 중인 화면이 보인다면?
               // 아직 결제 요청 중이에요. 이어서 요청 결과를 확인한 뒤, 결제 승인 API 호출까지 해야 결제가 완료돼요.
               // 코드샌드박스 환경에선 요청 결과 페이지(`successUrl`, `failUrl`)로 이동할 수가 없으니 유의하세요.
-              await paymentWidget?.requestPayment({
-                orderId: nanoid(),
+              const uniqueOrderId = nanoid()
+
+              // 먼저 payment 데이터 생성
+              const res = await axios.post('/api/payments', {
+                bookingId: bookingId,
+                amount: price,
+                status: 'IN_PROGRESS',
+                orderId: uniqueOrderId,
                 orderName: `${roomTitle?.slice(0, 10)}_${totalDays}박`,
-                customerName: session?.user?.name || '익명',
-                customerEmail: session?.user?.email || '',
-                successUrl: `${window.location.origin}/payments/success`,
-                failUrl: `${window.location.origin}/payments/fail`,
               })
+
+              if (res.status === 200) {
+                await paymentWidget?.requestPayment({
+                  orderId: uniqueOrderId,
+                  orderName: `${roomTitle?.slice(0, 10)}_${totalDays}박`,
+                  customerName: session?.user?.name || '익명',
+                  customerEmail: session?.user?.email || '',
+                  successUrl: `${window.location.origin}/payments/success`,
+                  failUrl: `${window.location.origin}/payments/fail`,
+                })
+              }
             } catch (error) {
               // 에러 처리하기
               console.error(error)
