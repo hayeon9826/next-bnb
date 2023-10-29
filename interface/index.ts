@@ -126,10 +126,54 @@ export enum BookingStatus {
   CANCEL = 'CANCEL',
   FAILED = 'FAILED',
   SUCCESS = 'SUCCESS',
+  PENDING = 'PENDING',
 }
 
 export const bookingStatusMessage: { [key in BookingStatus]: string } = {
   [BookingStatus.CANCEL]: '취소된 여행',
-  [BookingStatus.FAILED]: '예약 실패',
+  [BookingStatus.FAILED]: '결제 실패',
   [BookingStatus.SUCCESS]: '예약된 여행',
+  [BookingStatus.PENDING]: '결제 대기중',
+}
+
+export enum PaymentStatus {
+  READY = 'READY',
+  IN_PROGRESS = 'IN_PROGRESS',
+  WAITING_FOR_DEPOSIT = 'WAITING_FOR_DEPOSIT',
+  DONE = 'DONE',
+  CANCELED = 'CANCELED',
+  PARTIAL_CANCELED = 'PARTIAL_CANCELED',
+  ABORTED = 'ABORTED',
+  EXPIRED = 'EXPIRED',
+}
+
+export const paymentStatusMessage: { [key in PaymentStatus]: string } = {
+  [PaymentStatus.READY]: '결제 준비중',
+  [PaymentStatus.IN_PROGRESS]: '결제 진행중',
+  [PaymentStatus.WAITING_FOR_DEPOSIT]: '입금 대기중',
+  [PaymentStatus.DONE]: '결제 완료',
+  [PaymentStatus.CANCELED]: '결제 취소',
+  [PaymentStatus.PARTIAL_CANCELED]: '부분 취소',
+  [PaymentStatus.ABORTED]: '결제 승인 실패',
+  [PaymentStatus.EXPIRED]: '결제 시간 만료',
+}
+
+export interface ModalProps {
+  isOpen: boolean
+  closeModal: () => void
+}
+
+export interface Payment {
+  id: string
+  paymentKey: string
+  bookingId: string
+  amount: number
+  status: PaymentStatus
+  orderId: string
+  orderName: string
+  approvedAt: string
+  mId?: string
+  receiptUrl?: string
+  cardNumber?: string
+  method?: string
 }

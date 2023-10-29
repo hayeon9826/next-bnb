@@ -57,64 +57,71 @@ export default function BookingsPage() {
       {isLoading ? (
         <ListLoader className="mb-20 mt-10 md:!grid-cols-1" />
       ) : (
-        <div className="mb-20 mt-10 flex flex-col gap-8">
-          {bookings?.pages?.map((page, index) => (
-            <React.Fragment key={index}>
-              {page.data.map((booking: BookingType) => (
-                <div
-                  key={booking?.id}
-                  className="flex flex-col gap-6 border-b w-full pb-8 hover:bg-black/5 cursor-pointer p-6"
-                >
-                  <div className="text-lg md:text-xl font-semibold">
-                    {bookingStatusMessage?.[booking.status]}
-                  </div>
-                  <div className="flex gap-4 items-center">
-                    <img
-                      src={booking?.room?.images?.[0] || '/images/logo.png'}
-                      width={80}
-                      height={80}
-                      className="rounded-md"
-                    />
-                    <div className="flex flex-col gap-1 w-full">
-                      <div className="flex gap-4 items-center flex-wrap justify-between">
-                        <h1 className="font-semibold">
-                          {booking?.room?.address}
-                        </h1>
-                        <button
-                          type="button"
-                          onClick={() =>
-                            router.push(`/rooms/${booking?.roomId}`)
-                          }
-                          className="underline font-semibold text-left flex gap-1 items-center justify-start hover:text-gray-500"
-                        >
-                          숙소 보기 <BiChevronRight className="text-xl" />
-                        </button>
-                      </div>
-                      <div className="text-gray-500">
-                        {booking?.room?.title}
-                      </div>
-                      <div className="text-gray-500 text-xs">
-                        {dayjs(booking?.checkIn)?.format('YYYY년 MM월 DD일')} -{' '}
-                        {dayjs(booking?.checkOut)?.format('YYYY년 MM월 DD일')} ·{' '}
-                        {booking?.guestCount}명
+        <div className="mb-20 mt-10 flex flex-col gap-8 px-4">
+          {bookings?.pages?.[0]?.totalCount > 0 ? (
+            bookings?.pages?.map((page, index) => (
+              <React.Fragment key={index}>
+                {page.data.map((booking: BookingType) => (
+                  <div
+                    key={booking?.id}
+                    className="flex flex-col gap-6 border-b w-full pb-8 hover:bg-black/5 cursor-pointer p-6"
+                  >
+                    <div className="text-lg md:text-xl font-semibold">
+                      {bookingStatusMessage?.[booking.status]}
+                    </div>
+                    <div className="flex gap-4 items-center">
+                      <img
+                        src={booking?.room?.images?.[0] || '/images/logo.png'}
+                        width={80}
+                        height={80}
+                        className="rounded-md"
+                      />
+                      <div className="flex flex-col gap-1 w-full">
+                        <div className="flex gap-4 items-center flex-wrap justify-between">
+                          <h1 className="font-semibold">
+                            {booking?.room?.address}
+                          </h1>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              router.push(`/rooms/${booking?.roomId}`)
+                            }
+                            className="underline font-semibold text-left flex gap-1 items-center justify-start hover:text-gray-500"
+                          >
+                            숙소 보기 <BiChevronRight className="text-xl" />
+                          </button>
+                        </div>
+                        <div className="text-gray-500">
+                          {booking?.room?.title}
+                        </div>
+                        <div className="text-gray-500 text-xs">
+                          {dayjs(booking?.checkIn)?.format('YYYY년 MM월 DD일')}{' '}
+                          -{' '}
+                          {dayjs(booking?.checkOut)?.format('YYYY년 MM월 DD일')}{' '}
+                          · {booking?.guestCount}명
+                        </div>
                       </div>
                     </div>
+                    <div>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          router.push(`/users/bookings/${booking?.id}`)
+                        }
+                        className="text-white bg-rose-500 rounded-md hover:bg-rose-600 px-4 py-2.5"
+                      >
+                        예약내역 확인
+                      </button>
+                    </div>
                   </div>
-                  <div>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        router.push(`/users/bookings/${booking?.id}`)
-                      }
-                      className="text-white bg-rose-500 rounded-md hover:bg-rose-600 px-4 py-2.5"
-                    >
-                      예약내역 확인
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </React.Fragment>
-          ))}
+                ))}
+              </React.Fragment>
+            ))
+          ) : (
+            <div className="border md:col-span-2 p-4 rounded-md text-gray-600 my-10">
+              예약 내역이 없습니다.
+            </div>
+          )}
           {hasNextPage && (
             <button
               onClick={fetchNext}

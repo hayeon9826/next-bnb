@@ -76,41 +76,49 @@ export default function UserComments() {
       {isLoading ? (
         <ListLoader className="mt-12" />
       ) : (
-        <div className="mt-12 grid md:grid-cols-2 gap-12">
-          {comments?.pages?.map((page, index) => (
-            <React.Fragment key={index}>
-              {page.data.map((comment: CommentType) => (
-                <div key={comment?.id} className="flex flex-col gap-2">
-                  <div className="flex gap-2 items-center">
-                    <img
-                      src={comment?.user?.image || '/images/logo.png'}
-                      width={50}
-                      height={50}
-                      className="rounded-full"
-                    />
-                    <div>
-                      <h1 className="font-semibold">
-                        {comment?.user?.name || '-'}
-                      </h1>
-                      <div className="text-gray-500 text-xs">
-                        {dayjs(comment?.createdAt)?.format(
-                          'YYYY-MM-DD HH:MM:ss',
-                        )}
+        <div className="mt-12 grid md:grid-cols-2 gap-12 px-4">
+          {comments?.pages?.[0]?.totalCount > 0 ? (
+            comments?.pages?.map((page, index) => (
+              <React.Fragment key={index}>
+                {page.data.map((comment: CommentType) => (
+                  <div key={comment?.id} className="flex flex-col gap-2">
+                    <div className="flex gap-2 items-center">
+                      <img
+                        src={comment?.user?.image || '/images/logo.png'}
+                        width={50}
+                        height={50}
+                        className="rounded-full"
+                      />
+                      <div>
+                        <h1 className="font-semibold">
+                          {comment?.user?.name || '-'}
+                        </h1>
+                        <div className="text-gray-500 text-xs">
+                          {dayjs(comment?.createdAt)?.format(
+                            'YYYY-MM-DD HH:MM:ss',
+                          )}
+                        </div>
                       </div>
                     </div>
+                    <div className="text-gray-600 max-w-md">
+                      {comment?.body}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => router.push(`/rooms/${comment?.roomId}`)}
+                      className="underline font-semibold text-left flex gap-1 items-center justify-start hover:text-gray-500"
+                    >
+                      <BiChevronRight className="text-xl" />
+                    </button>
                   </div>
-                  <div className="text-gray-600 max-w-md">{comment?.body}</div>
-                  <button
-                    type="button"
-                    onClick={() => router.push(`/rooms/${comment?.roomId}`)}
-                    className="underline font-semibold text-left flex gap-1 items-center justify-start hover:text-gray-500"
-                  >
-                    숙소 보기 <BiChevronRight className="text-xl" />
-                  </button>
-                </div>
-              ))}
-            </React.Fragment>
-          ))}
+                ))}
+              </React.Fragment>
+            ))
+          ) : (
+            <div className="border md:col-span-2 p-4 rounded-md text-gray-600 my-10">
+              작성한 후기가 없습니다.
+            </div>
+          )}
         </div>
       )}
       {(isFetching || hasNextPage) && <Loader />}

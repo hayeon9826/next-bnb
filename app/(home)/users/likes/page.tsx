@@ -75,13 +75,19 @@ export default function UserLikes() {
         <GridLoader />
       ) : (
         <GridLayout>
-          {likes?.pages?.map((page, index) => (
-            <React.Fragment key={index}>
-              {page.data.map((like: Like) => (
-                <RoomItem room={like?.room} key={like?.room?.id} />
-              ))}
-            </React.Fragment>
-          ))}
+          {likes?.pages?.[0]?.totalCount > 0 ? (
+            likes?.pages?.map((page, index) => (
+              <React.Fragment key={index}>
+                {page.data.map((like: Like) => (
+                  <RoomItem room={like?.room} key={like?.room?.id} />
+                ))}
+              </React.Fragment>
+            ))
+          ) : (
+            <div className="border md:col-span-4 p-4 rounded-md text-gray-600 my-10">
+              작성한 후기가 없습니다.
+            </div>
+          )}
         </GridLayout>
       )}
       {(isFetching || hasNextPage || isFetchingNextPage) && <Loader />}

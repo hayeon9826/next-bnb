@@ -56,7 +56,7 @@ export async function GET(req: Request) {
       take: parseInt(limit),
       where: {
         roomId: roomId ? parseInt(roomId) : {},
-        userId: session ? session?.user.id : {},
+        userId: my ? session?.user?.id : {},
       },
       include: {
         user: true,

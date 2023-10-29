@@ -6,7 +6,6 @@ import { BookingType } from '@/interface'
 import toast from 'react-hot-toast'
 import Modal from '../Modal'
 import axios from 'axios'
-import { useRouter } from 'next/navigation'
 
 interface RefundProps {
   booking: BookingType
@@ -16,7 +15,6 @@ interface RefundProps {
 export default function RefundButton({ booking, canRefund }: RefundProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [isRefund, setIsRefund] = useState<boolean>(false)
-  const router = useRouter()
 
   const closeModal = () => {
     setIsOpen(false)

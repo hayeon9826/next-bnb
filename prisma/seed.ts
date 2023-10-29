@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import { fakerKO as faker } from '@faker-js/faker'
+// import { nanoid } from 'nanoid'
 
 const prisma = new PrismaClient()
 const CATEGORY = [
@@ -28,6 +29,7 @@ const CATEGORY = [
 ]
 
 async function seedUsers() {
+  await prisma.user.deleteMany()
   Array.from({ length: 10 }, (v, i) => i).forEach(async () => {
     const userData = {
       email: faker.internet.email(),
@@ -85,10 +87,12 @@ async function updateRoomsLatLng() {
 }
 
 async function seedRooms() {
-  const totalUsers = await prisma.user.count()
-  if (totalUsers > 1) {
+  const totalUsers = await prisma.user.findMany()
+  if (totalUsers?.length > 1) {
     Array.from({ length: 20 }, (v, i) => i).forEach(async () => {
-      const randomIndex = Math.floor(Math.random() * totalUsers + 1)
+      const randomIndex = Math.floor(Math.random() * totalUsers.length)
+      const randomUser = totalUsers[randomIndex]
+
       const roomData = {
         images: [
           faker.image.urlLoremFlickr({
@@ -135,7 +139,7 @@ async function seedRooms() {
         hasWifi: faker.datatype.boolean(),
         hasBarbeque: faker.datatype.boolean(),
         hasFreeParking: faker.datatype.boolean(),
-        userId: randomIndex,
+        userId: randomUser.id,
       }
 
       const res = await prisma.room.create({
@@ -177,9 +181,9 @@ function getRandomLongitude() {
 
 async function main() {
   // await seedUsers()
-  // await seedRooms()
+  await seedRooms()
   // await seedFaqs()
-  // await updateRoomsLatLng()
+  await updateRoomsLatLng()
 }
 
 main()
