@@ -67,7 +67,7 @@ export default async function BookingPage({
             <div className="flex flex-col gap-6 border-b pb-8">
               <h2 className="text-lg md:text-2xl font-semibold">결제 수단</h2>
               <div className="rounded-md border-black p-4 border-2 cursor-pointer hover:bg-black/5">
-                결제 폼 작업
+                카드결제
               </div>
             </div>
             <div className="flex flex-col gap-6 border-b pb-8">
@@ -100,7 +100,7 @@ export default async function BookingPage({
               </span>
               의 조치를 취할 수 있다는 사실에 동의하는 것입니다.
             </div>
-            <SubmitButton />
+            <SubmitButton roomTitle={data.title} />
           </div>
           <div className="rounded-md border border-gray-300 p-6 max-h-[480px]">
             <div className="flex border-b gap-4 pb-6">

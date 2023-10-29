@@ -133,3 +133,8 @@ export const bookingStatusMessage: { [key in BookingStatus]: string } = {
   [BookingStatus.FAILED]: '예약 실패',
   [BookingStatus.SUCCESS]: '예약된 여행',
 }
+
+export interface ModalProps {
+  isOpen: boolean
+  closeModal: () => void
+}

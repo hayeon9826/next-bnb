@@ -6,8 +6,11 @@ import { useRouter } from 'next/navigation'
 
 import axios from 'axios'
 import { toast } from 'react-hot-toast'
+import { useSession } from 'next-auth/react'
+import { useState } from 'react'
 
-export default function SubmitButton() {
+export default function SubmitButton({ roomTitle }: { roomTitle: string }) {
+  const { status } = useSession()
   const searchParams = useSearchParams()
   const params = useParams()
   const router = useRouter()
@@ -36,10 +39,17 @@ export default function SubmitButton() {
     }
   }
 
+  const goToPayment = () => {
+    router.push(
+      `/payments?roomTitle=${roomTitle}&checkIn=${checkIn}&checkOut=${checkOut}&guestCount=${guestCount}&totalAmount=${totalAmount}&totalDays=${totalDays}`,
+    )
+  }
+
   return (
     <div>
       <button
-        onClick={handleSubmit}
+        onClick={goToPayment}
+        disabled={status === 'unauthenticated'}
         className="bg-rose-600 hover:bg-rose-500 px-6 py-3 text-white rounded-md"
       >
         확인 및 결제
