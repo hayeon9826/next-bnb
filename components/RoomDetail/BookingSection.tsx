@@ -9,13 +9,15 @@ import 'dayjs/locale/ko'
 import { calculatedFilterState } from '@/atom/selector'
 import { useCallback } from 'react'
 import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 
 export default function BookingSection({ data }: { data: RoomType }) {
   const router = useRouter()
+  const { status } = useSession()
   const [filterValue, setFilterValue] = useRecoilState(filterState)
   const { dayCount, guestCount } = useRecoilValue(calculatedFilterState)
   const totalAmount = data?.price * dayCount * guestCount
-  const checkFormValid = totalAmount > 0
+  const checkFormValid = totalAmount > 0 && status === 'authenticated'
 
   const onChangeCheckIn = (e: any) => {
     setFilterValue({

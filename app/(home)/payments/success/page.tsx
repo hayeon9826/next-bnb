@@ -4,16 +4,36 @@ import dayjs from 'dayjs'
 import { redirect } from 'next/navigation'
 
 // https://docs.tosspayments.com/reference#payment-객체
-interface Payment {
-  payment?: {
-    orderName: string
-    approvedAt: string
-    receipt: {
-      url: string
-    }
-    totalAmount: number
-    method: '카드' | '가상계좌' | '계좌이체'
+
+interface APIPaymentProps {
+  paymentKey: string
+  orderId: string
+  amount: string
+}
+
+interface APIPaymentData {
+  mId: string
+  orderName: string
+  approvedAt: string
+  requestedAt: string
+  status: string
+  receipt?: {
+    url: string
   }
+  checkout: {
+    url: string
+  }
+  card?: {
+    number?: string
+    cardType?: string
+  }
+  type?: string
+  totalAmount: number
+  method: '카드' | '가상계좌' | '계좌이체'
+}
+
+interface Payment {
+  payment?: APIPaymentData
   redirect?: {
     destination?: string
   }
@@ -89,36 +109,9 @@ export default async function SuccessPage({ searchParams }: ParamsProps) {
   )
 }
 
-interface PaymentProps {
-  paymentKey: string
-  orderId: string
-  amount: string
-}
-
-interface PaymentData {
-  mId: string
-  orderName: string
-  approvedAt: string
-  requestedAt: string
-  status: string
-  receipt?: {
-    url: string
-  }
-  checkout: {
-    url: string
-  }
-  card?: {
-    number?: string
-    cardType?: string
-  }
-  type?: string
-  totalAmount: number
-  method: '카드' | '가상계좌' | '계좌이체'
-}
-
-async function getPayment({ paymentKey, orderId, amount }: PaymentProps) {
+async function getPayment({ paymentKey, orderId, amount }: APIPaymentProps) {
   try {
-    const { data: payment } = await axios.post<PaymentData>(
+    const { data: payment } = await axios.post<APIPaymentData>(
       'https://api.tosspayments.com/v1/payments/confirm',
       {
         paymentKey,
