@@ -5,10 +5,11 @@ import {
   loadPaymentWidget,
 } from '@tosspayments/payment-widget-sdk'
 import { nanoid } from 'nanoid'
+import { toast } from 'react-hot-toast'
 import { useAsync } from 'react-use'
 
 import { useEffect, useRef } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { Loader } from '@/components/Loader'
 import axios from 'axios'
@@ -18,6 +19,7 @@ import axios from 'axios'
 const clientKey = 'test_ck_ALnQvDd2VJxlmO25aWae8Mj7X41m'
 
 export default function PaymentPage() {
+  const router = useRouter()
   const searchParams = useSearchParams()
   const { data: session } = useSession()
   const price = searchParams.get('totalAmount') || '0'
@@ -39,6 +41,10 @@ export default function PaymentPage() {
     const paymentMethodsWidget = paymentWidget.renderPaymentMethods(
       '#payment-widget',
       { value: parseInt(price) },
+      // 렌더링하고 싶은 멀티 결제 UI의 variantKey
+      // 결제 수단 및 스타일이 다른 멀티 UI를 직접 만들고 싶다면 계약이 필요해요.
+      // https://docs.tosspayments.com/guides/payment-widget/admin#멀티-결제-ui
+      { variantKey: 'DEFAULT' },
     )
 
     // ------  이용약관 렌더링 ------
@@ -87,25 +93,38 @@ export default function PaymentPage() {
               // 코드샌드박스 환경에선 요청 결과 페이지(`successUrl`, `failUrl`)로 이동할 수가 없으니 유의하세요.
               const uniqueOrderId = nanoid()
 
-              // 먼저 payment 데이터 생성
-              const res = await axios.post('/api/payments', {
-                bookingId: bookingId,
-                amount: price,
-                status: 'IN_PROGRESS',
-                orderId: uniqueOrderId,
-                orderName: `${roomTitle?.slice(0, 10)}_${totalDays}박`,
-              })
-
-              if (res.status === 200) {
-                await paymentWidget?.requestPayment({
+              await paymentWidget
+                ?.requestPayment({
                   orderId: uniqueOrderId,
                   orderName: `${roomTitle?.slice(0, 10)}_${totalDays}박`,
                   customerName: session?.user?.name || '익명',
                   customerEmail: session?.user?.email || '',
-                  successUrl: `${window.location.origin}/payments/success`,
-                  failUrl: `${window.location.origin}/payments/fail`,
+                  // successUrl: `${window.location.origin}/payments/success`,
+                  // failUrl: `${window.location.origin}/payments/fail`,
                 })
-              }
+                .then(async function (data) {
+                  // 성공 처리: 결제 승인 API를 호출하세요
+                  // 결제창 입력 완료시 payment 데이터 생성
+                  const res = await axios.post('/api/payments', {
+                    bookingId: bookingId,
+                    amount: price,
+                    status: 'IN_PROGRESS',
+                    orderId: uniqueOrderId,
+                    orderName: `${roomTitle?.slice(0, 10)}_${totalDays}박`,
+                  })
+
+                  if (res?.status === 200 && data) {
+                    router.replace(
+                      `/payments/success?paymentKey=${data.paymentKey}&orderId=${data.orderId}&amount=${data.amount}`,
+                    )
+                  }
+                })
+                .catch(function (error) {
+                  // 에러 처리
+                  toast.error(
+                    error?.message || '문제가 생겼습니다. 다시 시도해주세요.',
+                  )
+                })
             } catch (error) {
               // 에러 처리하기
               console.error(error)

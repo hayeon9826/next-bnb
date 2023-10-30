@@ -67,7 +67,9 @@ export default async function BookingPage({
             <div className="flex flex-col gap-6 border-b pb-8">
               <h2 className="text-lg md:text-2xl font-semibold">결제 수단</h2>
               <div className="rounded-md border-black p-4 border-2 cursor-pointer hover:bg-black/5">
-                카드결제
+                신용/체크카드, 네이버페이, 카카오페이, 페이코, 토스페이,
+                가상계좌, 휴대폰, 퀵계좌이체, 삼성페이, 쓱페이, 엘페이,
+                문화상품권
               </div>
             </div>
             <div className="flex flex-col gap-6 border-b pb-8">
