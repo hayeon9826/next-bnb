@@ -234,9 +234,12 @@ Navbar.RightMenu = ({ setShowMenu, showMenu }: RightMenuProps) => {
 
   return (
     <div className="hidden md:flex gap-4 grow basis-0 justify-end relative  h-14 items-center">
-      <button className="hidden lg:block font-semibold text-sm px-4 py-3 rounded-full hover:bg-gray-50 max-h-10">
+      <Link
+        href={'/rooms/register/category'}
+        className="hidden lg:block font-semibold text-sm px-4 py-3 rounded-full hover:bg-gray-50 max-h-10"
+      >
         당신의 공간을 등록해주세요
-      </button>
+      </Link>
       <div
         className="flex gap-3 rounded-full border border-gray-20 shadow-sm px-4 py-3 hover:shadow-lg cursor-pointer max-h-10"
         onClick={() => setShowMenu((val) => !val)}

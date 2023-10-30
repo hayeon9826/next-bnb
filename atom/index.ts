@@ -1,7 +1,12 @@
+import { recoilPersist } from 'recoil-persist'
+
+const { persistAtom } = recoilPersist()
+
 import {
   DetailFilterType,
   FilterProps,
   LocationType,
+  RoomFormType,
   RoomType,
 } from '@/interface'
 import { atom } from 'recoil'
@@ -38,4 +43,31 @@ export const filterState = atom<FilterProps>({
 export const detailFilterState = atom<DetailFilterType | null>({
   key: 'detailFilter',
   default: null,
+})
+
+export const roomFormState = atom<RoomFormType | null>({
+  key: 'roomRegisterForm',
+  default: {
+    images: [],
+    title: '',
+    address: '',
+    lat: '',
+    lng: '',
+    category: '',
+    desc: '',
+    bedroomDesc: '',
+    price: 0,
+    freeCancel: false,
+    selfCheckIn: false,
+    officeSpace: false,
+    hasMountainView: false,
+    hasShampoo: false,
+    hasFreeLaundry: false,
+    hasAirConditioner: false,
+    hasWifi: false,
+    hasBarbeque: false,
+    hasFreeParking: false,
+    userId: 0,
+  },
+  effects_UNSTABLE: [persistAtom],
 })
