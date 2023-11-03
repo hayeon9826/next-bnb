@@ -10,7 +10,7 @@ export function RoomItem({ room }: { room: RoomType }) {
     <div key={room.id}>
       <Link href={`/rooms/${room.id}`}>
         <Image
-          src={room.images?.[0]}
+          src={room.images?.[0] || '/images/no-image.jpg'}
           alt="room image"
           width={500}
           height={500}

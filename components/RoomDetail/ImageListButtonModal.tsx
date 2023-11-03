@@ -67,19 +67,25 @@ export default function ImageListButtonModal({ data }: { data: RoomType }) {
                   </Dialog.Title>
 
                   <div className="flex flex-col gap-4 mt-10 mb-20 max-w-xl mx-auto">
-                    {data?.images?.map((img) => (
-                      <Image
-                        key={img}
-                        src={img}
-                        alt="room img"
-                        width={1000}
-                        height={1000}
-                        style={{ objectFit: 'cover' }}
-                        className="mx-auto"
-                        placeholder="blur"
-                        blurDataURL={BLUR_DATA_URL}
-                      />
-                    ))}
+                    {data?.images?.length > 0 ? (
+                      data?.images?.map((img) => (
+                        <Image
+                          key={img}
+                          src={img}
+                          alt="room img"
+                          width={1000}
+                          height={1000}
+                          style={{ objectFit: 'cover' }}
+                          className="mx-auto"
+                          placeholder="blur"
+                          blurDataURL={BLUR_DATA_URL}
+                        />
+                      ))
+                    ) : (
+                      <div className="text-center text-gray-500">
+                        등록된 숙소 이미지가 없습니다.
+                      </div>
+                    )}
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
