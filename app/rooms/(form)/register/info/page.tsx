@@ -7,12 +7,13 @@ import { useForm } from 'react-hook-form'
 
 import { useRouter } from 'next/navigation'
 import { useRecoilState } from 'recoil'
+import { useEffect } from 'react'
 
 interface RoomInfoProps {
-  title: string
-  desc: string
-  price: number
-  bedroomDesc: string
+  title?: string
+  desc?: string
+  price?: number
+  bedroomDesc?: string
 }
 
 export default function RoomRegisterInfo() {
@@ -21,6 +22,7 @@ export default function RoomRegisterInfo() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<RoomInfoProps>()
 
@@ -35,6 +37,15 @@ export default function RoomRegisterInfo() {
     router.push('/rooms/register/address')
   }
 
+  useEffect(() => {
+    if (roomForm) {
+      setValue('bedroomDesc', roomForm?.bedroomDesc)
+      setValue('title', roomForm?.title)
+      setValue('price', roomForm?.price)
+      setValue('desc', roomForm?.desc)
+    }
+  }, [roomForm])
+
   return (
     <>
       <Stepper className="mt-10" count={2} />
@@ -42,9 +53,14 @@ export default function RoomRegisterInfo() {
         onSubmit={handleSubmit(onSubmit)}
         className="mt-10 flex flex-col gap-6 px-4"
       >
-        <h1 className="font-semibold text-lg md:text-2xl text-center">
-          숙소의 기본 정보를 입력해주세요
-        </h1>
+        <section className="text-center">
+          <h1 className="font-semibold text-lg md:text-2xl text-center">
+            숙소의 기본 정보를 입력해주세요
+          </h1>
+          <p className="text-sm md:text-base text-gray-500 mt-2">
+            기본 정보는 숙소 등록 후에도 수정하실 수 있습니다.
+          </p>
+        </section>
         <div className="flex flex-col gap-2">
           <label htmlFor="title" className="text-lg font-semibold">
             숙소 이름

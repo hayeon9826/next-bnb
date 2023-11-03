@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import NextButton from '@/components/Form/NextButton'
 import Stepper from '@/components/Form/Stepper'
@@ -10,13 +10,10 @@ import { CATEGORY } from '@/constants'
 import { useRecoilState } from 'recoil'
 import { roomFormState } from '@/atom'
 
-const isClient = typeof window !== undefined
-
 export default function RoomRegisterCategory() {
   const [roomForm, setRoomForm] = useRecoilState(roomFormState)
-  const [selectedCategory, setSelectedCategory] = useState<string>(
-    roomForm?.category || '',
-  )
+  const [selectedCategory, setSelectedCategory] = useState<string>('')
+
   const router = useRouter()
 
   const handleSubmit = () => {
@@ -26,6 +23,10 @@ export default function RoomRegisterCategory() {
     })
     router.push('/rooms/register/info')
   }
+
+  useEffect(() => {
+    setSelectedCategory(roomForm?.category || '')
+  }, [])
 
   return (
     <>
@@ -41,7 +42,7 @@ export default function RoomRegisterCategory() {
               key={category.title}
               onClick={() => setSelectedCategory(category.title)}
               className={cn(
-                'border rounded-md hover:bg-black/5 px-6 py-4 flex flex-col gap-2',
+                'border-2 rounded-md hover:bg-black/5 px-6 py-4 flex flex-col gap-2',
                 {
                   'border-2 border-black': selectedCategory === category.title,
                 },
