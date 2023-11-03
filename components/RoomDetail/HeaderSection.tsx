@@ -47,7 +47,7 @@ export default function HeaderSection({ data }: { data: RoomType }) {
         ) : (
           <div className="h-[400px] overflow-hidden relative rounded-lg">
             <Image
-              src={data?.images?.[0]}
+              src={data?.images?.[0] || '/images/no-image-long.jpg'}
               alt="room img"
               fill
               style={{ objectFit: 'cover', objectPosition: 'middle' }}

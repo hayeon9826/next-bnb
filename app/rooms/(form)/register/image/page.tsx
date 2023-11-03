@@ -3,16 +3,22 @@
 import { roomFormState } from '@/atom'
 import NextButton from '@/components/Form/NextButton'
 import Stepper from '@/components/Form/Stepper'
+import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import { AiFillCamera } from 'react-icons/ai'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useResetRecoilState } from 'recoil'
 
 interface RoomImageProps {
   images?: string[]
 }
 
 export default function RoomRegisterImage() {
+  const router = useRouter()
+  const [roomForm, setRoomForm] = useRecoilState(roomFormState)
+  const resetRoomForm = useResetRecoilState(roomFormState)
+
   const {
     register,
     handleSubmit,
@@ -20,14 +26,28 @@ export default function RoomRegisterImage() {
     formState: { errors },
   } = useForm<RoomImageProps>()
 
-  const onSubmit = (data: RoomImageProps) => {
-    console.log(data)
+  const onSubmit = async (data: RoomImageProps) => {
+    try {
+      const result = await axios.post('/api/rooms', {
+        ...roomForm,
+        ...data,
+      })
+
+      if (result.status === 200) {
+        toast.success('숙소를 등록했습니다.')
+        resetRoomForm()
+        router.push('/')
+      } else {
+        toast.error('데이터 저장중 문제가 발생했습니다. 다시 시도해주세요')
+      }
+    } catch (e) {
+      console.log(e)
+      toast.error('다시 시도해주세요.')
+    }
     // 전체 roomForm API 생성 요청
     // 생성 후에 resetRoomForm으로 리코일 값 초기화
     // 생성 후에 나의 숙소 리스트로 돌아가도록 라우팅
   }
-  const router = useRouter()
-  const [roomForm, setRoomForm] = useRecoilState(roomFormState)
 
   return (
     <>

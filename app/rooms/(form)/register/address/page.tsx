@@ -1,6 +1,7 @@
 'use client'
 
 import { roomFormState } from '@/atom'
+import AddressSearch from '@/components/Form/AddressSearch'
 import NextButton from '@/components/Form/NextButton'
 import Stepper from '@/components/Form/Stepper'
 import { useRouter } from 'next/navigation'
@@ -41,7 +42,7 @@ export default function RoomRegisterAddress() {
       <Stepper className="mt-10" count={3} />
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="mt-10 flex flex-col gap-6 px-4"
+        className="mt-10 flex flex-col gap-6 px-4 max-w-lg md:max-w-xl mx-auto"
       >
         <section className="text-center">
           <h1 className="font-semibold text-lg md:text-2xl text-center">
@@ -51,19 +52,11 @@ export default function RoomRegisterAddress() {
             주소는 게스트의 예약이 확정된 이후에만 공개됩니다.
           </p>
         </section>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="title" className="text-lg font-semibold">
-            숙소 위치
-          </label>
-          <input
-            id="title"
-            className="outline-none px-4 py-2 rounded-lg border-2 focus:border-black"
-            {...register('address', { required: true, maxLength: 30 })}
-          />
-          {errors.address && errors.address.type === 'required' && (
-            <span className="text-red-600 text-sm">필수 항목입니다.</span>
-          )}
-        </div>
+        <AddressSearch
+          register={register}
+          errors={errors}
+          setValue={setValue}
+        />
         <NextButton type="submit" />
       </form>
     </>
