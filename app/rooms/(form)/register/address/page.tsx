@@ -17,6 +17,7 @@ export default function RoomRegisterAddress() {
   const router = useRouter()
   const [roomForm, setRoomForm] = useRecoilState(roomFormState)
   const {
+    watch,
     register,
     handleSubmit,
     setValue,
