@@ -40,13 +40,16 @@ export default function Mypage() {
             <h2 className="text-sm text-gray-500">개인정보 및 연락처 정보</h2>
           </div>
         </Link>
-        <div className="shadow-lg rounded-lg flex flex-col justify-between p-4 gap-12 cursor-pointer hover:shadow-xl">
+        <Link
+          href="/rooms/register/category"
+          className="shadow-lg rounded-lg flex flex-col justify-between p-4 gap-12 cursor-pointer hover:shadow-xl"
+        >
           <BsHouseAdd className="text-xl md:text-3xl" />
           <div>
             <h1 className="font-semibold">숙소 등록</h1>
             <h2 className="text-sm text-gray-500">나의 숙소 등록하기</h2>
           </div>
-        </div>
+        </Link>
         <div className="shadow-lg rounded-lg flex flex-col justify-between p-4 gap-12 cursor-pointer hover:shadow-xl">
           <BsHouseCheck className="text-xl md:text-3xl" />
           <div>
