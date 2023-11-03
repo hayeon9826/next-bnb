@@ -65,7 +65,6 @@ export default function RoomRegisterFeature() {
     title: keyof RoomFeatureProps,
   ) => {
     setValue(title, event?.target?.checked)
-    console.log(title, event?.target?.checked)
   }
 
   useEffect(() => {

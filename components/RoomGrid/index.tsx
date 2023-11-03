@@ -9,15 +9,17 @@ export function RoomItem({ room }: { room: RoomType }) {
   return (
     <div key={room.id}>
       <Link href={`/rooms/${room.id}`}>
-        <Image
-          src={room.images?.[0] || '/images/no-image.jpg'}
-          alt="room image"
-          width={500}
-          height={500}
-          className="rounded-md w-full h-auto object-fit hover:shadow-lg"
-          placeholder="blur"
-          blurDataURL={BLUR_DATA_URL}
-        />
+        <div className="h-[320px] md:h-[240px] overflow-hidden relative z-0">
+          <Image
+            src={room.images?.[0] || '/images/no-image.jpg'}
+            alt="room image"
+            style={{ objectFit: 'cover' }}
+            fill
+            className="rounded-md w-full h-auto object-fit hover:shadow-lg relative z-0"
+            placeholder="blur"
+            blurDataURL={BLUR_DATA_URL}
+          />
+        </div>
         <div className="mt-2 font-semibold text-sm">{room.title}</div>
         <div className="mt-1 text-gray-400 text-sm">{room.address}</div>
         <div className="mt-1 text-sm">

@@ -3,50 +3,105 @@
 import { roomFormState } from '@/atom'
 import NextButton from '@/components/Form/NextButton'
 import Stepper from '@/components/Form/Stepper'
-import axios from 'axios'
+
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { AiFillCamera } from 'react-icons/ai'
+import { storage } from '@/utils/firebaseApp'
+import { ref, uploadString, getDownloadURL } from 'firebase/storage'
 import { useRecoilState, useResetRecoilState } from 'recoil'
+import { useSession } from 'next-auth/react'
+import { nanoid } from 'nanoid'
+import axios from 'axios'
 
 interface RoomImageProps {
   images?: string[]
 }
 
 export default function RoomRegisterImage() {
+  const { data: session } = useSession()
   const router = useRouter()
   const [roomForm, setRoomForm] = useRecoilState(roomFormState)
+  const [images, setImages] = useState<string[] | null>(null)
+  const [imageUrls, setImageUrls] = useState<string[] | null>([])
+
   const resetRoomForm = useResetRecoilState(roomFormState)
+
+  const handleFileUpload = (e: any) => {
+    const {
+      target: { files },
+    } = e
+
+    if (!files) return
+    setImageUrls(null)
+    ;[...files]?.forEach((file: any) => {
+      const fileReader = new FileReader()
+      fileReader?.readAsDataURL(file)
+
+      fileReader.onloadend = (e: any) => {
+        const { result } = e?.currentTarget
+        setImages((val) => (val ? [...val, result] : [result]))
+      }
+    })
+  }
 
   const {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<RoomImageProps>()
 
+  // @description firebase storage 업로드 참고: https://firebase.google.com/docs/storage/web/upload-files?hl=ko#upload_from_a_string
+  async function uploadImages(images: string[] | null) {
+    const uploadedImageUrls = []
+
+    if (!images) return
+
+    for (const imageFile of images) {
+      const imageRef = ref(storage, `${session?.user?.id}/${nanoid()}`)
+
+      try {
+        const data = await uploadString(imageRef, imageFile, 'data_url')
+        const imageUrl = await getDownloadURL(data.ref)
+        uploadedImageUrls.push(imageUrl)
+      } catch (error) {
+        console.error('Error uploading image:', error)
+      }
+    }
+
+    console.log('All images uploaded')
+    return uploadedImageUrls
+  }
+
   const onSubmit = async (data: RoomImageProps) => {
     try {
-      const result = await axios.post('/api/rooms', {
-        ...roomForm,
-        ...data,
-      })
+      uploadImages(images)
+        .then(async (imageUrls) => {
+          const result = await axios.post('/api/rooms', {
+            ...roomForm,
+            images: imageUrls,
+          })
 
-      if (result.status === 200) {
-        toast.success('숙소를 등록했습니다.')
-        resetRoomForm()
-        router.push('/')
-      } else {
-        toast.error('데이터 저장중 문제가 발생했습니다. 다시 시도해주세요')
-      }
+          if (result.status === 200) {
+            toast.success('숙소를 등록했습니다.')
+            resetRoomForm()
+            router.push('/')
+          } else {
+            toast.error('데이터 저장중 문제가 발생했습니다. 다시 시도해주세요')
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+          toast.error('데이터 저장중 문제가 발생했습니다. 다시 시도해주세요')
+        })
     } catch (e) {
       console.log(e)
       toast.error('다시 시도해주세요.')
     }
-    // 전체 roomForm API 생성 요청
-    // 생성 후에 resetRoomForm으로 리코일 값 초기화
-    // 생성 후에 나의 숙소 리스트로 돌아가도록 라우팅
   }
 
   return (
@@ -83,9 +138,12 @@ export default function RoomRegisterImage() {
                     <p className="pl-1">업로드 해주세요</p>
                     <input
                       id="file-upload"
-                      name="file-upload"
                       type="file"
+                      accept="image/*"
+                      multiple
                       className="sr-only"
+                      {...register('images', { required: true })}
+                      onChange={handleFileUpload}
                     />
                   </label>
                 </div>
@@ -95,6 +153,22 @@ export default function RoomRegisterImage() {
               </div>
             </div>
           </div>
+          <div className="max-w-lg mx-auto mt-10">
+            <div className="flex flex-wrap gap-4">
+              {images &&
+                images?.length > 0 &&
+                images?.map((image, index) => (
+                  <img
+                    key={index}
+                    src={image}
+                    width={100}
+                    height={100}
+                    className="rounded-md"
+                  />
+                ))}
+            </div>
+          </div>
+
           {errors.images && errors.images.type === 'required' && (
             <span className="text-red-600 text-sm">필수 항목입니다.</span>
           )}
