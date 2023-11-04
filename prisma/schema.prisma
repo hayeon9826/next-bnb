@@ -119,6 +119,8 @@ model Room {
   likes         Like[]
   comments      Comment[]
   bookings      Booking[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now())
   @@index([userId])
 }
 

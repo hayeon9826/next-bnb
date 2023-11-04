@@ -16,7 +16,7 @@ export default function Mypage() {
     return data as UserType
   }
 
-  const { data: user, isSuccess } = useQuery('user', fetchUser, {
+  const { data: user } = useQuery('user', fetchUser, {
     enabled: status === 'authenticated',
     refetchOnMount: false,
   })
@@ -50,13 +50,16 @@ export default function Mypage() {
             <h2 className="text-sm text-gray-500">나의 숙소 등록하기</h2>
           </div>
         </Link>
-        <div className="shadow-lg rounded-lg flex flex-col justify-between p-4 gap-12 cursor-pointer hover:shadow-xl">
+        <Link
+          href="/users/rooms"
+          className="shadow-lg rounded-lg flex flex-col justify-between p-4 gap-12 cursor-pointer hover:shadow-xl"
+        >
           <BsHouseCheck className="text-xl md:text-3xl" />
           <div>
             <h1 className="font-semibold">숙소 관리</h1>
             <h2 className="text-sm text-gray-500">나의 숙소 관리하기</h2>
           </div>
-        </div>
+        </Link>
         <Link
           href="/users/likes"
           className="shadow-lg rounded-lg flex flex-col justify-between p-4 gap-12 cursor-pointer hover:shadow-xl"
