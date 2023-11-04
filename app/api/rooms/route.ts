@@ -8,12 +8,14 @@ import axios from 'axios'
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url)
   const page = searchParams.get('page') as string
-  const limit = searchParams.get('limit') as string
+  const limit = (searchParams.get('limit') as string) || '10'
   const id = searchParams.get('id') as string
+  const my = searchParams.get('my') as string
 
   const session = await getServerSession(authOptions)
 
   if (id) {
+    // 상세 숙소 가져오기 (단일)
     const room = await prisma.room.findFirst({
       where: {
         id: id ? parseInt(id) : {},
@@ -30,7 +32,46 @@ export async function GET(req: Request) {
     return NextResponse.json(room, {
       status: 200,
     })
+  } else if (my) {
+    // 내가 생성한 숙소 가져오기 (무한 스크롤)
+    if (!session?.user) {
+      return NextResponse.json(
+        { error: 'unauthorized user' },
+        {
+          status: 401,
+        },
+      )
+    }
+
+    const count = await prisma.room.count({
+      where: {
+        userId: session?.user?.id,
+      },
+    })
+
+    const skipPage = parseInt(page) - 1
+    const rooms = await prisma.room.findMany({
+      orderBy: { id: 'desc' },
+      where: {
+        userId: session?.user?.id,
+      },
+      take: parseInt(limit),
+      skip: skipPage * parseInt(limit),
+    })
+
+    return NextResponse.json(
+      {
+        page: parseInt(page),
+        data: rooms,
+        totalCount: count,
+        totalPage: Math.ceil(count / parseInt(limit)),
+      },
+      {
+        status: 200,
+      },
+    )
   } else if (page) {
+    // 일반 숙소 리스트 가져오기 (무한 스크롤)
     const count = await prisma.room.count()
     const skipPage = parseInt(page) - 1
     const rooms = await prisma.room.findMany({
