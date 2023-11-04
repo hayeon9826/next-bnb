@@ -23,7 +23,7 @@ export default function RoomRegisterInfo() {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<RoomInfoProps>()
 
   const onSubmit = (data: RoomInfoProps) => {
@@ -73,6 +73,11 @@ export default function RoomRegisterInfo() {
           {errors.title && errors.title.type === 'required' && (
             <span className="text-red-600 text-sm">필수 항목입니다.</span>
           )}
+          {errors.title && errors.title.type === 'maxLength' && (
+            <span className="text-red-600 text-sm">
+              설명은 30자 이내로 작성해주세요.
+            </span>
+          )}
         </div>
         <div className="flex flex-col gap-2">
           <label htmlFor="title" className="text-lg font-semibold">
@@ -110,13 +115,18 @@ export default function RoomRegisterInfo() {
             id="bedroomDesc"
             rows={3}
             className="outline-none px-4 py-2 rounded-lg border-2 focus:border-black resize-none"
-            {...register('bedroomDesc', { required: true })}
+            {...register('bedroomDesc', { required: true, maxLength: 30 })}
           />
           {errors.bedroomDesc && errors.bedroomDesc.type === 'required' && (
             <span className="text-red-600 text-sm">필수 항목입니다.</span>
           )}
+          {errors.bedroomDesc && errors.bedroomDesc.type === 'maxLength' && (
+            <span className="text-red-600 text-sm">
+              설명은 30자 이내로 작성해주세요.
+            </span>
+          )}
         </div>
-        <NextButton type="submit" />
+        <NextButton type="submit" disabled={isSubmitting} />
       </form>
     </>
   )

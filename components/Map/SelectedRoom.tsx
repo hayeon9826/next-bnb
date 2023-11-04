@@ -28,6 +28,7 @@ export default function SelectedRoom() {
                 fill
                 className="rounded-t-lg"
                 placeholder="blur"
+                sizes="(min-width: 640px) 200px, 200px"
                 blurDataURL={BLUR_DATA_URL}
               />
             </div>

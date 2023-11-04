@@ -80,9 +80,9 @@ export default function FeatureSection({ data }: { data: RoomType }) {
         </div>
         <div className="border-b border-gray-300 py-8 px-4 text-gray-800">
           <h1 className="font-semibold text-xl mb-2">숙박 장소</h1>
-          <div className="mt-4 rounded-lg p-5 border border-gray-300 max-w-[200px]">
+          <div className="mt-4 rounded-lg p-5 border border-gray-300">
             <IoBedOutline className="text-2xl" />
-            <h1 className="font-semibold mt-2">침실 1</h1>
+            <h1 className="font-semibold mt-2">침실</h1>
             <p className="text-gray-500 text-sm mt-2">
               {data?.bedroomDesc ?? '설명이 없습니다.'}
             </p>
