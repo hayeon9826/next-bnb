@@ -15,6 +15,7 @@ export function RoomItem({ room }: { room: RoomType }) {
             alt="room image"
             style={{ objectFit: 'cover' }}
             fill
+            sizes="(min-width: 640px) 240px, 320px"
             className="rounded-md w-full h-auto object-fit hover:shadow-lg relative z-0"
             placeholder="blur"
             blurDataURL={BLUR_DATA_URL}

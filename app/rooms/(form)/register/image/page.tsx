@@ -50,9 +50,8 @@ export default function RoomRegisterImage() {
   const {
     register,
     handleSubmit,
-    setValue,
-    watch,
-    formState: { errors },
+
+    formState: { errors, isSubmitting },
   } = useForm<RoomImageProps>()
 
   // @description firebase storage 업로드 참고: https://firebase.google.com/docs/storage/web/upload-files?hl=ko#upload_from_a_string
@@ -73,7 +72,6 @@ export default function RoomRegisterImage() {
       }
     }
 
-    console.log('All images uploaded')
     return uploadedImageUrls
   }
 
@@ -173,7 +171,7 @@ export default function RoomRegisterImage() {
             <span className="text-red-600 text-sm">필수 항목입니다.</span>
           )}
         </div>
-        <NextButton type="submit" text="완료" />
+        <NextButton type="submit" text="완료" disabled={isSubmitting} />
       </form>
     </>
   )

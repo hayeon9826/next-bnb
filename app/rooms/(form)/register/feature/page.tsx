@@ -40,7 +40,7 @@ export default function RoomRegisterFeature() {
     handleSubmit,
     setValue,
     watch,
-    formState: { errors },
+    formState: { isSubmitting },
   } = useForm<RoomFeatureProps>()
 
   const onSubmit = (data: RoomFeatureProps) => {
@@ -223,7 +223,7 @@ export default function RoomRegisterFeature() {
             무료 주차
           </RoomRegisterFeature.CheckBoxLayout>
         </section>
-        <NextButton type="submit" />
+        <NextButton type="submit" disabled={isSubmitting} />
       </form>
     </>
   )

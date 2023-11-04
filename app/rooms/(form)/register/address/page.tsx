@@ -17,11 +17,10 @@ export default function RoomRegisterAddress() {
   const router = useRouter()
   const [roomForm, setRoomForm] = useRecoilState(roomFormState)
   const {
-    watch,
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<RoomAddressProps>()
 
   const onSubmit = (data: RoomAddressProps) => {
@@ -58,7 +57,7 @@ export default function RoomRegisterAddress() {
           errors={errors}
           setValue={setValue}
         />
-        <NextButton type="submit" />
+        <NextButton type="submit" disabled={isSubmitting} />
       </form>
     </>
   )

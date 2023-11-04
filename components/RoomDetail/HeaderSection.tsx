@@ -1,20 +1,13 @@
-'use client'
-
-import { useState } from 'react'
-
 import { RoomType } from '@/interface'
-import cn from 'classnames'
 
 import Image from 'next/image'
-import { CiHeart } from 'react-icons/ci'
-import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { BLUR_DATA_URL } from '@/constants'
 import ShareButtonModal from './ShareButtonModal'
 import ImageListButtonModal from './ImageListButtonModal'
 import LikeButton from './LikeButton'
 
 export default function HeaderSection({ data }: { data: RoomType }) {
-  const SHOW_DOUBLE_IMG_BANNER = data?.images?.length > 2
+  const SHOW_DOUBLE_IMG_BANNER = data?.images?.length >= 2
 
   return (
     <>
@@ -38,6 +31,7 @@ export default function HeaderSection({ data }: { data: RoomType }) {
                   alt="room img"
                   style={{ objectFit: 'cover' }}
                   fill
+                  sizes="(min-width: 640px) 400px, 320px"
                   placeholder="blur"
                   blurDataURL={BLUR_DATA_URL}
                 />
@@ -50,6 +44,7 @@ export default function HeaderSection({ data }: { data: RoomType }) {
               src={data?.images?.[0] || '/images/no-image-long.jpg'}
               alt="room img"
               fill
+              sizes="(min-width: 640px) 400px, 320px"
               style={{ objectFit: 'cover', objectPosition: 'middle' }}
               className="rounded-lg absolute bottom-0 top-0 my-auto"
               placeholder="blur"
