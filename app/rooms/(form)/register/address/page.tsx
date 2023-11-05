@@ -4,6 +4,7 @@ import { roomFormState } from '@/atom'
 import AddressSearch from '@/components/Form/AddressSearch'
 import NextButton from '@/components/Form/NextButton'
 import Stepper from '@/components/Form/Stepper'
+import { Domains } from '@/constants'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
@@ -28,7 +29,7 @@ export default function RoomRegisterAddress() {
       ...roomForm,
       address: data?.address,
     })
-    router.push('/rooms/register/feature')
+    router.push(Domains.REGISTER_ROOM_FEATURE)
   }
 
   useEffect(() => {
@@ -52,11 +53,13 @@ export default function RoomRegisterAddress() {
             주소는 게스트의 예약이 확정된 이후에만 공개됩니다.
           </p>
         </section>
-        <AddressSearch
-          register={register}
-          errors={errors}
-          setValue={setValue}
-        />
+        <div className="mt-10">
+          <AddressSearch
+            register={register}
+            errors={errors}
+            setValue={setValue}
+          />
+        </div>
         <NextButton type="submit" disabled={isSubmitting} />
       </form>
     </>

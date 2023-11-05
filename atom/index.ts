@@ -49,6 +49,7 @@ export const roomFormState = atom<RoomFormType | null>({
   key: 'roomRegisterForm',
   default: {
     images: [],
+    imageKeys: [],
     title: '',
     address: '',
     lat: '',
@@ -67,7 +68,6 @@ export const roomFormState = atom<RoomFormType | null>({
     hasWifi: false,
     hasBarbeque: false,
     hasFreeParking: false,
-    userId: 0,
   },
   effects_UNSTABLE: [persistAtom],
 })

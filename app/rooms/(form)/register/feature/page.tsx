@@ -18,6 +18,7 @@ import { PiBathtub, PiMountainsDuotone } from 'react-icons/pi'
 import { MdOutlineLocalLaundryService } from 'react-icons/md'
 import { GiBarbecue } from 'react-icons/gi'
 import { LuParkingCircle } from 'react-icons/lu'
+import { Domains } from '@/constants'
 
 interface RoomFeatureProps {
   freeCancel?: boolean
@@ -57,7 +58,7 @@ export default function RoomRegisterFeature() {
       hasBarbeque: data.hasBarbeque,
       hasFreeParking: data.hasFreeParking,
     })
-    router.push('/rooms/register/image')
+    router.push(Domains.REGISTER_ROOM_IMAGE)
   }
 
   const onClick = (

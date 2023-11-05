@@ -6,7 +6,7 @@ import NextButton from '@/components/Form/NextButton'
 import Stepper from '@/components/Form/Stepper'
 import { useRouter } from 'next/navigation'
 import cn from 'classnames'
-import { CATEGORY } from '@/constants'
+import { CATEGORY, Domains } from '@/constants'
 import { useRecoilState } from 'recoil'
 import { roomFormState } from '@/atom'
 
@@ -21,7 +21,7 @@ export default function RoomRegisterCategory() {
       ...roomForm,
       category: selectedCategory,
     })
-    router.push('/rooms/register/info')
+    router.push(Domains.REGISTER_ROOM_INFO)
   }
 
   useEffect(() => {

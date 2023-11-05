@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import { useRecoilState } from 'recoil'
 import { useEffect } from 'react'
+import { Domains } from '@/constants'
 
 interface RoomInfoProps {
   title?: string
@@ -34,7 +35,7 @@ export default function RoomRegisterInfo() {
       bedroomDesc: data.bedroomDesc,
       price: data.price,
     })
-    router.push('/rooms/register/address')
+    router.push(Domains.REGISTER_ROOM_ADDRESS)
   }
 
   useEffect(() => {
@@ -99,6 +100,7 @@ export default function RoomRegisterInfo() {
           </label>
           <input
             id="price"
+            min={0}
             className="outline-none px-4 py-2 rounded-lg border-2 focus:border-black"
             type="number"
             {...register('price', { required: true })}

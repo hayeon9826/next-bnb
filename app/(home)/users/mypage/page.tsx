@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { AiOutlineUser, AiOutlineHeart, AiOutlineComment } from 'react-icons/ai'
 import { BsHouseAdd, BsHouseCheck, BsBookmarkCheck } from 'react-icons/bs'
 import { useQuery } from 'react-query'
+import { Domains } from '@/constants'
 
 export default function Mypage() {
   const { status } = useSession()
@@ -41,7 +42,7 @@ export default function Mypage() {
           </div>
         </Link>
         <Link
-          href="/rooms/register/category"
+          href={Domains.REGISTER_ROOM}
           className="shadow-lg rounded-lg flex flex-col justify-between p-4 gap-12 cursor-pointer hover:shadow-xl"
         >
           <BsHouseAdd className="text-xl md:text-3xl" />
