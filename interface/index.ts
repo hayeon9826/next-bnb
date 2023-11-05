@@ -7,6 +7,10 @@ export interface FilterProps {
   category?: string
 }
 
+export interface SearchProps {
+  q: string | null
+}
+
 export interface Like {
   id: number
   roomId: number

@@ -8,6 +8,7 @@ import {
   LocationType,
   RoomFormType,
   RoomType,
+  SearchProps,
 } from '@/interface'
 import { atom } from 'recoil'
 
@@ -37,6 +38,13 @@ export const filterState = atom<FilterProps>({
     checkOut: '',
     guest: 0,
     category: '',
+  },
+})
+
+export const searchState = atom<SearchProps>({
+  key: 'search',
+  default: {
+    q: null,
   },
 })
 
