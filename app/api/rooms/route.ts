@@ -11,6 +11,9 @@ export async function GET(req: Request) {
   const limit = (searchParams.get('limit') as string) || '10'
   const id = searchParams.get('id') as string
   const my = searchParams.get('my') as string
+  const q = searchParams.get('q') as string
+  const location = searchParams.get('location') as string
+  const category = searchParams.get('category') as string
 
   const session = await getServerSession(authOptions)
 
@@ -54,6 +57,7 @@ export async function GET(req: Request) {
       orderBy: { id: 'desc' },
       where: {
         userId: session?.user?.id,
+        title: q ? { contains: q } : {},
       },
       take: parseInt(limit),
       skip: skipPage * parseInt(limit),
@@ -75,6 +79,10 @@ export async function GET(req: Request) {
     const count = await prisma.room.count()
     const skipPage = parseInt(page) - 1
     const rooms = await prisma.room.findMany({
+      where: {
+        address: location ? { contains: location } : {},
+        category: category ? category : {},
+      },
       orderBy: { id: 'desc' },
       take: parseInt(limit),
       skip: skipPage * parseInt(limit),
