@@ -8,15 +8,24 @@ import { useRouter } from 'next/navigation'
 import React, { useCallback, useEffect, useRef } from 'react'
 import { useInfiniteQuery } from 'react-query'
 
+import { storage } from '@/utils/firebaseApp'
+import {
+  ref,
+  uploadString,
+  getDownloadURL,
+  deleteObject,
+} from 'firebase/storage'
+
 import dayjs from 'dayjs'
 import useIntersectionObserver from '@/hooks/useIntersectionObserver'
 import { Loader } from '@/components/Loader'
 import { Domains } from '@/constants'
+import toast from 'react-hot-toast'
 
 export default function UserRooms() {
   const router = useRouter()
-  const ref = useRef<HTMLDivElement | null>(null)
-  const pageRef = useIntersectionObserver(ref, {})
+  const observerRef = useRef<HTMLDivElement | null>(null)
+  const pageRef = useIntersectionObserver(observerRef, {})
   const isPageEnd = !!pageRef?.isIntersecting
   const { data: session } = useSession()
 
@@ -38,11 +47,48 @@ export default function UserRooms() {
     isFetchingNextPage,
     hasNextPage,
     isError,
-    isLoading,
+    refetch,
   } = useInfiniteQuery(`rooms-user-${session?.user?.id}`, fetchMyRooms, {
     getNextPageParam: (lastPage: any) =>
       lastPage.data?.length > 0 ? lastPage.page + 1 : undefined,
   })
+
+  async function deleteImages(imageKeys: string[] | null) {
+    if (imageKeys)
+      imageKeys?.forEach((key) => {
+        const imageRef = ref(storage, `${session?.user?.id}/${key}`)
+        deleteObject(imageRef)
+          .then(() => {
+            console.log('File deleted successfully: ', key)
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      })
+
+    return imageKeys
+  }
+
+  const handleDelete = async (data: RoomType) => {
+    const confirm = window.confirm('해당 숙소를 삭제하시겠습니까?')
+
+    if (confirm && data) {
+      try {
+        await deleteImages(data?.imageKeys || null)
+        const result = await axios.delete(`/api/rooms?id=${data.id}`)
+
+        if (result.status === 200) {
+          toast.success('숙소를 삭제했습니다.')
+          refetch()
+        } else {
+          toast.error('다시 시도해주세요.')
+        }
+      } catch (e) {
+        console.log(e)
+        toast.error('다시 시도해주세요.')
+      }
+    }
+  }
 
   const fetchNext = useCallback(async () => {
     const res = await fetchNextPage()
@@ -112,12 +158,14 @@ export default function UserRooms() {
                       </Link>
                     </td>
                     <td className="px-6 py-4 min-w-[100px]">
-                      <Link
-                        href="#"
+                      <button
+                        onClick={() => {
+                          handleDelete(room)
+                        }}
                         className="font-medium text-rose-600  hover:underline"
                       >
                         삭제
-                      </Link>
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -139,7 +187,7 @@ export default function UserRooms() {
         </tbody>
       </table>
       {(isFetching || hasNextPage || isFetchingNextPage) && <Loader />}
-      <div className="w-full touch-none h-10 mb-10" ref={ref} />
+      <div className="w-full touch-none h-10 mb-10" ref={observerRef} />
     </div>
   )
 }
