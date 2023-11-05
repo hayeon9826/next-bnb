@@ -72,3 +72,95 @@ export const FeatureDesc: Record<FeatureType, string> = {
   [FEATURE_TYPE.HAS_OFFICE_SPACE]: '사무 시설이 있습니다.',
   [FEATURE_TYPE.NO_OFFICE_SPACE]: '사무 시설이 없습니다.',
 }
+
+enum DOMAIN_TYPE {
+  REGISTER_ROOM = 'REGISTER_ROOM',
+  REGISTER_ROOM_INFO = 'REGISTER_ROOM_INFO',
+  REGISTER_ROOM_ADDRESS = 'REGISTER_ROOM_ADDRESS',
+  REGISTER_ROOM_FEATURE = 'REGISTER_ROOM_FEATURE',
+  REGISTER_ROOM_IMAGE = 'REGISTER_ROOM_IMAGE',
+}
+
+type DomainType = (typeof DOMAIN_TYPE)[keyof typeof DOMAIN_TYPE]
+
+export const Domains: Record<DomainType, string> = {
+  [DOMAIN_TYPE.REGISTER_ROOM]: '/rooms/register/category',
+  [DOMAIN_TYPE.REGISTER_ROOM_INFO]: '/rooms/register/info',
+  [DOMAIN_TYPE.REGISTER_ROOM_ADDRESS]: '/rooms/register/address',
+  [DOMAIN_TYPE.REGISTER_ROOM_FEATURE]: '/rooms/register/feature',
+  [DOMAIN_TYPE.REGISTER_ROOM_IMAGE]: '/rooms/register/image',
+}
+
+enum API_TYPE {
+  USERS_API = 'USERS_API',
+  ROOMS_API = 'ROOMS_API',
+  FAQS_API = 'FAQS_API',
+  PAYMENTS_API = 'PAYMENTS_API',
+  BOOKINGS_API = 'BOOKINGS_API',
+  COMMENTS_API = 'COMMENTS_API',
+  LIKES_API = 'LIKES_API',
+}
+
+type ApiType = (typeof API_TYPE)[keyof typeof API_TYPE]
+
+export const API: Record<ApiType, string> = {
+  [API_TYPE.USERS_API]: '/api/users',
+  [API_TYPE.ROOMS_API]: '/api/rooms',
+  [API_TYPE.FAQS_API]: '/api/faqs',
+  [API_TYPE.PAYMENTS_API]: '/api/payments',
+  [API_TYPE.BOOKINGS_API]: '/api/bookings',
+  [API_TYPE.COMMENTS_API]: '/api/comments',
+  [API_TYPE.LIKES_API]: '/api/likes',
+}
+
+export interface RoomFeatureProps {
+  freeCancel?: boolean
+  selfCheckIn?: boolean
+  officeSpace?: boolean
+  hasMountainView?: boolean
+  hasShampoo?: boolean
+  hasFreeLaundry?: boolean
+  hasAirConditioner?: boolean
+  hasWifi?: boolean
+  hasBarbeque?: boolean
+  hasFreeParking?: boolean
+}
+
+interface FieldProps {
+  field: keyof RoomFeatureProps
+  label: string
+}
+
+export const FeatureRegisterField: FieldProps[] = [
+  { field: 'freeCancel', label: '무료 취소' },
+  { field: 'selfCheckIn', label: '셀프 체크인' },
+  { field: 'officeSpace', label: '사무시설' },
+  { field: 'hasMountainView', label: '마운틴 뷰' },
+  { field: 'hasShampoo', label: '욕실 용품' },
+  { field: 'hasFreeLaundry', label: '무료 세탁' },
+  { field: 'hasAirConditioner', label: '에어컨' },
+  { field: 'hasWifi', label: '무료 와이파이' },
+  { field: 'hasBarbeque', label: '바베큐 시설' },
+  { field: 'hasFreeParking', label: '무료 주차' },
+]
+
+export const RoomEditFields = [
+  'title',
+  'category',
+  'desc',
+  'bedroomDesc',
+  'price',
+  'address',
+  'images',
+  'imageKeys',
+  'freeCancel',
+  'selfCheckIn',
+  'officeSpace',
+  'hasMountainView',
+  'hasShampoo',
+  'hasFreeLaundry',
+  'hasAirConditioner',
+  'hasWifi',
+  'hasBarbeque',
+  'hasFreeParking',
+]

@@ -21,7 +21,7 @@ export default function Home() {
 
   const fetchRooms = async ({ pageParam = 1 }) => {
     // Error Boundary 테스트: 아래 url 변경 후 테스트하기
-    const { data } = await axios('/api/rooms?page=' + pageParam, {
+    const { data } = await axios(`/api/rooms?page=` + pageParam, {
       params: {
         limit: 12,
         page: pageParam,

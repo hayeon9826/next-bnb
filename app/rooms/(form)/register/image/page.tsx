@@ -10,8 +10,13 @@ import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { AiFillCamera } from 'react-icons/ai'
 import { storage } from '@/utils/firebaseApp'
-import { ref, uploadString, getDownloadURL } from 'firebase/storage'
-import { useRecoilState, useResetRecoilState } from 'recoil'
+import {
+  ref,
+  uploadString,
+  getDownloadURL,
+  deleteObject,
+} from 'firebase/storage'
+import { useRecoilValue, useResetRecoilState } from 'recoil'
 import { useSession } from 'next-auth/react'
 import { nanoid } from 'nanoid'
 import axios from 'axios'
@@ -23,9 +28,9 @@ interface RoomImageProps {
 export default function RoomRegisterImage() {
   const { data: session } = useSession()
   const router = useRouter()
-  const [roomForm, setRoomForm] = useRecoilState(roomFormState)
+  const roomForm = useRecoilValue(roomFormState)
   const [images, setImages] = useState<string[] | null>(null)
-  const [imageUrls, setImageUrls] = useState<string[] | null>([])
+  let imageKeys: string[] = []
 
   const resetRoomForm = useResetRecoilState(roomFormState)
 
@@ -35,7 +40,7 @@ export default function RoomRegisterImage() {
     } = e
 
     if (!files) return
-    setImageUrls(null)
+    setImages(null)
     ;[...files]?.forEach((file: any) => {
       const fileReader = new FileReader()
       fileReader?.readAsDataURL(file)
@@ -61,8 +66,9 @@ export default function RoomRegisterImage() {
     if (!images) return
 
     for (const imageFile of images) {
-      const imageRef = ref(storage, `${session?.user?.id}/${nanoid()}`)
-
+      const imageKey = nanoid()
+      const imageRef = ref(storage, `${session?.user?.id}/${imageKey}`)
+      imageKeys.push(imageKey)
       try {
         const data = await uploadString(imageRef, imageFile, 'data_url')
         const imageUrl = await getDownloadURL(data.ref)
@@ -75,30 +81,43 @@ export default function RoomRegisterImage() {
     return uploadedImageUrls
   }
 
-  const onSubmit = async (data: RoomImageProps) => {
-    try {
-      uploadImages(images)
-        .then(async (imageUrls) => {
-          const result = await axios.post('/api/rooms', {
-            ...roomForm,
-            images: imageUrls,
-          })
-
-          if (result.status === 200) {
-            toast.success('숙소를 등록했습니다.')
-            resetRoomForm()
-            router.push('/')
-          } else {
-            toast.error('데이터 저장중 문제가 발생했습니다. 다시 시도해주세요')
-          }
+  // @description 참고: https://firebase.google.com/docs/storage/web/delete-files?hl=ko
+  const deleteImages = () => {
+    imageKeys?.forEach((key) => {
+      const imageRef = ref(storage, `${session?.user?.id}/${key}`)
+      deleteObject(imageRef)
+        .then(() => {
+          console.log('File deleted successfully: ', key)
         })
         .catch((error) => {
-          console.error(error)
-          toast.error('데이터 저장중 문제가 발생했습니다. 다시 시도해주세요')
+          console.log(error)
         })
+    })
+  }
+
+  const onSubmit = async () => {
+    try {
+      uploadImages(images).then(async (images) => {
+        const result = await axios.post('/api/rooms', {
+          ...roomForm,
+          images: images,
+          imageKeys: imageKeys,
+        })
+
+        if (result.status === 200) {
+          toast.success('숙소를 등록했습니다.')
+          resetRoomForm()
+          router.push('/')
+        } else {
+          // Failed: 업로드 된 이미지 삭제 로직 추가
+          toast.error('데이터 저장중 문제가 발생했습니다. 다시 시도해주세요')
+          deleteImages()
+        }
+      })
     } catch (e) {
       console.log(e)
       toast.error('다시 시도해주세요.')
+      deleteImages()
     }
   }
 

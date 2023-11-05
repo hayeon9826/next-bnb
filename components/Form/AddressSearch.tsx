@@ -36,9 +36,10 @@ export default function AddressSearch({
     setValue('address', fullAddress)
     setIsOpen(false)
   }
+
   return (
     <>
-      <div className="flex flex-col gap-2 mt-10">
+      <div className="flex flex-col gap-2">
         <label htmlFor="address" className="text-lg font-semibold">
           숙소 위치
         </label>
@@ -46,7 +47,7 @@ export default function AddressSearch({
           <input
             readOnly
             placeholder="주소를 검색해주세요"
-            {...register('address', { required: true, maxLength: 30 })}
+            {...register('address', { required: true })}
             className="col-span-3 block w-full rounded-lg py-1.5 px-2 outline-none text-gray-900 ring-1 placeholder:text-gray-400 sm:text-sm sm:leading-6 border-2 focus:border-black"
           />
           <button

@@ -41,6 +41,7 @@ export interface BookingType {
 export interface RoomType {
   id: number
   images: string[]
+  imageKeys?: string[]
   title: string
   address: string
   lat: string
@@ -70,6 +71,7 @@ export interface RoomType {
 
 export interface RoomFormType {
   images?: string[]
+  imageKeys?: string[]
   title?: string
   address?: string
   lat?: string

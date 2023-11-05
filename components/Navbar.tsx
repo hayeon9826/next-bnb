@@ -15,6 +15,7 @@ import { SearchFilter } from './Filter'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { detailFilterState, filterState } from '@/atom'
 import Link from 'next/link'
+import { Domains } from '@/constants'
 
 const LOGIN_MENU = [
   { id: 1, title: '로그인', url: '/users/signin' },
@@ -235,7 +236,7 @@ Navbar.RightMenu = ({ setShowMenu, showMenu }: RightMenuProps) => {
   return (
     <div className="hidden md:flex gap-4 grow basis-0 justify-end relative  h-14 items-center">
       <Link
-        href={'/rooms/register/category'}
+        href={Domains.REGISTER_ROOM}
         className="hidden lg:block font-semibold text-sm px-4 py-3 rounded-full hover:bg-gray-50 max-h-10"
       >
         당신의 공간을 등록해주세요
