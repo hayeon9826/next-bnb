@@ -251,6 +251,7 @@ Navbar.RightMenu = ({ setShowMenu, showMenu }: RightMenuProps) => {
             src={session?.user?.image}
             className="rounded-full w-4 h-4 my-auto"
             alt="profile img"
+            id="profile-img"
           />
         ) : (
           <AiOutlineUser />
