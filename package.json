@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "cypress": "cypress open",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -46,10 +47,12 @@
     "yarn": "^1.22.19"
   },
   "devDependencies": {
+    "@testing-library/cypress": "^10.0.1",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10",
+    "cypress": "^13.4.0",
     "encoding": "^0.1.13",
     "eslint": "^8",
     "eslint-config-next": "13.5.4",
