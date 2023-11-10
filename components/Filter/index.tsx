@@ -1,18 +1,18 @@
-import { detailFilterState, filterState } from '@/atom'
-import cn from 'classnames'
-import dayjs from 'dayjs'
-import 'dayjs/locale/ko'
-import { useState } from 'react'
+import { detailFilterState, filterState } from '@/atom';
+import cn from 'classnames';
+import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
+import { useState } from 'react';
 
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil';
 
-import Calendar from 'react-calendar'
+import Calendar from 'react-calendar';
 
-import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai'
+import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 
-import FilterLayout from './layout'
+import FilterLayout from './layout';
 
-export const SearchFilter = () => {
+export function SearchFilter() {
   return (
     <>
       <LocationFilter />
@@ -20,12 +20,12 @@ export const SearchFilter = () => {
       <CheckOutFilter />
       <GuestFilter />
     </>
-  )
+  );
 }
 
-export const LocationFilter = () => {
-  const [filterValue, setFilterValue] = useRecoilState(filterState)
-  const [detailFilter, setDetailFilter] = useRecoilState(detailFilterState)
+export function LocationFilter() {
+  const [filterValue, setFilterValue] = useRecoilState(filterState);
+  const [detailFilter, setDetailFilter] = useRecoilState(detailFilterState);
 
   return (
     <FilterLayout
@@ -47,8 +47,8 @@ export const LocationFilter = () => {
                 setFilterValue({
                   ...filterValue,
                   location: value,
-                })
-                setDetailFilter('checkIn')
+                });
+                setDetailFilter('checkIn');
               }}
             >
               {value}
@@ -66,28 +66,28 @@ export const LocationFilter = () => {
             setFilterValue({
               ...filterValue,
               location: '',
-            })
-            setDetailFilter('checkIn')
+            });
+            setDetailFilter('checkIn');
           }}
         >
           전체
         </button>
       </div>
     </FilterLayout>
-  )
+  );
 }
 
-export const CheckInFilter = () => {
-  const [filterValue, setFilterValue] = useRecoilState(filterState)
-  const [detailFilter, setDetailFilter] = useRecoilState(detailFilterState)
+export function CheckInFilter() {
+  const [filterValue, setFilterValue] = useRecoilState(filterState);
+  const [detailFilter, setDetailFilter] = useRecoilState(detailFilterState);
 
   const onChange = (e: any) => {
     setFilterValue({
       ...filterValue,
       checkIn: dayjs(e).format('YYYY-MM-DD'),
-    })
-    setDetailFilter('checkOut')
-  }
+    });
+    setDetailFilter('checkOut');
+  };
 
   return (
     <FilterLayout
@@ -106,20 +106,20 @@ export const CheckInFilter = () => {
         formatDay={(locale, date) => dayjs(date).format('DD')}
       />
     </FilterLayout>
-  )
+  );
 }
 
-export const CheckOutFilter = () => {
-  const [filterValue, setFilterValue] = useRecoilState(filterState)
-  const [detailFilter, setDetailFilter] = useRecoilState(detailFilterState)
+export function CheckOutFilter() {
+  const [filterValue, setFilterValue] = useRecoilState(filterState);
+  const [detailFilter, setDetailFilter] = useRecoilState(detailFilterState);
 
   const onChange = (e: any) => {
     setFilterValue({
       ...filterValue,
       checkOut: dayjs(e).format('YYYY-MM-DD'),
-    })
-    setDetailFilter('guest')
-  }
+    });
+    setDetailFilter('guest');
+  };
 
   return (
     <FilterLayout
@@ -138,13 +138,13 @@ export const CheckOutFilter = () => {
         formatDay={(locale, date) => dayjs(date).format('DD')}
       />
     </FilterLayout>
-  )
+  );
 }
 
-export const GuestFilter = () => {
-  const [filterValue, setFilterValue] = useRecoilState(filterState)
-  const detailFilter = useRecoilValue(detailFilterState)
-  const [counter, setCounter] = useState<number>(filterValue.guest || 0)
+export function GuestFilter() {
+  const [filterValue, setFilterValue] = useRecoilState(filterState);
+  const detailFilter = useRecoilValue(detailFilterState);
+  const [counter, setCounter] = useState<number>(filterValue.guest || 0);
 
   return (
     <FilterLayout title="게스트 수 추가하기" isShow={detailFilter === 'guest'}>
@@ -159,11 +159,11 @@ export const GuestFilter = () => {
             className="rounded-full border border-gray-400 w-8 h-8 disabled:border-gray-200 hover:border-black"
             disabled={counter <= 0}
             onClick={() => {
-              setCounter((val) => val - 1)
+              setCounter((val) => val - 1);
               setFilterValue({
                 ...filterValue,
                 guest: counter - 1,
-              })
+              });
             }}
           >
             <AiOutlineMinus
@@ -176,11 +176,11 @@ export const GuestFilter = () => {
             className="rounded-full border border-gray-400 w-8 h-8 hover:border-black disabled:border-gray-200"
             disabled={counter >= 20}
             onClick={() => {
-              setCounter((val) => val + 1)
+              setCounter((val) => val + 1);
               setFilterValue({
                 ...filterValue,
                 guest: counter + 1,
-              })
+              });
             }}
           >
             <AiOutlinePlus
@@ -190,5 +190,5 @@ export const GuestFilter = () => {
         </div>
       </div>
     </FilterLayout>
-  )
+  );
 }

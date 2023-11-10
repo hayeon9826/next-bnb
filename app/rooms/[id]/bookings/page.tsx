@@ -1,7 +1,7 @@
-import SubmitButton from '@/components/Booking/SubmitButton'
-import { BLUR_DATA_URL } from '@/constants'
-import { RoomType } from '@/interface'
-import Image from 'next/image'
+import SubmitButton from '@/components/Booking/SubmitButton';
+import { BLUR_DATA_URL } from '@/constants';
+import { RoomType } from '@/interface';
+import Image from 'next/image';
 
 export interface BookingParamsProps {
   params: { id: string }
@@ -18,13 +18,13 @@ export default async function BookingPage({
   params,
   searchParams,
 }: BookingParamsProps) {
-  const id = params.id
-  const checkIn = searchParams.checkIn
-  const checkOut = searchParams.checkOut
-  const guestCount = searchParams.guestCount
-  const totalAmount = searchParams.totalAmount
-  const totalDays = searchParams.totalDays
-  const data: RoomType = await getData(id)
+  const { id } = params;
+  const { checkIn } = searchParams;
+  const { checkOut } = searchParams;
+  const { guestCount } = searchParams;
+  const { totalAmount } = searchParams;
+  const { totalDays } = searchParams;
+  const data: RoomType = await getData(id);
 
   return (
     <div className="my-28 max-w-6xl mx-auto px-4">
@@ -38,7 +38,10 @@ export default async function BookingPage({
                 <div>
                   <h3>날짜</h3>
                   <div className="text-gray-800 text-sm mt-1">
-                    {checkIn} ~ {checkOut}
+                    {checkIn}
+                    {' '}
+                    ~
+                    {checkOut}
                   </div>
                 </div>
               </div>
@@ -46,7 +49,10 @@ export default async function BookingPage({
                 <div>
                   <h3>게스트</h3>
                   <div className="text-gray-800 text-sm mt-1">
-                    게스트 {guestCount}명
+                    게스트
+                    {' '}
+                    {guestCount}
+                    명
                   </div>
                 </div>
               </div>
@@ -75,7 +81,9 @@ export default async function BookingPage({
             <div className="flex flex-col gap-6 border-b pb-8">
               <h2 className="text-lg md:text-2xl font-semibold">환불 정책</h2>
               <div>
-                <b>숙박 7일 전까지 무료로 취소하실 수 있습니다.</b> 그 후에
+                <b>숙박 7일 전까지 무료로 취소하실 수 있습니다.</b>
+                {' '}
+                그 후에
                 취소하면 예약 대금이 환불되지 않습니다.
               </div>
             </div>
@@ -91,7 +99,8 @@ export default async function BookingPage({
               </div>
             </div>
             <div className="text-xs text-gray-600">
-              아래 버튼을 선택하면{' '}
+              아래 버튼을 선택하면
+              {' '}
               <span className="underline font-semibold">
                 호스트가 설정한 숙소 이용규칙, 게스트에게 적용되는 기본 규칙,
                 nextBnb 재예약 및 환불 정책
@@ -122,7 +131,10 @@ export default async function BookingPage({
                   <h1 className="text-sm">{data?.title}</h1>
                 </div>
                 <div className="text-xs text-gray-500">
-                  후기 {data?.comments?.length}개
+                  후기
+                  {' '}
+                  {data?.comments?.length}
+                  개
                 </div>
               </div>
             </div>
@@ -130,13 +142,17 @@ export default async function BookingPage({
               <h1 className="text-lg md:text-xl mt-4">요금 세부정보</h1>
               <div className="flex justify-between gap-4 text-gray-600">
                 <div>
-                  {`₩${data?.price?.toLocaleString()}`} x {totalDays}박
+                  {`₩${data?.price?.toLocaleString()}`}
+                  {' '}
+                  x
+                  {totalDays}
+                  박
                 </div>
                 <div>{`₩${parseInt(totalAmount).toLocaleString()}`}</div>
               </div>
               <div className="flex justify-between gap-4 text-gray-600">
                 <div className="underline">nextBnb 서비스 수수료</div>
-                <div>{`₩0`}</div>
+                <div>₩0</div>
               </div>
             </div>
             <div className="flex justify-between gap-4 border-b py-6">
@@ -151,7 +167,7 @@ export default async function BookingPage({
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 async function getData(id: string) {
@@ -160,11 +176,11 @@ async function getData(id: string) {
     {
       cache: 'no-store',
     },
-  )
+  );
 
   if (!res.ok) {
-    throw new Error('Failed to fetch data')
+    throw new Error('Failed to fetch data');
   }
 
-  return res.json()
+  return res.json();
 }

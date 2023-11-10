@@ -1,75 +1,76 @@
-'use client'
-import { useEffect, useState } from 'react'
-import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+'use client';
 
-import axios from 'axios'
-import { UserType } from '@/interface'
-import { useQuery } from 'react-query'
-import toast from 'react-hot-toast'
-import { FullPageLoader } from '@/components/Loader'
+import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+
+import axios from 'axios';
+import { UserType } from '@/interface';
+import { useQuery } from 'react-query';
+import toast from 'react-hot-toast';
+import { FullPageLoader } from '@/components/Loader';
 
 export default function UserEdit() {
-  const router = useRouter()
-  const [name, setName] = useState<string>('')
-  const [phone, setPhone] = useState<string>('')
-  const [address, setAddress] = useState<string>('')
-  const [email, setEmail] = useState<string>('')
+  const router = useRouter();
+  const [name, setName] = useState<string>('');
+  const [phone, setPhone] = useState<string>('');
+  const [address, setAddress] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
 
-  const { status } = useSession()
+  const { status } = useSession();
 
   const fetchUser = async () => {
-    const { data } = await axios('/api/users')
-    return data as UserType
-  }
+    const { data } = await axios('/api/users');
+    return data as UserType;
+  };
 
   const { data: user, isSuccess } = useQuery('user', fetchUser, {
     enabled: status === 'authenticated',
     refetchOnMount: false,
-  })
+  });
 
   const updateUser = async () => {
     const res = await axios.put('/api/users', {
-      name: name,
-      phone: phone,
-      address: address,
-      email: email,
-    })
+      name,
+      phone,
+      address,
+      email,
+    });
     if (res.status === 200) {
-      toast.success('정보를 수정했습니다.')
-      router.replace('/users/info')
+      toast.success('정보를 수정했습니다.');
+      router.replace('/users/info');
     } else {
-      toast.error('다시 시도해주세요.')
+      toast.error('다시 시도해주세요.');
     }
-  }
+  };
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {
       target: { name, value },
-    } = e
+    } = e;
 
     if (name === 'name') {
-      setName(value)
+      setName(value);
     }
     if (name === 'email') {
-      setEmail(value)
+      setEmail(value);
     }
     if (name === 'phone') {
-      setPhone(value)
+      setPhone(value);
     }
     if (name === 'address') {
-      setAddress(value)
+      setAddress(value);
     }
-  }
+  };
 
   useEffect(() => {
     if (user && isSuccess) {
-      setName(user?.name || '')
-      setPhone(user?.phone || '')
-      setAddress(user?.address || '')
-      setEmail(user?.email || '')
+      setName(user?.name || '');
+      setPhone(user?.phone || '');
+      setAddress(user?.address || '');
+      setEmail(user?.email || '');
     }
-  }, [user, isSuccess])
+  }, [user, isSuccess]);
 
   return user ? (
     <form className="max-w-3xl mx-auto px-4">
@@ -174,5 +175,5 @@ export default function UserEdit() {
     </form>
   ) : (
     <FullPageLoader />
-  )
+  );
 }

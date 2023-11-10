@@ -1,15 +1,15 @@
-'use client'
+'use client';
 
-import Map, { ListButton } from '@/components/Map'
-import { useRouter } from 'next/navigation'
-import SelectedRoom from '@/components/Map/SelectedRoom'
+import Map, { ListButton } from '@/components/Map';
+import { useRouter } from 'next/navigation';
+import SelectedRoom from '@/components/Map/SelectedRoom';
 
 export default function MapPage() {
-  const router = useRouter()
+  const router = useRouter();
 
   const goToMainPage = () => {
-    router.replace('/')
-  }
+    router.replace('/');
+  };
 
   return (
     <>
@@ -17,5 +17,5 @@ export default function MapPage() {
       <SelectedRoom />
       <ListButton onClick={goToMainPage} />
     </>
-  )
+  );
 }

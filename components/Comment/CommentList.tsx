@@ -2,11 +2,11 @@
 
 import { useState } from 'react'
 import { BiChevronRight } from 'react-icons/bi'
-import CommentListModal from './CommentListModal'
 import { CommentApiProps } from '@/interface'
+import dayjs from 'dayjs'
+import CommentListModal from './CommentListModal'
 import { Loader } from '../Loader'
 
-import dayjs from 'dayjs'
 import 'dayjs/locale/ko'
 
 export default function CommentList({
@@ -45,6 +45,7 @@ export default function CommentList({
                   width={50}
                   height={50}
                   className="rounded-full"
+                  alt="logo img"
                 />
                 <div>
                   <h1 className="font-semibold">

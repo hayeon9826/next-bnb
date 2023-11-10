@@ -1,5 +1,5 @@
-import { ReactNode } from 'react'
-import cn from 'classnames'
+import { ReactNode } from 'react';
+import cn from 'classnames';
 
 interface FilterLayoutProps {
   title: string
@@ -24,5 +24,5 @@ export default function FilterLayout({
       <div className="text-sm font-semibold">{title}</div>
       {children}
     </div>
-  )
+  );
 }

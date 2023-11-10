@@ -1,26 +1,26 @@
-'use client'
+'use client';
 
-import { UserType } from '@/interface'
-import axios from 'axios'
-import { useSession } from 'next-auth/react'
-import Link from 'next/link'
-import { AiOutlineUser, AiOutlineHeart, AiOutlineComment } from 'react-icons/ai'
-import { BsHouseAdd, BsHouseCheck, BsBookmarkCheck } from 'react-icons/bs'
-import { useQuery } from 'react-query'
-import { Domains } from '@/constants'
+import { UserType } from '@/interface';
+import axios from 'axios';
+import { useSession } from 'next-auth/react';
+import Link from 'next/link';
+import { AiOutlineUser, AiOutlineHeart, AiOutlineComment } from 'react-icons/ai';
+import { BsHouseAdd, BsHouseCheck, BsBookmarkCheck } from 'react-icons/bs';
+import { useQuery } from 'react-query';
+import { Domains } from '@/constants';
 
 export default function Mypage() {
-  const { status } = useSession()
+  const { status } = useSession();
 
   const fetchUser = async () => {
-    const { data } = await axios('/api/users')
-    return data as UserType
-  }
+    const { data } = await axios('/api/users');
+    return data as UserType;
+  };
 
   const { data: user } = useQuery('user', fetchUser, {
     enabled: status === 'authenticated',
     refetchOnMount: false,
-  })
+  });
 
   return (
     <div className="mt-10 max-w-5xl mx-auto px-4">
@@ -93,5 +93,5 @@ export default function Mypage() {
         </Link>
       </div>
     </div>
-  )
+  );
 }

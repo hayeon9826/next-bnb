@@ -7,5 +7,5 @@ export default function RoomRegisterLayout({
     <section className="max-w-4xl mx-auto px-4 min-h-screen py-20">
       {children}
     </section>
-  )
+  );
 }

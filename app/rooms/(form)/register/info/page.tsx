@@ -1,14 +1,14 @@
-'use client'
+'use client';
 
-import { roomFormState } from '@/atom'
-import NextButton from '@/components/Form/NextButton'
-import Stepper from '@/components/Form/Stepper'
-import { useForm } from 'react-hook-form'
+import { roomFormState } from '@/atom';
+import NextButton from '@/components/Form/NextButton';
+import Stepper from '@/components/Form/Stepper';
+import { useForm } from 'react-hook-form';
 
-import { useRouter } from 'next/navigation'
-import { useRecoilState } from 'recoil'
-import { useEffect } from 'react'
-import { Domains } from '@/constants'
+import { useRouter } from 'next/navigation';
+import { useRecoilState } from 'recoil';
+import { useEffect } from 'react';
+import { Domains } from '@/constants';
 
 interface RoomInfoProps {
   title?: string
@@ -18,14 +18,14 @@ interface RoomInfoProps {
 }
 
 export default function RoomRegisterInfo() {
-  const router = useRouter()
-  const [roomForm, setRoomForm] = useRecoilState(roomFormState)
+  const router = useRouter();
+  const [roomForm, setRoomForm] = useRecoilState(roomFormState);
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors, isSubmitting },
-  } = useForm<RoomInfoProps>()
+  } = useForm<RoomInfoProps>();
 
   const onSubmit = (data: RoomInfoProps) => {
     setRoomForm({
@@ -34,18 +34,18 @@ export default function RoomRegisterInfo() {
       desc: data.desc,
       bedroomDesc: data.bedroomDesc,
       price: data.price,
-    })
-    router.push(Domains.REGISTER_ROOM_ADDRESS)
-  }
+    });
+    router.push(Domains.REGISTER_ROOM_ADDRESS);
+  };
 
   useEffect(() => {
     if (roomForm) {
-      setValue('bedroomDesc', roomForm?.bedroomDesc)
-      setValue('title', roomForm?.title)
-      setValue('price', roomForm?.price)
-      setValue('desc', roomForm?.desc)
+      setValue('bedroomDesc', roomForm?.bedroomDesc);
+      setValue('title', roomForm?.title);
+      setValue('price', roomForm?.price);
+      setValue('desc', roomForm?.desc);
     }
-  }, [roomForm])
+  }, [roomForm]);
 
   return (
     <>
@@ -131,5 +131,5 @@ export default function RoomRegisterInfo() {
         <NextButton type="submit" disabled={isSubmitting} />
       </form>
     </>
-  )
+  );
 }

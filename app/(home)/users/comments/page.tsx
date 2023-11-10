@@ -5,8 +5,7 @@ import useIntersectionObserver from '@/hooks/useIntersectionObserver'
 import { CommentType } from '@/interface'
 import axios from 'axios'
 import { useSession } from 'next-auth/react'
-import React from 'react'
-import { useCallback, useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { useInfiniteQuery } from 'react-query'
 
 import dayjs from 'dayjs'
@@ -22,7 +21,7 @@ export default function UserComments() {
   const { data: session } = useSession()
 
   const fetchComments = async ({ pageParam = 1 }) => {
-    const { data } = await axios(`/api/comments?my=true&page=` + pageParam, {
+    const { data } = await axios(`/api/comments?my=true&page=${pageParam}`, {
       params: {
         limit: 12,
         page: pageParam,
@@ -88,6 +87,7 @@ export default function UserComments() {
                         width={50}
                         height={50}
                         className="rounded-full"
+                        alt="user img"
                       />
                       <div>
                         <h1 className="font-semibold">

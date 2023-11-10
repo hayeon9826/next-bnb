@@ -1,5 +1,5 @@
-import { RoomType } from '@/interface'
-import DetailRoomMap from '../Map/DetailRoomMap'
+import { RoomType } from '@/interface';
+import DetailRoomMap from '../Map/DetailRoomMap';
 
 export default function MapSection({ data }: { data: RoomType }) {
   return (
@@ -11,5 +11,5 @@ export default function MapSection({ data }: { data: RoomType }) {
       <div className="mt-8 font-semibold">{data?.address}</div>
       <div className="mt-3 text-gray-600">{data?.desc}</div>
     </div>
-  )
+  );
 }

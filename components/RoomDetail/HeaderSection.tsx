@@ -1,13 +1,13 @@
-import { RoomType } from '@/interface'
+import { RoomType } from '@/interface';
 
-import Image from 'next/image'
-import { BLUR_DATA_URL } from '@/constants'
-import ShareButtonModal from './ShareButtonModal'
-import ImageListButtonModal from './ImageListButtonModal'
-import LikeButton from './LikeButton'
+import Image from 'next/image';
+import { BLUR_DATA_URL } from '@/constants';
+import ShareButtonModal from './ShareButtonModal';
+import ImageListButtonModal from './ImageListButtonModal';
+import LikeButton from './LikeButton';
 
 export default function HeaderSection({ data }: { data: RoomType }) {
-  const SHOW_DOUBLE_IMG_BANNER = data?.images?.length >= 2
+  const SHOW_DOUBLE_IMG_BANNER = data?.images?.length >= 2;
 
   return (
     <>
@@ -55,5 +55,5 @@ export default function HeaderSection({ data }: { data: RoomType }) {
         <ImageListButtonModal data={data} />
       </div>
     </>
-  )
+  );
 }

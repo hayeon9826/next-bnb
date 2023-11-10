@@ -1,22 +1,22 @@
-import Image from 'next/image'
+import Image from 'next/image';
 
-import { RoomType } from '@/interface'
+import { RoomType } from '@/interface';
 import {
   AiOutlineCheckCircle,
   AiOutlineDesktop,
   AiOutlineWifi,
-} from 'react-icons/ai'
-import { BsDoorClosed, BsFan } from 'react-icons/bs'
-import { IoBedOutline } from 'react-icons/io5'
-import { PiMountainsDuotone, PiBathtub } from 'react-icons/pi'
-import { MdOutlineLocalLaundryService } from 'react-icons/md'
-import { LuParkingCircle } from 'react-icons/lu'
-import { GiBarbecue } from 'react-icons/gi'
-import { FeatureDesc } from '@/constants'
+} from 'react-icons/ai';
+import { BsDoorClosed, BsFan } from 'react-icons/bs';
+import { IoBedOutline } from 'react-icons/io5';
+import { PiMountainsDuotone, PiBathtub } from 'react-icons/pi';
+import { MdOutlineLocalLaundryService } from 'react-icons/md';
+import { LuParkingCircle } from 'react-icons/lu';
+import { GiBarbecue } from 'react-icons/gi';
+import { FeatureDesc } from '@/constants';
 
-import cn from 'classnames'
-import BookingSection from './BookingSection'
-import CalendarSection from './CalendarSection'
+import cn from 'classnames';
+import BookingSection from './BookingSection';
+import CalendarSection from './CalendarSection';
 
 export default function FeatureSection({ data }: { data: RoomType }) {
   return (
@@ -25,7 +25,8 @@ export default function FeatureSection({ data }: { data: RoomType }) {
         <div className="flex items-center justify-between px-4">
           <div>
             <h1 className="text-lg md:text-xl">
-              {data?.user?.name ?? '사용자'}님이 호스팅하는 숙소
+              {data?.user?.name ?? '사용자'}
+              님이 호스팅하는 숙소
             </h1>
             <p className="text-sm text-gray-600 mt-1">
               {data?.user?.desc ?? '호스트 설명이 없습니다.'}
@@ -152,7 +153,7 @@ export default function FeatureSection({ data }: { data: RoomType }) {
       </div>
       <BookingSection data={data} />
     </div>
-  )
+  );
 }
 
 interface FeatureItemType {
@@ -161,11 +162,11 @@ interface FeatureItemType {
   icon: React.ReactNode
 }
 
-FeatureSection.FeatureItem = ({
+FeatureSection.FeatureItem = function ({
   hasFeature,
   featureTitle,
   icon,
-}: FeatureItemType) => {
+}: FeatureItemType) {
   return (
     <div className="flex gap-2 items-center mt-4">
       {icon}
@@ -177,5 +178,5 @@ FeatureSection.FeatureItem = ({
         {featureTitle}
       </span>
     </div>
-  )
-}
+  );
+};

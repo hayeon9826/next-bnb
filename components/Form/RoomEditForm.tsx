@@ -5,7 +5,6 @@ import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
-import AddressSearch from './AddressSearch'
 import cn from 'classnames'
 import {
   CATEGORY,
@@ -25,13 +24,14 @@ import {
 } from 'firebase/storage'
 import { useSession } from 'next-auth/react'
 import { nanoid } from 'nanoid'
+import AddressSearch from './AddressSearch'
 
 export default function RoomEditForm({ data }: { data: RoomType }) {
   const { data: session } = useSession()
   const [images, setImages] = useState<string[] | null>(null)
   const [imageKeys, setImageKeys] = useState<string[] | null>(null)
   const router = useRouter()
-  let newImageKeys: string[] = []
+  const newImageKeys: string[] = []
 
   const handleFileUpload = (e: any) => {
     const {
@@ -153,7 +153,7 @@ export default function RoomEditForm({ data }: { data: RoomType }) {
           if (result.status === 200) {
             // 성공 케이스
             toast.success('숙소를 수정했습니다.')
-            router.replace(`/users/rooms`)
+            router.replace('/users/rooms')
           } else {
             // 실패 케이스
             toast.error('다시 시도해주세요')
@@ -356,6 +356,7 @@ export default function RoomEditForm({ data }: { data: RoomType }) {
                           width={100}
                           height={100}
                           className="rounded-md"
+                          alt="room img"
                         />
                       ))}
                   </div>

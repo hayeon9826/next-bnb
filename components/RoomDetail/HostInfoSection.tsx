@@ -1,8 +1,8 @@
-import { RoomType } from '@/interface'
-import { BsShieldFillCheck, BsShieldLockFill } from 'react-icons/bs'
-import { BiSolidMedal } from 'react-icons/bi'
-import { AiFillStar } from 'react-icons/ai'
-import Link from 'next/link'
+import { RoomType } from '@/interface';
+import { BsShieldFillCheck, BsShieldLockFill } from 'react-icons/bs';
+import { BiSolidMedal } from 'react-icons/bi';
+import { AiFillStar } from 'react-icons/ai';
+import Link from 'next/link';
 
 export default function HostInfoSection({ data }: { data: RoomType }) {
   return (
@@ -17,10 +17,15 @@ export default function HostInfoSection({ data }: { data: RoomType }) {
         />
         <div className="flex flex-col gap-1">
           <h1 className="font-semibold text-xl">
-            호스트: {data?.user?.name || '사용자'}님
+            호스트:
+            {' '}
+            {data?.user?.name || '사용자'}
+            님
           </h1>
           <div className="text-gray-500 text-sm">
-            회원 가입일: {data?.user?.createdAt}
+            회원 가입일:
+            {' '}
+            {data?.user?.createdAt}
           </div>
         </div>
       </div>
@@ -40,7 +45,8 @@ export default function HostInfoSection({ data }: { data: RoomType }) {
       </div>
       <div className="mt-8">
         <h1 className="font-semibold">
-          {data?.user?.name || '사용자'}님은 슈퍼호스트입니다.
+          {data?.user?.name || '사용자'}
+          님은 슈퍼호스트입니다.
         </h1>
         <div className="max-w-lg mt-2">
           슈퍼호스트는 풍부한 경험과 높은 평점을 자랑하며 게스트가 숙소에서
@@ -62,5 +68,5 @@ export default function HostInfoSection({ data }: { data: RoomType }) {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,11 +1,11 @@
-'use client'
+'use client';
 
-import { Fragment, useState } from 'react'
+import { Fragment, useState } from 'react';
 
-import { BLUR_DATA_URL } from '@/constants'
-import { RoomType } from '@/interface'
-import { Dialog, Transition } from '@headlessui/react'
-import Image from 'next/image'
+import { BLUR_DATA_URL } from '@/constants';
+import { RoomType } from '@/interface';
+import { Dialog, Transition } from '@headlessui/react';
+import Image from 'next/image';
 
 import {
   AiOutlineClose,
@@ -13,21 +13,21 @@ import {
   AiOutlineMail,
   AiFillTwitterSquare,
   AiFillFacebook,
-} from 'react-icons/ai'
-import { CiShare1 } from 'react-icons/ci'
-import toast from 'react-hot-toast'
-import Link from 'next/link'
+} from 'react-icons/ai';
+import { CiShare1 } from 'react-icons/ci';
+import toast from 'react-hot-toast';
+import Link from 'next/link';
 
 export default function ShareButtonModal({ data }: { data: RoomType }) {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
 
   const closeModal = () => {
-    setIsOpen(false)
-  }
+    setIsOpen(false);
+  };
 
   const openModal = () => {
-    setIsOpen(true)
-  }
+    setIsOpen(true);
+  };
 
   const handleCopyLink = () => {
     if (navigator.clipboard && window) {
@@ -35,24 +35,24 @@ export default function ShareButtonModal({ data }: { data: RoomType }) {
         .writeText(window.location.href)
         .then(() => toast.success('링크 복사 완료'))
         .catch(() => {
-          toast.error('다시 시도해주세요.')
-        })
+          toast.error('다시 시도해주세요.');
+        });
     }
-  }
+  };
 
   const handleShareTwitter = () => {
-    typeof window !== 'undefined' &&
-      window.open(
+    typeof window !== 'undefined'
+      && window.open(
         `https://www.twitter.com/intent/tweet?&url=${window.location.href}`,
-      )
-  }
+      );
+  };
 
   const handleShareFacebook = () => {
-    typeof window !== 'undefined' &&
-      window.open(
+    typeof window !== 'undefined'
+      && window.open(
         `https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`,
-      )
-  }
+      );
+  };
 
   return (
     <>
@@ -165,5 +165,5 @@ export default function ShareButtonModal({ data }: { data: RoomType }) {
         </Dialog>
       </Transition>
     </>
-  )
+  );
 }

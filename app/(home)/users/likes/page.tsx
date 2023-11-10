@@ -1,31 +1,30 @@
-'use client'
+'use client';
 
-import { GridLoader, Loader } from '@/components/Loader'
-import { GridLayout, RoomItem } from '@/components/RoomGrid'
-import useIntersectionObserver from '@/hooks/useIntersectionObserver'
-import { Like } from '@/interface'
-import axios from 'axios'
-import { useSession } from 'next-auth/react'
-import React from 'react'
-import { useCallback, useEffect, useRef } from 'react'
-import { useInfiniteQuery } from 'react-query'
+import { GridLoader, Loader } from '@/components/Loader';
+import { GridLayout, RoomItem } from '@/components/RoomGrid';
+import useIntersectionObserver from '@/hooks/useIntersectionObserver';
+import { Like } from '@/interface';
+import axios from 'axios';
+import { useSession } from 'next-auth/react';
+import React, { useCallback, useEffect, useRef } from 'react';
+import { useInfiniteQuery } from 'react-query';
 
 export default function UserLikes() {
-  const ref = useRef<HTMLDivElement | null>(null)
-  const pageRef = useIntersectionObserver(ref, {})
-  const isPageEnd = !!pageRef?.isIntersecting
-  const { data: session } = useSession()
+  const ref = useRef<HTMLDivElement | null>(null);
+  const pageRef = useIntersectionObserver(ref, {});
+  const isPageEnd = !!pageRef?.isIntersecting;
+  const { data: session } = useSession();
 
   const fetchLikes = async ({ pageParam = 1 }) => {
-    const { data } = await axios('/api/likes?page=' + pageParam, {
+    const { data } = await axios(`/api/likes?page=${pageParam}`, {
       params: {
         limit: 12,
         page: pageParam,
       },
-    })
+    });
 
-    return data
-  }
+    return data;
+  };
 
   const {
     data: likes,
@@ -36,31 +35,30 @@ export default function UserLikes() {
     isError,
     isLoading,
   } = useInfiniteQuery(`likes-user-${session?.user?.id}`, fetchLikes, {
-    getNextPageParam: (lastPage: any) =>
-      lastPage.data?.length > 0 ? lastPage.page + 1 : undefined,
-  })
+    getNextPageParam: (lastPage: any) => (lastPage.data?.length > 0 ? lastPage.page + 1 : undefined),
+  });
 
   const fetchNext = useCallback(async () => {
-    const res = await fetchNextPage()
+    const res = await fetchNextPage();
     if (res.isError) {
-      console.log(res.error)
+      console.log(res.error);
     }
-  }, [fetchNextPage])
+  }, [fetchNextPage]);
 
   useEffect(() => {
-    let timerId: NodeJS.Timeout | undefined
+    let timerId: NodeJS.Timeout | undefined;
 
     if (isPageEnd && hasNextPage) {
       timerId = setTimeout(() => {
-        fetchNext()
-      }, 500)
+        fetchNext();
+      }, 500);
     }
 
-    return () => clearTimeout(timerId)
-  }, [fetchNext, isPageEnd, hasNextPage])
+    return () => clearTimeout(timerId);
+  }, [fetchNext, isPageEnd, hasNextPage]);
 
-  if (!!isError) {
-    throw new Error('room API fetching error')
+  if (isError) {
+    throw new Error('room API fetching error');
   }
 
   return (
@@ -93,5 +91,5 @@ export default function UserLikes() {
       {(isFetching || hasNextPage || isFetchingNextPage) && <Loader />}
       <div className="w-full touch-none h-10 mb-10" ref={ref} />
     </>
-  )
+  );
 }

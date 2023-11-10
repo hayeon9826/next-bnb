@@ -1,57 +1,58 @@
-'use client'
+'use client';
 
-import { Dispatch, SetStateAction, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import cn from 'classnames'
-import { usePathname } from 'next/navigation'
+import { Dispatch, SetStateAction, useState } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
+import cn from 'classnames';
 
-import { signOut, useSession } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react';
 
-import { RxDividerVertical } from 'react-icons/rx'
-import { AiOutlineSearch, AiOutlineMenu, AiOutlineUser } from 'react-icons/ai'
-import { MdModeOfTravel } from 'react-icons/md'
+import { RxDividerVertical } from 'react-icons/rx';
+import { AiOutlineSearch, AiOutlineMenu, AiOutlineUser } from 'react-icons/ai';
+import { MdModeOfTravel } from 'react-icons/md';
 
-import { SearchFilter } from './Filter'
-import { useRecoilState, useRecoilValue } from 'recoil'
-import { detailFilterState, filterState } from '@/atom'
-import Link from 'next/link'
-import { Domains } from '@/constants'
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { detailFilterState, filterState } from '@/atom';
+import Link from 'next/link';
+import { Domains } from '@/constants';
+import { SearchFilter } from './Filter';
 
 const LOGIN_MENU = [
   { id: 1, title: '로그인', url: '/users/signin' },
   { id: 2, title: '회원가입', url: '/users/signin' },
   { id: 3, title: 'FAQ', url: '/faqs' },
-]
+];
 
 const LOGOUT_MENU = [
   { id: 1, title: '마이페이지', url: '/users/mypage' },
-  { id: 2, title: '로그아웃', url: '/', signOut: true },
+  {
+    id: 2, title: '로그아웃', url: '/', signOut: true,
+  },
   { id: 3, title: 'FAQ', url: '/faqs' },
-]
+];
 
 export default function Navbar() {
-  const pathname = usePathname()
-  const router = useRouter()
+  const pathname = usePathname();
+  const router = useRouter();
 
-  const [showMenu, setShowMenu] = useState<boolean>(false)
-  const [showFilter, setShowFilter] = useState<boolean>(false)
-  const [detailFilter, setDetailFilter] = useRecoilState(detailFilterState)
-  const filterValue = useRecoilValue(filterState)
-  const handleGoMain = () => router.push('/')
+  const [showMenu, setShowMenu] = useState<boolean>(false);
+  const [showFilter, setShowFilter] = useState<boolean>(false);
+  const [detailFilter, setDetailFilter] = useRecoilState(detailFilterState);
+  const filterValue = useRecoilValue(filterState);
+  const handleGoMain = () => router.push('/');
 
-  const isUsersPath = pathname.includes('/users')
-  const isBookingsPath = pathname.includes('/bookings')
+  const isUsersPath = pathname.includes('/users');
+  const isBookingsPath = pathname.includes('/bookings');
 
   if (isUsersPath) {
     return (
       <Navbar.DefaultNavbar>
         <Navbar.RightMenu setShowMenu={setShowMenu} showMenu={showMenu} />
       </Navbar.DefaultNavbar>
-    )
+    );
   }
 
   if (isBookingsPath) {
-    return <Navbar.DefaultNavbar />
+    return <Navbar.DefaultNavbar />;
   }
 
   return (
@@ -181,8 +182,8 @@ export default function Navbar() {
               role="presentation"
               className="bg-rose-600 text-white rounded-full h-12 mx-4 sm:h-10 md:w-24 my-auto flex justify-center gap-1 px-2 sm:px-4 py-2 sm:mr-2 hover:shadow hover:bg-rose-500"
               onClick={() => {
-                setShowFilter(false)
-                setDetailFilter(null)
+                setShowFilter(false);
+                setDetailFilter(null);
               }}
             >
               <AiOutlineSearch className="font-semibold text-xl my-auto" />
@@ -193,7 +194,7 @@ export default function Navbar() {
       )}
       <Navbar.RightMenu setShowMenu={setShowMenu} showMenu={showMenu} />
     </Navbar.DefaultNavbar>
-  )
+  );
 }
 
 interface DefaultNavbarProps {
@@ -201,7 +202,7 @@ interface DefaultNavbarProps {
   children?: React.ReactNode
 }
 
-Navbar.DefaultNavbar = ({ showFilter, children }: DefaultNavbarProps) => {
+Navbar.DefaultNavbar = function ({ showFilter, children }: DefaultNavbarProps) {
   return (
     <nav
       className={cn(
@@ -221,17 +222,17 @@ Navbar.DefaultNavbar = ({ showFilter, children }: DefaultNavbarProps) => {
       </Link>
       {children}
     </nav>
-  )
-}
+  );
+};
 
 interface RightMenuProps {
   showMenu: boolean
   setShowMenu: Dispatch<SetStateAction<boolean>>
 }
 
-Navbar.RightMenu = ({ setShowMenu, showMenu }: RightMenuProps) => {
-  const { status, data: session } = useSession()
-  const router = useRouter()
+Navbar.RightMenu = function ({ setShowMenu, showMenu }: RightMenuProps) {
+  const { status, data: session } = useSession();
+  const router = useRouter();
 
   return (
     <div className="hidden md:flex gap-4 grow basis-0 justify-end relative  h-14 items-center">
@@ -261,32 +262,32 @@ Navbar.RightMenu = ({ setShowMenu, showMenu }: RightMenuProps) => {
         <div className="border border-gray-20 shadow-lg py-2 flex flex-col absolute bg-white w-60 rounded-lg top-16">
           {status === 'unauthenticated'
             ? LOGIN_MENU?.map((menu) => (
-                <div
-                  key={menu.id}
-                  onClick={() => {
-                    setShowMenu(false)
-                    router.push(menu.url)
-                  }}
-                  className="h-10 hover:bg-gray-50 cursor-pointer text-sm text-gray-700 pl-3 flex flex-col justify-center"
-                >
-                  {menu.title}
-                </div>
-              ))
+              <div
+                key={menu.id}
+                onClick={() => {
+                  setShowMenu(false);
+                  router.push(menu.url);
+                }}
+                className="h-10 hover:bg-gray-50 cursor-pointer text-sm text-gray-700 pl-3 flex flex-col justify-center"
+              >
+                {menu.title}
+              </div>
+            ))
             : LOGOUT_MENU?.map((menu) => (
-                <div
-                  key={menu.id}
-                  onClick={() => {
-                    setShowMenu(false)
-                    router.push(menu.url)
-                    menu?.signOut ? signOut({ callbackUrl: '/' }) : null
-                  }}
-                  className="h-10 hover:bg-gray-50 cursor-pointer text-sm text-gray-700 pl-3 flex flex-col justify-center"
-                >
-                  {menu.title}
-                </div>
-              ))}
+              <div
+                key={menu.id}
+                onClick={() => {
+                  setShowMenu(false);
+                  router.push(menu.url);
+                  menu?.signOut ? signOut({ callbackUrl: '/' }) : null;
+                }}
+                className="h-10 hover:bg-gray-50 cursor-pointer text-sm text-gray-700 pl-3 flex flex-col justify-center"
+              >
+                {menu.title}
+              </div>
+            ))}
         </div>
       )}
     </div>
-  )
-}
+  );
+};

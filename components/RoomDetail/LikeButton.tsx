@@ -1,20 +1,20 @@
-'use client'
+'use client';
 
-import { toast } from 'react-hot-toast'
+import { toast } from 'react-hot-toast';
 
-import { RoomType } from '@/interface'
-import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
-import { useSession } from 'next-auth/react'
-import axios from 'axios'
-import { useQuery } from 'react-query'
+import { RoomType } from '@/interface';
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
+import { useSession } from 'next-auth/react';
+import axios from 'axios';
+import { useQuery } from 'react-query';
 
 export default function LikeButton({ roomId }: { roomId: number }) {
-  const { data: session, status } = useSession()
+  const { data: session, status } = useSession();
 
   const fetchRoom = async () => {
-    const { data } = await axios(`/api/rooms?id=${roomId}`)
-    return data as RoomType
-  }
+    const { data } = await axios(`/api/rooms?id=${roomId}`);
+    return data as RoomType;
+  };
 
   const { data: room, refetch } = useQuery<RoomType>(
     `like-room-${roomId}`,
@@ -23,7 +23,7 @@ export default function LikeButton({ roomId }: { roomId: number }) {
       enabled: !!roomId,
       refetchOnWindowFocus: false,
     },
-  )
+  );
 
   const toggleLike = async () => {
     // 찜하기/찜취소 로직
@@ -31,21 +31,21 @@ export default function LikeButton({ roomId }: { roomId: number }) {
       try {
         const like = await axios.post('/api/likes', {
           roomId: room.id,
-        })
+        });
 
         if (like.status === 201) {
-          toast.success('숙소를 찜했습니다.')
+          toast.success('숙소를 찜했습니다.');
         } else {
-          toast.error('찜을 취소했습니다.')
+          toast.error('찜을 취소했습니다.');
         }
-        refetch()
+        refetch();
       } catch (e) {
-        console.log(e)
+        console.log(e);
       }
     } else {
-      toast.error('로그인 후 시도해주세요')
+      toast.error('로그인 후 시도해주세요');
     }
-  }
+  };
 
   return (
     <button
@@ -66,5 +66,5 @@ export default function LikeButton({ roomId }: { roomId: number }) {
         </>
       )}
     </button>
-  )
+  );
 }
