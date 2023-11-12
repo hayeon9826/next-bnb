@@ -56,6 +56,9 @@
     "no-param-reassign": "warn",
     "jsx-a11y/click-events-have-key-events": "warn",
     "@typescript-eslint/no-unused-expressions": "warn",
+    "@typescript-eslint/return-await": "warn",
+    "react/jsx-indent": "off",
+    "@typescript-eslint/indent": "off",
     // undefined로 확인되는 값에서 optional chanining에 대한 경고를 활성화
     "no-unsafe-optional-chaining": 1,
     "unused-imports/no-unused-vars": ["off"]
