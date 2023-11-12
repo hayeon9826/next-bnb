@@ -60,13 +60,12 @@ export default function Navbar() {
     <Navbar.DefaultNavbar showFilter={showFilter}>
       {showFilter === false ? (
         <div className="w-full py-1.5 sm:w-[340px] border border-gray-20 rounded-full shadow hover:shadow-lg cursor-pointer flex justify-between pl-6 pr-2">
-          <div
+          <button
             className="flex justify-center gap-1"
-            role="presentation"
+            type="button"
             data-cy="filter-open"
             onClick={() => {
               setShowFilter(true)
-              console.log('clicked!!')
             }}
           >
             <div className="my-auto font-semibold text-sm">어디든지</div>
@@ -74,7 +73,7 @@ export default function Navbar() {
             <div className="my-auto font-semibold text-sm">언제든 일주일</div>
             <RxDividerVertical className="text-gray-200 text-2xl my-auto" />
             <div className="my-auto text-sm text-gray-500">게스트 추가</div>
-          </div>
+          </button>
           <button
             role="presentation"
             className="bg-rose-500 text-white rounded-full w-8 h-8"
@@ -240,8 +239,6 @@ interface RightMenuProps {
 Navbar.RightMenu = function ({ setShowMenu, showMenu }: RightMenuProps) {
   const { status, data: session } = useSession()
   const router = useRouter()
-
-  console.log('status: ', status, 'session: ', session)
 
   return (
     <div className="hidden md:flex gap-4 grow basis-0 justify-end relative  h-14 items-center">

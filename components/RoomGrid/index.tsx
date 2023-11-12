@@ -22,6 +22,12 @@ export function RoomItem({ room }: { room: RoomType }) {
           />
         </div>
         <div className="mt-2 font-semibold text-sm">{room.title}</div>
+        <span
+          data-cy="room-category"
+          className="text-xs px-2 py-1 rounded-full bg-black text-white mt-1"
+        >
+          {room.category}
+        </span>
         <div className="mt-1 text-gray-400 text-sm" data-cy="room-address">
           {room.address}
         </div>

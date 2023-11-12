@@ -29,7 +29,6 @@ export function LocationFilter() {
 
   return (
     <FilterLayout
-      data-cy="filter-location-wrapper"
       title="지역으로 검색하기"
       isShow={detailFilter === 'location'}
     >
