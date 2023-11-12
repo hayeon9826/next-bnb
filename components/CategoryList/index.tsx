@@ -11,7 +11,10 @@ export default function CategoryList() {
   const [filterValue, setFilterValue] = useRecoilState(filterState)
 
   return (
-    <div className="flex gap-6 overflow-x-scroll inset-x-0 max-w-7xl flex-nowrap mx-auto sm:pr-16 sm:pl-4 px-2 mb-6 fixed bg-white top-20 z-[1]">
+    <div
+      data-cy="category-filter"
+      className="flex gap-6 overflow-x-scroll inset-x-0 max-w-7xl flex-nowrap mx-auto sm:pr-16 sm:pl-4 px-2 mb-6 fixed bg-white top-20 z-[1]"
+    >
       <button
         className="flex-none justify-center gap-3 py-4 w-16 text-center"
         onClick={() =>
@@ -38,6 +41,7 @@ export default function CategoryList() {
       </button>
       {CATEGORY?.map((category) => (
         <button
+          data-cy={`category-filter-${category.title}`}
           key={category.title}
           className="flex-none justify-center gap-3 py-4 w-16 text-center"
           onClick={() =>
@@ -56,7 +60,9 @@ export default function CategoryList() {
               },
             )}
           >
-            <div className="text-2xl  mx-auto">{category.icon()}</div>
+            <div className="text-2xl  mx-auto">
+              <category.Icon />
+            </div>
             <div className="text-xs">{category.title}</div>
           </div>
         </button>

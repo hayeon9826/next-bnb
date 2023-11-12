@@ -12,7 +12,7 @@ import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai'
 
 import FilterLayout from './layout'
 
-export const SearchFilter = () => {
+export function SearchFilter() {
   return (
     <>
       <LocationFilter />
@@ -23,7 +23,7 @@ export const SearchFilter = () => {
   )
 }
 
-export const LocationFilter = () => {
+export function LocationFilter() {
   const [filterValue, setFilterValue] = useRecoilState(filterState)
   const [detailFilter, setDetailFilter] = useRecoilState(detailFilterState)
 
@@ -37,6 +37,7 @@ export const LocationFilter = () => {
           (value) => (
             <button
               key={value}
+              data-cy={`filter-location-${value}`}
               className={cn(
                 'border rounded-lg px-5 py-2.5 hover:bg-gray-200 focus:bg-rose-500',
                 {
@@ -77,7 +78,7 @@ export const LocationFilter = () => {
   )
 }
 
-export const CheckInFilter = () => {
+export function CheckInFilter() {
   const [filterValue, setFilterValue] = useRecoilState(filterState)
   const [detailFilter, setDetailFilter] = useRecoilState(detailFilterState)
 
@@ -109,7 +110,7 @@ export const CheckInFilter = () => {
   )
 }
 
-export const CheckOutFilter = () => {
+export function CheckOutFilter() {
   const [filterValue, setFilterValue] = useRecoilState(filterState)
   const [detailFilter, setDetailFilter] = useRecoilState(detailFilterState)
 
@@ -141,7 +142,7 @@ export const CheckOutFilter = () => {
   )
 }
 
-export const GuestFilter = () => {
+export function GuestFilter() {
   const [filterValue, setFilterValue] = useRecoilState(filterState)
   const detailFilter = useRecoilValue(detailFilterState)
   const [counter, setCounter] = useState<number>(filterValue.guest || 0)

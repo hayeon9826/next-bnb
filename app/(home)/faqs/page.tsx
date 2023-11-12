@@ -1,7 +1,7 @@
-import { FaqType } from '@/interface'
+import { FaqType } from '@/interface';
 
 export default async function FaqPage() {
-  const data: FaqType[] = await getData()
+  const data: FaqType[] = await getData();
 
   return (
     <div className="max-w-5xl mx-auto">
@@ -21,18 +21,18 @@ export default async function FaqPage() {
         ))}
       </div>
     </div>
-  )
+  );
 }
 
 async function getData() {
   // Error Boundary 테스트: 아래 url 변경 후 테스트하기
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/faqs`, {
     cache: 'force-cache',
-  })
+  });
 
   if (!res.ok) {
-    throw new Error('Failed to fetch data')
+    throw new Error('Failed to fetch data');
   }
 
-  return res.json()
+  return res.json();
 }

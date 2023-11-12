@@ -4,9 +4,8 @@ import { ListLoader } from '@/components/Loader'
 import { BookingType, bookingStatusMessage } from '@/interface'
 import axios from 'axios'
 import { useSession } from 'next-auth/react'
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { useCallback } from 'react'
 import { useInfiniteQuery } from 'react-query'
 
 import dayjs from 'dayjs'
@@ -18,7 +17,7 @@ export default function BookingsPage() {
   const { data: session } = useSession()
 
   const fetchBookings = async ({ pageParam = 1 }) => {
-    const { data } = await axios(`/api/bookings?page=` + pageParam, {
+    const { data } = await axios(`/api/bookings?page=${pageParam}`, {
       params: {
         limit: 5,
         page: pageParam,
@@ -75,6 +74,7 @@ export default function BookingsPage() {
                         width={80}
                         height={80}
                         className="rounded-md"
+                        alt="booking img"
                       />
                       <div className="flex flex-col gap-1 w-full">
                         <div className="flex gap-4 items-center flex-wrap justify-between">

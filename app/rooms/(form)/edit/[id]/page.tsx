@@ -1,15 +1,15 @@
-import RoomEditForm from '@/components/Form/RoomEditForm'
-import { RoomType } from '@/interface'
+import RoomEditForm from '@/components/Form/RoomEditForm';
+import { RoomType } from '@/interface';
 
 interface ParamsProps {
   params: { id: string }
 }
 
 export default async function RoomEdit({ params }: ParamsProps) {
-  const id = params.id
-  const data: RoomType = await getData(id)
+  const { id } = params;
+  const data: RoomType = await getData(id);
 
-  return <RoomEditForm data={data} />
+  return <RoomEditForm data={data} />;
 }
 
 async function getData(id: string) {
@@ -18,11 +18,11 @@ async function getData(id: string) {
     {
       cache: 'no-cache',
     },
-  )
+  );
 
   if (!res.ok) {
-    throw new Error('Failed to fetch data')
+    throw new Error('Failed to fetch data');
   }
 
-  return res.json()
+  return res.json();
 }

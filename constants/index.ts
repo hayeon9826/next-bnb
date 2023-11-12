@@ -31,22 +31,22 @@ const keyIcon = GiStarKey
 const surfingIcon = MdOutlineSurfing
 
 export const CATEGORY = [
-  { title: '전망좋은', icon: weatherIcon },
-  { title: '자연', icon: natureIcon },
-  { title: '동굴', icon: caveIcon },
-  { title: '캠핑장', icon: campingIcon },
-  { title: '방', icon: roomIcon },
-  { title: '한옥', icon: koreanHouseIcon },
-  { title: '해변', icon: beachIcon },
-  { title: '국립공원', icon: treeIcon },
-  { title: '인기', icon: popularIcon },
-  { title: '수영장', icon: swimmingIcon },
-  { title: '농장', icon: farmIcon },
-  { title: '스키', icon: skiIcon },
-  { title: '호수', icon: lakeIcon },
-  { title: '키즈', icon: kidIcon },
-  { title: '신규', icon: keyIcon },
-  { title: '서핑', icon: surfingIcon },
+  { title: '전망좋은', Icon: IoPartlySunnyOutline },
+  { title: '자연', Icon: GiHolyOak },
+  { title: '동굴', Icon: GiCaveEntrance },
+  { title: '캠핑장', Icon: GiCampingTent },
+  { title: '방', Icon: MdOutlineBedroomChild },
+  { title: '한옥', Icon: FaHouseUser },
+  { title: '해변', Icon: FaUmbrellaBeach },
+  { title: '국립공원', Icon: BiSolidTree },
+  { title: '인기', Icon: AiOutlineStar },
+  { title: '수영장', Icon: TbSwimming },
+  { title: '농장', Icon: GiBarn },
+  { title: '스키', Icon: GiSkier },
+  { title: '호수', Icon: BiWater },
+  { title: '키즈', Icon: TbMoodKid },
+  { title: '신규', Icon: GiStarKey },
+  { title: '서핑', Icon: MdOutlineSurfing },
 ]
 
 /** @example - Blur Data URL 생성: https://png-pixel.com/  */

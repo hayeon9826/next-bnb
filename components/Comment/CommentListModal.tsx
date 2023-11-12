@@ -7,9 +7,9 @@ import { useInfiniteQuery } from 'react-query'
 import useIntersectionObserver from '@/hooks/useIntersectionObserver'
 import axios from 'axios'
 import { CommentType } from '@/interface'
+import dayjs from 'dayjs'
 import { Loader } from '../Loader'
 
-import dayjs from 'dayjs'
 import 'dayjs/locale/ko'
 
 interface CommentListModalProps {
@@ -32,7 +32,7 @@ export default function CommentListModal({
 
   const fetchComments = async ({ pageParam = 1 }) => {
     const { data } = await axios(
-      `/api/comments?roomId=${roomId}&page=` + pageParam,
+      `/api/comments?roomId=${roomId}&page=${pageParam}`,
       {
         params: {
           limit: 12,
@@ -122,6 +122,7 @@ export default function CommentListModal({
                               width={50}
                               height={50}
                               className="rounded-full"
+                              alt="comment img"
                             />
                             <div>
                               <h1 className="font-semibold">

@@ -1,10 +1,10 @@
-import NextAuth, { NextAuthOptions } from 'next-auth'
-import { PrismaAdapter } from '@auth/prisma-adapter'
-import prisma from '@/db'
+import NextAuth, { NextAuthOptions } from 'next-auth';
+import { PrismaAdapter } from '@auth/prisma-adapter';
+import prisma from '@/db';
 
-import GoogleProvider from 'next-auth/providers/google'
-import NaverProvider from 'next-auth/providers/naver'
-import KakaoProvider from 'next-auth/providers/kakao'
+import GoogleProvider from 'next-auth/providers/google';
+import NaverProvider from 'next-auth/providers/naver';
+import KakaoProvider from 'next-auth/providers/kakao';
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -40,13 +40,13 @@ export const authOptions: NextAuthOptions = {
     }),
     jwt: async ({ user, token }) => {
       if (user) {
-        token.sub = user.id
+        token.sub = user.id;
       }
-      return token
+      return token;
     },
   },
-}
+};
 
-const handler = NextAuth(authOptions)
+const handler = NextAuth(authOptions);
 
-export { handler as GET, handler as POST }
+export { handler as GET, handler as POST };

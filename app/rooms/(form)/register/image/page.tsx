@@ -30,7 +30,7 @@ export default function RoomRegisterImage() {
   const router = useRouter()
   const roomForm = useRecoilValue(roomFormState)
   const [images, setImages] = useState<string[] | null>(null)
-  let imageKeys: string[] = []
+  const imageKeys: string[] = []
 
   const resetRoomForm = useResetRecoilState(roomFormState)
 
@@ -100,8 +100,8 @@ export default function RoomRegisterImage() {
       uploadImages(images).then(async (images) => {
         const result = await axios.post('/api/rooms', {
           ...roomForm,
-          images: images,
-          imageKeys: imageKeys,
+          images,
+          imageKeys,
         })
 
         if (result.status === 200) {
@@ -181,6 +181,7 @@ export default function RoomRegisterImage() {
                     width={100}
                     height={100}
                     className="rounded-md"
+                    alt="register img"
                   />
                 ))}
             </div>

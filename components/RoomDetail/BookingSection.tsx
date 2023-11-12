@@ -1,51 +1,51 @@
-'use client'
+'use client';
 
-import { filterState } from '@/atom'
-import { RoomType } from '@/interface'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { filterState } from '@/atom';
+import { RoomType } from '@/interface';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
-import dayjs from 'dayjs'
-import 'dayjs/locale/ko'
-import { calculatedFilterState } from '@/atom/selector'
-import { useCallback } from 'react'
-import { useRouter } from 'next/navigation'
-import { useSession } from 'next-auth/react'
+import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
+import { calculatedFilterState } from '@/atom/selector';
+import { useCallback } from 'react';
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 export default function BookingSection({ data }: { data: RoomType }) {
-  const router = useRouter()
-  const { status } = useSession()
-  const [filterValue, setFilterValue] = useRecoilState(filterState)
-  const { dayCount, guestCount } = useRecoilValue(calculatedFilterState)
-  const totalAmount = data?.price * dayCount * guestCount
-  const checkFormValid = totalAmount > 0 && status === 'authenticated'
+  const router = useRouter();
+  const { status } = useSession();
+  const [filterValue, setFilterValue] = useRecoilState(filterState);
+  const { dayCount, guestCount } = useRecoilValue(calculatedFilterState);
+  const totalAmount = data?.price * dayCount * guestCount;
+  const checkFormValid = totalAmount > 0 && status === 'authenticated';
 
   const onChangeCheckIn = (e: any) => {
     setFilterValue({
       ...filterValue,
       checkIn: e?.target?.value,
-    })
-  }
+    });
+  };
   const onChangeCheckOut = (e: any) => {
     setFilterValue({
       ...filterValue,
       checkOut: e?.target?.value,
-    })
-  }
+    });
+  };
 
   const onChangeGuest = (e: any) => {
     setFilterValue({
       ...filterValue,
       guest: e?.target?.value,
-    })
-  }
+    });
+  };
 
-  const totalValue = `₩${totalAmount?.toLocaleString()}`
+  const totalValue = `₩${totalAmount?.toLocaleString()}`;
 
   const handleSubmit = useCallback(() => {
     router.push(
       `/rooms/${data.id}/bookings?checkIn=${filterValue?.checkIn}&checkOut=${filterValue?.checkOut}&guestCount=${guestCount}&totalAmount=${totalAmount}&totalDays=${dayCount}`,
-    )
-  }, [data, filterValue, guestCount, totalAmount, dayCount])
+    );
+  }, [data, filterValue, guestCount, totalAmount, dayCount]);
 
   return (
     <div className="w-full">
@@ -53,8 +53,11 @@ export default function BookingSection({ data }: { data: RoomType }) {
         <div className="text-gray-600 flex justify-between items-center">
           <div>
             <span className="font-semibold text-lg text-black md:text-xl">
-              {data?.price?.toLocaleString()} 원
-            </span>{' '}
+              {data?.price?.toLocaleString()}
+              {' '}
+              원
+            </span>
+            {' '}
             /박
           </div>
           <div className="text-xs">후기 15개</div>
@@ -111,8 +114,12 @@ export default function BookingSection({ data }: { data: RoomType }) {
         <div className="mt-4 flex flex-col gap-2 border-b-gray-300 border-b pb-4  text-xs md:text-sm">
           <div className="flex justify-between">
             <div className="text-gray-600 underline">
-              {`₩`}
-              {data?.price?.toLocaleString()} x {dayCount}박
+              ₩
+              {data?.price?.toLocaleString()}
+              {' '}
+              x
+              {dayCount}
+              박
             </div>
             <div className="text-gray-500">{totalValue}</div>
           </div>
@@ -131,5 +138,5 @@ export default function BookingSection({ data }: { data: RoomType }) {
         </div>
       </div>
     </div>
-  )
+  );
 }

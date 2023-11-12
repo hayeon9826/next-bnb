@@ -1,9 +1,8 @@
 'use client'
 
 import { Dispatch, SetStateAction, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import cn from 'classnames'
-import { usePathname } from 'next/navigation'
 
 import { signOut, useSession } from 'next-auth/react'
 
@@ -11,11 +10,11 @@ import { RxDividerVertical } from 'react-icons/rx'
 import { AiOutlineSearch, AiOutlineMenu, AiOutlineUser } from 'react-icons/ai'
 import { MdModeOfTravel } from 'react-icons/md'
 
-import { SearchFilter } from './Filter'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { detailFilterState, filterState } from '@/atom'
 import Link from 'next/link'
 import { Domains } from '@/constants'
+import { SearchFilter } from './Filter'
 
 const LOGIN_MENU = [
   { id: 1, title: '로그인', url: '/users/signin' },
@@ -25,19 +24,22 @@ const LOGIN_MENU = [
 
 const LOGOUT_MENU = [
   { id: 1, title: '마이페이지', url: '/users/mypage' },
-  { id: 2, title: '로그아웃', url: '/', signOut: true },
+  {
+    id: 2,
+    title: '로그아웃',
+    url: '/',
+    signOut: true,
+  },
   { id: 3, title: 'FAQ', url: '/faqs' },
 ]
 
 export default function Navbar() {
   const pathname = usePathname()
-  const router = useRouter()
 
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const [showFilter, setShowFilter] = useState<boolean>(false)
   const [detailFilter, setDetailFilter] = useRecoilState(detailFilterState)
   const filterValue = useRecoilValue(filterState)
-  const handleGoMain = () => router.push('/')
 
   const isUsersPath = pathname.includes('/users')
   const isBookingsPath = pathname.includes('/bookings')
@@ -58,17 +60,20 @@ export default function Navbar() {
     <Navbar.DefaultNavbar showFilter={showFilter}>
       {showFilter === false ? (
         <div className="w-full py-1.5 sm:w-[340px] border border-gray-20 rounded-full shadow hover:shadow-lg cursor-pointer flex justify-between pl-6 pr-2">
-          <div
+          <button
             className="flex justify-center gap-1"
-            role="presentation"
-            onClick={() => setShowFilter(true)}
+            type="button"
+            data-cy="filter-open"
+            onClick={() => {
+              setShowFilter(true)
+            }}
           >
             <div className="my-auto font-semibold text-sm">어디든지</div>
             <RxDividerVertical className="text-gray-200 text-2xl my-auto" />
             <div className="my-auto font-semibold text-sm">언제든 일주일</div>
             <RxDividerVertical className="text-gray-200 text-2xl my-auto" />
             <div className="my-auto text-sm text-gray-500">게스트 추가</div>
-          </div>
+          </button>
           <button
             role="presentation"
             className="bg-rose-500 text-white rounded-full w-8 h-8"
@@ -117,6 +122,7 @@ export default function Navbar() {
             <div className="grid grid-cols-1 sm:grid-cols-4 w-full relative">
               <div
                 role="presentation"
+                data-cy="filter-location"
                 onClick={() => setDetailFilter('location')}
                 className={cn(
                   'my-auto font-semibold text-xs rounded-full hover:bg-gray-100 py-3 px-6',
@@ -178,6 +184,7 @@ export default function Navbar() {
               <SearchFilter />
             </div>
             <button
+              data-cy="filter-submit"
               role="presentation"
               className="bg-rose-600 text-white rounded-full h-12 mx-4 sm:h-10 md:w-24 my-auto flex justify-center gap-1 px-2 sm:px-4 py-2 sm:mr-2 hover:shadow hover:bg-rose-500"
               onClick={() => {
@@ -201,7 +208,7 @@ interface DefaultNavbarProps {
   children?: React.ReactNode
 }
 
-Navbar.DefaultNavbar = ({ showFilter, children }: DefaultNavbarProps) => {
+Navbar.DefaultNavbar = function ({ showFilter, children }: DefaultNavbarProps) {
   return (
     <nav
       className={cn(
@@ -229,7 +236,7 @@ interface RightMenuProps {
   setShowMenu: Dispatch<SetStateAction<boolean>>
 }
 
-Navbar.RightMenu = ({ setShowMenu, showMenu }: RightMenuProps) => {
+Navbar.RightMenu = function ({ setShowMenu, showMenu }: RightMenuProps) {
   const { status, data: session } = useSession()
   const router = useRouter()
 

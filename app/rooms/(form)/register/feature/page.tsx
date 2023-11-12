@@ -1,24 +1,24 @@
-'use client'
+'use client';
 
-import { roomFormState } from '@/atom'
-import NextButton from '@/components/Form/NextButton'
-import Stepper from '@/components/Form/Stepper'
-import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
-import { useRecoilState } from 'recoil'
-import cn from 'classnames'
+import { roomFormState } from '@/atom';
+import NextButton from '@/components/Form/NextButton';
+import Stepper from '@/components/Form/Stepper';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { useRecoilState } from 'recoil';
+import cn from 'classnames';
 import {
   AiOutlineCheckCircle,
   AiOutlineDesktop,
   AiOutlineWifi,
-} from 'react-icons/ai'
-import { BsDoorClosed } from 'react-icons/bs'
-import { PiBathtub, PiMountainsDuotone } from 'react-icons/pi'
-import { MdOutlineLocalLaundryService } from 'react-icons/md'
-import { GiBarbecue } from 'react-icons/gi'
-import { LuParkingCircle } from 'react-icons/lu'
-import { Domains } from '@/constants'
+} from 'react-icons/ai';
+import { BsDoorClosed } from 'react-icons/bs';
+import { PiBathtub, PiMountainsDuotone } from 'react-icons/pi';
+import { MdOutlineLocalLaundryService } from 'react-icons/md';
+import { GiBarbecue } from 'react-icons/gi';
+import { LuParkingCircle } from 'react-icons/lu';
+import { Domains } from '@/constants';
 
 interface RoomFeatureProps {
   freeCancel?: boolean
@@ -34,15 +34,15 @@ interface RoomFeatureProps {
 }
 
 export default function RoomRegisterFeature() {
-  const router = useRouter()
-  const [roomForm, setRoomForm] = useRecoilState(roomFormState)
+  const router = useRouter();
+  const [roomForm, setRoomForm] = useRecoilState(roomFormState);
   const {
     register,
     handleSubmit,
     setValue,
     watch,
     formState: { isSubmitting },
-  } = useForm<RoomFeatureProps>()
+  } = useForm<RoomFeatureProps>();
 
   const onSubmit = (data: RoomFeatureProps) => {
     setRoomForm({
@@ -57,31 +57,31 @@ export default function RoomRegisterFeature() {
       hasWifi: data.hasWifi,
       hasBarbeque: data.hasBarbeque,
       hasFreeParking: data.hasFreeParking,
-    })
-    router.push(Domains.REGISTER_ROOM_IMAGE)
-  }
+    });
+    router.push(Domains.REGISTER_ROOM_IMAGE);
+  };
 
   const onClick = (
     event: React.ChangeEvent<HTMLInputElement>,
     title: keyof RoomFeatureProps,
   ) => {
-    setValue(title, event?.target?.checked)
-  }
+    setValue(title, event?.target?.checked);
+  };
 
   useEffect(() => {
     if (roomForm) {
-      setValue('freeCancel', roomForm?.freeCancel)
-      setValue('selfCheckIn', roomForm?.selfCheckIn)
-      setValue('officeSpace', roomForm?.officeSpace)
-      setValue('hasMountainView', roomForm?.hasMountainView)
-      setValue('hasShampoo', roomForm?.hasShampoo)
-      setValue('hasFreeLaundry', roomForm?.hasFreeLaundry)
-      setValue('hasAirConditioner', roomForm?.hasAirConditioner)
-      setValue('hasWifi', roomForm?.hasWifi)
-      setValue('hasBarbeque', roomForm?.hasBarbeque)
-      setValue('hasFreeParking', roomForm?.hasFreeParking)
+      setValue('freeCancel', roomForm?.freeCancel);
+      setValue('selfCheckIn', roomForm?.selfCheckIn);
+      setValue('officeSpace', roomForm?.officeSpace);
+      setValue('hasMountainView', roomForm?.hasMountainView);
+      setValue('hasShampoo', roomForm?.hasShampoo);
+      setValue('hasFreeLaundry', roomForm?.hasFreeLaundry);
+      setValue('hasAirConditioner', roomForm?.hasAirConditioner);
+      setValue('hasWifi', roomForm?.hasWifi);
+      setValue('hasBarbeque', roomForm?.hasBarbeque);
+      setValue('hasFreeParking', roomForm?.hasFreeParking);
     }
-  }, [roomForm])
+  }, [roomForm]);
 
   return (
     <>
@@ -227,7 +227,7 @@ export default function RoomRegisterFeature() {
         <NextButton type="submit" disabled={isSubmitting} />
       </form>
     </>
-  )
+  );
 }
 
 interface CheckBoxLayoutProps {
@@ -235,10 +235,10 @@ interface CheckBoxLayoutProps {
   isChecked: boolean
 }
 
-RoomRegisterFeature.CheckBoxLayout = ({
+RoomRegisterFeature.CheckBoxLayout = function ({
   children,
   isChecked,
-}: CheckBoxLayoutProps) => {
+}: CheckBoxLayoutProps) {
   return (
     <label
       className={cn(
@@ -250,5 +250,5 @@ RoomRegisterFeature.CheckBoxLayout = ({
     >
       {children}
     </label>
-  )
-}
+  );
+};

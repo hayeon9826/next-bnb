@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 export default function NextButton({
   text = '다음',
@@ -20,5 +20,5 @@ export default function NextButton({
     >
       {text}
     </button>
-  )
+  );
 }

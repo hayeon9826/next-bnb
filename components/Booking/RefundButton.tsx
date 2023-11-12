@@ -1,11 +1,11 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { BookingType } from '@/interface'
+import { useState } from 'react';
+import { BookingType } from '@/interface';
 
-import toast from 'react-hot-toast'
-import Modal from '../Modal'
-import axios from 'axios'
+import toast from 'react-hot-toast';
+import axios from 'axios';
+import Modal from '../Modal';
 
 interface RefundProps {
   booking: BookingType
@@ -13,31 +13,31 @@ interface RefundProps {
 }
 
 export default function RefundButton({ booking, canRefund }: RefundProps) {
-  const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [isRefund, setIsRefund] = useState<boolean>(false)
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isRefund, setIsRefund] = useState<boolean>(false);
 
   const closeModal = () => {
-    setIsOpen(false)
-  }
+    setIsOpen(false);
+  };
 
   const openModal = () => {
-    setIsOpen(true)
-  }
+    setIsOpen(true);
+  };
 
   const handleRefund = async () => {
     const res = await axios.patch('/api/bookings', {
       id: booking.id,
       status: 'CANCEL',
-    })
+    });
 
     if (res.status === 200) {
-      toast.success('해당 예약을 취소했습니다.')
-      setIsRefund(true)
+      toast.success('해당 예약을 취소했습니다.');
+      setIsRefund(true);
     } else {
-      toast.error('다시 시도해주세요.')
+      toast.error('다시 시도해주세요.');
     }
-    closeModal()
-  }
+    closeModal();
+  };
 
   return (
     <>
@@ -74,5 +74,5 @@ export default function RefundButton({ booking, canRefund }: RefundProps) {
         </div>
       </Modal>
     </>
-  )
+  );
 }
