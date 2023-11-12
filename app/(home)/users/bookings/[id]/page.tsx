@@ -69,7 +69,7 @@ export default async function BookingPage({
           <div className="flex justify-between gap-4 text-gray-600">
             <div>
               {`₩${booking?.room?.price?.toLocaleString()}`} x{' '}
-              {booking?.totalDays}박
+              {booking?.totalDays}박 ({booking?.guestCount}명)
             </div>
             <div>{`₩${booking?.totalAmount?.toLocaleString()}`}</div>
           </div>
@@ -143,7 +143,7 @@ export default async function BookingPage({
                 <div className="flex justify-between gap-4 text-gray-600">
                   <div>
                     {`₩${booking?.room?.price?.toLocaleString()}`} x{' '}
-                    {booking?.totalDays}박
+                    {booking?.totalDays}박 ({booking?.guestCount}명)
                   </div>
                   <div>{`₩${booking?.totalAmount?.toLocaleString()}`}</div>
                 </div>

@@ -130,7 +130,8 @@ export default async function BookingPage({
               <h1 className="text-lg md:text-xl mt-4">요금 세부정보</h1>
               <div className="flex justify-between gap-4 text-gray-600">
                 <div>
-                  {`₩${data?.price?.toLocaleString()}`} x{totalDays}박
+                  {`₩${data?.price?.toLocaleString()}`} x{totalDays}박 (
+                  {guestCount}명)
                 </div>
                 <div>{`₩${parseInt(totalAmount).toLocaleString()}`}</div>
               </div>
