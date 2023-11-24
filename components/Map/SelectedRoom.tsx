@@ -1,13 +1,13 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { AiOutlineCloseCircle } from 'react-icons/ai';
+import Image from 'next/image'
+import Link from 'next/link'
+import { AiOutlineCloseCircle } from 'react-icons/ai'
 
-import { BLUR_DATA_URL } from '@/constants';
-import { useRecoilState } from 'recoil';
-import { currentRoomState } from '@/atom';
+import { BLUR_DATA_URL } from '@/constants'
+import { useRecoilState } from 'recoil'
+import { currentRoomState } from '@/atom'
 
 export default function SelectedRoom() {
-  const [room, setRoom] = useRecoilState(currentRoomState);
+  const [room, setRoom] = useRecoilState(currentRoomState)
 
   return (
     <div className="fixed inset-x-0 mx-auto bottom-20 rounded-lg shadow-xl max-w-xs md:max-w-sm z-10 w-full bg-white">
@@ -36,8 +36,7 @@ export default function SelectedRoom() {
               <div className="mt-2 font-semibold text-sm">{room.title}</div>
               <div className="mt-1 text-gray-400 text-sm">{room.address}</div>
               <div className="mt-1 text-sm">
-                {room.price?.toLocaleString()}
-                원
+                {room.price?.toLocaleString()}원
                 <span className="text-gray-500"> /박</span>
               </div>
             </div>
@@ -45,5 +44,5 @@ export default function SelectedRoom() {
         </div>
       )}
     </div>
-  );
+  )
 }

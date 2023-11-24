@@ -1,9 +1,9 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server'
 
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 
-import prisma from '@/db';
+import prisma from '@/db'
 
 interface PaymentProps {
   bookingId: string
@@ -11,14 +11,14 @@ interface PaymentProps {
   orderId: string
   orderName: string
   status:
-  | 'READY'
-  | 'IN_PROGRESS'
-  | 'WAITING_FOR_DEPOSIT'
-  | 'DONE'
-  | 'CANCELED'
-  | 'PARTIAL_CANCELED'
-  | 'ABORTED'
-  | 'EXPIRED'
+    | 'READY'
+    | 'IN_PROGRESS'
+    | 'WAITING_FOR_DEPOSIT'
+    | 'DONE'
+    | 'CANCELED'
+    | 'PARTIAL_CANCELED'
+    | 'ABORTED'
+    | 'EXPIRED'
 }
 
 interface PaymentCompleteProps {
@@ -29,14 +29,14 @@ interface PaymentCompleteProps {
   receiptUrl: string
   approvedAt: string
   status:
-  | 'READY'
-  | 'IN_PROGRESS'
-  | 'WAITING_FOR_DEPOSIT'
-  | 'DONE'
-  | 'CANCELED'
-  | 'PARTIAL_CANCELED'
-  | 'ABORTED'
-  | 'EXPIRED'
+    | 'READY'
+    | 'IN_PROGRESS'
+    | 'WAITING_FOR_DEPOSIT'
+    | 'DONE'
+    | 'CANCELED'
+    | 'PARTIAL_CANCELED'
+    | 'ABORTED'
+    | 'EXPIRED'
   bookingStatus: 'CANCEL' | 'SUCCESS' | 'PENDING' | 'FAILED'
   failureCode: string
   failureMessage: string
@@ -49,12 +49,11 @@ interface PaymentCompleteProps {
 }
 
 export async function POST(req: Request) {
-  const session = await getServerSession(authOptions);
-  const formData = await req.json();
+  const session = await getServerSession(authOptions)
+  const formData = await req.json()
 
-  const {
-    bookingId, amount, status, orderId, orderName,
-  }: PaymentProps = formData;
+  const { bookingId, amount, status, orderId, orderName }: PaymentProps =
+    formData
 
   if (!session?.user) {
     return NextResponse.json(
@@ -62,7 +61,7 @@ export async function POST(req: Request) {
       {
         status: 401,
       },
-    );
+    )
   }
 
   const payment = await prisma.payment.create({
@@ -73,16 +72,16 @@ export async function POST(req: Request) {
       orderId,
       orderName,
     },
-  });
+  })
 
   return NextResponse.json(payment, {
     status: 200,
-  });
+  })
 }
 
 export async function PATCH(req: Request) {
   // 데이터 수정을 처리한다 (환불)
-  const formData = await req.json();
+  const formData = await req.json()
   const {
     orderId,
     paymentKey,
@@ -100,7 +99,7 @@ export async function PATCH(req: Request) {
     requestedAt,
     cardType,
     checkoutUrl,
-  }: PaymentCompleteProps = formData;
+  }: PaymentCompleteProps = formData
 
   const payment = await prisma.payment.update({
     where: {
@@ -122,7 +121,7 @@ export async function PATCH(req: Request) {
       cardType,
       checkoutUrl,
     },
-  });
+  })
 
   await prisma.booking.update({
     where: {
@@ -131,9 +130,9 @@ export async function PATCH(req: Request) {
     data: {
       status: bookingStatus,
     },
-  });
+  })
 
   return NextResponse.json(payment, {
     status: 200,
-  });
+  })
 }

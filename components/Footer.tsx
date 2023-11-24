@@ -1,14 +1,11 @@
-import Link from 'next/link';
+import Link from 'next/link'
 
 export default function Footer() {
   return (
     <footer className="bg-gray-50 py-2">
       <div className="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between border-b-gray-200 border-b">
         <span className="text-xs text-gray-800 sm:text-center">
-          © 2023
-          {' '}
-          <span className="hover:underline">nextbnb</span>
-          . All Rights
+          © 2023 <span className="hover:underline">nextbnb</span>. All Rights
           Reserved.
         </span>
         <ul className="flex flex-wrap items-center text-xs text-gray-800 mt-2 sm:mt-0">
@@ -65,5 +62,5 @@ export default function Footer() {
         제공하는 호스트에게 있습니다.
       </div>
     </footer>
-  );
+  )
 }

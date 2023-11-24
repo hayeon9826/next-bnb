@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 export default function Error({
   error,
@@ -18,9 +18,7 @@ export default function Error({
             해당 페이지를 가져오던 중 문제가 생겼습니다.
           </p>
           <p className="mt-8 text-gray-400 text-xs max-w-lg mx-auto">
-            Error Message:
-            {' '}
-            {error?.message || '없음'}
+            Error Message: {error?.message || '없음'}
           </p>
           <div className="mt-8">
             <button
@@ -33,5 +31,5 @@ export default function Error({
         </div>
       </div>
     </div>
-  );
+  )
 }

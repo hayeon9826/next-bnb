@@ -1,32 +1,32 @@
-'use client';
+'use client'
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 
-import NextButton from '@/components/Form/NextButton';
-import Stepper from '@/components/Form/Stepper';
-import { useRouter } from 'next/navigation';
-import cn from 'classnames';
-import { CATEGORY, Domains } from '@/constants';
-import { useRecoilState } from 'recoil';
-import { roomFormState } from '@/atom';
+import NextButton from '@/components/Form/NextButton'
+import Stepper from '@/components/Form/Stepper'
+import { useRouter } from 'next/navigation'
+import cn from 'classnames'
+import { CATEGORY, Domains } from '@/constants'
+import { useRecoilState } from 'recoil'
+import { roomFormState } from '@/atom'
 
 export default function RoomRegisterCategory() {
-  const [roomForm, setRoomForm] = useRecoilState(roomFormState);
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [roomForm, setRoomForm] = useRecoilState(roomFormState)
+  const [selectedCategory, setSelectedCategory] = useState<string>('')
 
-  const router = useRouter();
+  const router = useRouter()
 
   const handleSubmit = () => {
     setRoomForm({
       ...roomForm,
       category: selectedCategory,
-    });
-    router.push(Domains.REGISTER_ROOM_INFO);
-  };
+    })
+    router.push(Domains.REGISTER_ROOM_INFO)
+  }
 
   useEffect(() => {
-    setSelectedCategory(roomForm?.category || '');
-  }, []);
+    setSelectedCategory(roomForm?.category || '')
+  }, [])
 
   return (
     <>
@@ -48,7 +48,9 @@ export default function RoomRegisterCategory() {
                 },
               )}
             >
-              <div className="text-2xl"><category.Icon /></div>
+              <div className="text-2xl">
+                <category.Icon />
+              </div>
               <h1 className="font-semibold text-lg ">{category?.title}</h1>
             </button>
           ))}
@@ -56,5 +58,5 @@ export default function RoomRegisterCategory() {
       </section>
       <NextButton disabled={!selectedCategory} onClick={handleSubmit} />
     </>
-  );
+  )
 }

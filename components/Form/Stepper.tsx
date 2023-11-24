@@ -1,4 +1,4 @@
-import cn from 'classnames';
+import cn from 'classnames'
 
 export default function Stepper({ count = 1, className = '' }) {
   return (
@@ -10,5 +10,5 @@ export default function Stepper({ count = 1, className = '' }) {
         <div className="bg-gray-300 w-full rounded-md" key={`active-${i}`} />
       ))}
     </div>
-  );
+  )
 }

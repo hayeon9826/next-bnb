@@ -1,7 +1,7 @@
-import axios from 'axios';
-import dayjs from 'dayjs';
+import axios from 'axios'
+import dayjs from 'dayjs'
 
-import { redirect } from 'next/navigation';
+import { redirect } from 'next/navigation'
 
 // https://docs.tosspayments.com/reference#payment-객체
 
@@ -44,17 +44,17 @@ interface ParamsProps {
 }
 
 export default async function SuccessPage({ searchParams }: ParamsProps) {
-  const { paymentKey } = searchParams;
-  const { orderId } = searchParams;
-  const { amount } = searchParams;
+  const { paymentKey } = searchParams
+  const { orderId } = searchParams
+  const { amount } = searchParams
   const data: Payment = await getPayment({
     paymentKey,
     orderId,
     amount,
-  });
+  })
 
   if (data?.redirect) {
-    redirect(data.redirect?.destination || '/');
+    redirect(data.redirect?.destination || '/')
   }
   return (
     <div className="max-w-2xl mx-auto py-20 px-4">
@@ -78,8 +78,7 @@ export default async function SuccessPage({ searchParams }: ParamsProps) {
         <div className="rounded-md border-black p-4 border-2 cursor-pointer hover:bg-black/5">
           <h3 className="font-semibold">결제 금액</h3>
           <div className="text-gray-800 text-sm mt-1">
-            {data?.payment?.totalAmount?.toLocaleString()}
-            원
+            {data?.payment?.totalAmount?.toLocaleString()}원
           </div>
         </div>
         <div className="rounded-md border-black p-4 border-2 cursor-pointer hover:bg-black/5">
@@ -108,7 +107,7 @@ export default async function SuccessPage({ searchParams }: ParamsProps) {
         </a>
       </div>
     </div>
-  );
+  )
 }
 
 async function getPayment({ paymentKey, orderId, amount }: APIPaymentProps) {
@@ -127,7 +126,7 @@ async function getPayment({ paymentKey, orderId, amount }: APIPaymentProps) {
           ).toString('base64')}`,
         },
       },
-    );
+    )
 
     // 성공이면 Payment 및 Booking 데이터 생성
 
@@ -147,14 +146,14 @@ async function getPayment({ paymentKey, orderId, amount }: APIPaymentProps) {
         requestedAt: payment?.requestedAt,
         cardType: payment?.card?.cardType,
         checkoutUrl: payment?.checkout?.url,
-      });
+      })
     }
 
     return {
       payment,
-    };
+    }
   } catch (err: any) {
-    console.error('err', err);
+    console.error('err', err)
 
     await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/api/payments`, {
       orderId,
@@ -163,12 +162,12 @@ async function getPayment({ paymentKey, orderId, amount }: APIPaymentProps) {
       failureCode: err.code,
       failureMessage: err.message,
       bookingStatus: 'FAILED',
-    });
+    })
 
     return {
       redirect: {
         destination: `/payments/fail?code=${err.code}&message=${err.message}`,
       },
-    };
+    }
   }
 }

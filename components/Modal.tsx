@@ -1,6 +1,6 @@
-import { Fragment } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
-import { AiOutlineClose } from 'react-icons/ai';
+import { Fragment } from 'react'
+import { Dialog, Transition } from '@headlessui/react'
+import { AiOutlineClose } from 'react-icons/ai'
 
 interface ModalProps {
   isOpen: boolean
@@ -61,5 +61,5 @@ export default function Modal({
         </div>
       </Dialog>
     </Transition>
-  );
+  )
 }

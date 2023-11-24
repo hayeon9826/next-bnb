@@ -1,23 +1,23 @@
-'use client';
+'use client'
 
-import { Fragment, useState } from 'react';
+import { Fragment, useState } from 'react'
 
-import { RoomType } from '@/interface';
-import { BLUR_DATA_URL } from '@/constants';
-import { Dialog, Transition } from '@headlessui/react';
-import Image from 'next/image';
-import { AiOutlineClose, AiOutlineUnorderedList } from 'react-icons/ai';
+import { RoomType } from '@/interface'
+import { BLUR_DATA_URL } from '@/constants'
+import { Dialog, Transition } from '@headlessui/react'
+import Image from 'next/image'
+import { AiOutlineClose, AiOutlineUnorderedList } from 'react-icons/ai'
 
 export default function ImageListButtonModal({ data }: { data: RoomType }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false)
 
   const closeModal = () => {
-    setIsOpen(false);
-  };
+    setIsOpen(false)
+  }
 
   const openModal = () => {
-    setIsOpen(true);
-  };
+    setIsOpen(true)
+  }
 
   return (
     <>
@@ -95,5 +95,5 @@ export default function ImageListButtonModal({ data }: { data: RoomType }) {
         </Dialog>
       </Transition>
     </>
-  );
+  )
 }

@@ -1,42 +1,42 @@
-'use client';
+'use client'
 
-import { roomFormState } from '@/atom';
-import AddressSearch from '@/components/Form/AddressSearch';
-import NextButton from '@/components/Form/NextButton';
-import Stepper from '@/components/Form/Stepper';
-import { Domains } from '@/constants';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { useRecoilState } from 'recoil';
+import { roomFormState } from '@/atom'
+import AddressSearch from '@/components/Form/AddressSearch'
+import NextButton from '@/components/Form/NextButton'
+import Stepper from '@/components/Form/Stepper'
+import { Domains } from '@/constants'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { useRecoilState } from 'recoil'
 
 interface RoomAddressProps {
   address?: string
 }
 
 export default function RoomRegisterAddress() {
-  const router = useRouter();
-  const [roomForm, setRoomForm] = useRecoilState(roomFormState);
+  const router = useRouter()
+  const [roomForm, setRoomForm] = useRecoilState(roomFormState)
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors, isSubmitting },
-  } = useForm<RoomAddressProps>();
+  } = useForm<RoomAddressProps>()
 
   const onSubmit = (data: RoomAddressProps) => {
     setRoomForm({
       ...roomForm,
       address: data?.address,
-    });
-    router.push(Domains.REGISTER_ROOM_FEATURE);
-  };
+    })
+    router.push(Domains.REGISTER_ROOM_FEATURE)
+  }
 
   useEffect(() => {
     if (roomForm) {
-      setValue('address', roomForm?.address);
+      setValue('address', roomForm?.address)
     }
-  }, [roomForm]);
+  }, [roomForm])
 
   return (
     <>
@@ -63,5 +63,5 @@ export default function RoomRegisterAddress() {
         <NextButton type="submit" disabled={isSubmitting} />
       </form>
     </>
-  );
+  )
 }
