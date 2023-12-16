@@ -355,6 +355,7 @@ export default function RoomEditForm({ data }: { data: RoomType }) {
                           src={image}
                           width={100}
                           height={100}
+                          loading="lazy"
                           className="rounded-md"
                           alt="room img"
                         />

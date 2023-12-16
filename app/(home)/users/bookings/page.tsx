@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react'
 import React, { useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { useInfiniteQuery } from 'react-query'
+import Image from 'next/image'
 
 import dayjs from 'dayjs'
 import 'dayjs/locale/ko'
@@ -69,7 +70,7 @@ export default function BookingsPage() {
                       {bookingStatusMessage?.[booking.status]}
                     </div>
                     <div className="flex gap-4 items-center">
-                      <img
+                      <Image
                         src={booking?.room?.images?.[0] || '/images/logo.png'}
                         width={80}
                         height={80}

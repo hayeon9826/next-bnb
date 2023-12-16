@@ -1,10 +1,10 @@
 import type { Metadata, ResolvingMetadata } from 'next'
+import dynamic from 'next/dynamic'
 
 import FeatureSection from '@/components/RoomDetail/FeatureSection'
 import HeaderSection from '@/components/RoomDetail/HeaderSection'
 import HostInfoSection from '@/components/RoomDetail/HostInfoSection'
-import MapSection from '@/components/RoomDetail/MapSection'
-import Comment from '@/components/Comment'
+
 import { RoomType } from '@/interface'
 
 interface ParamsProps {
@@ -14,6 +14,16 @@ interface ParamsProps {
 export default async function RoomPage({ params }: ParamsProps) {
   const { id } = params
   const data: RoomType = await getData(id)
+
+  // @see - https://nextjs.org/docs/app/building-your-application/optimizing/static-assets
+  const Comment = dynamic(() => import('@/components/Comment'))
+
+  const MapSection = dynamic(
+    () => import('@/components/RoomDetail/MapSection'),
+    {
+      ssr: false,
+    },
+  )
 
   return (
     <div className="my-28 max-w-6xl mx-auto">

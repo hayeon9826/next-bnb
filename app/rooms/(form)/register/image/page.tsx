@@ -182,6 +182,7 @@ export default function RoomRegisterImage() {
                     height={100}
                     className="rounded-md"
                     alt="register img"
+                    loading="lazy"
                   />
                 ))}
             </div>

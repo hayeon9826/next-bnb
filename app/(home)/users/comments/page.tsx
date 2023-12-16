@@ -88,6 +88,7 @@ export default function UserComments() {
                         height={50}
                         className="rounded-full"
                         alt="user img"
+                        loading="lazy"
                       />
                       <div>
                         <h1 className="font-semibold">

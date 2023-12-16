@@ -48,6 +48,7 @@ export default function UserInfo() {
             height={50}
             alt="profile img"
             className="rounded-lg shadow"
+            loading="lazy"
           />
         </div>
         <div className="flex flex-col gap-2 border-b-gray-200 border-b mt-4 pb-4">

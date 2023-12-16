@@ -1,6 +1,7 @@
 'use client'
 
 import React, { Fragment, useCallback, useEffect, useRef } from 'react'
+
 import { Dialog, Transition } from '@headlessui/react'
 import { AiOutlineClose } from 'react-icons/ai'
 import { useInfiniteQuery } from 'react-query'
@@ -121,6 +122,7 @@ export default function CommentListModal({
                               src={comment?.user?.image || '/images/logo.png'}
                               width={50}
                               height={50}
+                              loading="lazy"
                               className="rounded-full"
                               alt="comment img"
                             />

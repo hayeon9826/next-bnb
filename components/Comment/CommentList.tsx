@@ -1,10 +1,11 @@
 'use client'
 
 import { useState } from 'react'
+import dynamic from 'next/dynamic'
+
 import { BiChevronRight } from 'react-icons/bi'
 import { CommentApiProps } from '@/interface'
 import dayjs from 'dayjs'
-import CommentListModal from './CommentListModal'
 import { Loader } from '../Loader'
 
 import 'dayjs/locale/ko'
@@ -19,6 +20,11 @@ export default function CommentList({
   isLoading: boolean
 }) {
   const [isOpen, setIsOpen] = useState(false)
+
+  // @see - https://nextjs.org/docs/app/building-your-application/optimizing/lazy-loading
+  const CommentListModal = dynamic(
+    () => import('@/components/Comment/CommentListModal'),
+  )
 
   const closeModal = () => {
     setIsOpen(false)
@@ -44,6 +50,7 @@ export default function CommentList({
                   src={comment?.user?.image || '/images/logo.png'}
                   width={50}
                   height={50}
+                  loading="lazy"
                   className="rounded-full"
                   alt="logo img"
                 />
