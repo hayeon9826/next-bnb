@@ -15,7 +15,7 @@ export default function UserInfo() {
     return data as UserType
   }
 
-  const { data: user, isSuccess } = useQuery('user', fetchUser, {
+  const { data: user } = useQuery('user', fetchUser, {
     enabled: status === 'authenticated',
   })
 
@@ -25,7 +25,10 @@ export default function UserInfo() {
         <h1 className="text-3xl font-semibold">개인정보</h1>
         <button
           className="text-sm font-semibold underline px-4 py-1.5 rounded-md hover:bg-black/5"
-          onClick={() => router.push('/users/edit')}
+          onClick={() => {
+            router.prefetch('/users/edit')
+            router.push('/users/edit')
+          }}
         >
           수정하기
         </button>

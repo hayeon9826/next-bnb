@@ -38,6 +38,7 @@ export default function UserEdit() {
     })
     if (res.status === 200) {
       toast.success('정보를 수정했습니다.')
+      router.prefetch('/users/info')
       router.replace('/users/info')
     } else {
       toast.error('다시 시도해주세요.')

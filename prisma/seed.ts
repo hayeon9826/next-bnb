@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client'
-import { fakerKO as faker } from '@faker-js/faker'
-// import { nanoid } from 'nanoid'
+// import { fakerKO as faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker'
 
 const prisma = new PrismaClient()
 const CATEGORY = [
@@ -181,9 +181,9 @@ function getRandomLongitude() {
 
 async function main() {
   // await seedUsers()
-  await seedRooms()
-  // await seedFaqs()
-  await updateRoomsLatLng()
+  // await seedRooms()
+  await seedFaqs()
+  // await updateRoomsLatLng()
 }
 
 main()

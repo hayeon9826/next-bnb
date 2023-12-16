@@ -58,6 +58,7 @@ export default function RoomRegisterFeature() {
       hasBarbeque: data.hasBarbeque,
       hasFreeParking: data.hasFreeParking,
     })
+    router.prefetch(Domains.REGISTER_ROOM_IMAGE)
     router.push(Domains.REGISTER_ROOM_IMAGE)
   }
 

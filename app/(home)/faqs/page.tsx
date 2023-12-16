@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { FaqType } from '@/interface'
-import { roboto } from '@/app/fonts'
+import { noto_serif } from '@/app/fonts'
 import cn from 'classnames'
 
 // @see - https://nextjs.org/docs/app/building-your-application/optimizing/metadata#static-metadata
@@ -14,7 +14,7 @@ export default async function FaqPage() {
   const data: FaqType[] = await getData()
 
   return (
-    <div className={cn('max-w-5xl mx-auto', roboto.className)}>
+    <div className={cn('max-w-5xl mx-auto', noto_serif.className)}>
       <h1 className="text-lg md:text-3xl font-semibold">FAQ</h1>
       <p className="mt-2 text-gray-600">도움말을 모두 살펴보세요.</p>
       <div className="mt-8 flex flex-col mb-10">

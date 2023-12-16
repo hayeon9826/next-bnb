@@ -30,6 +30,9 @@ export default function SubmitButton({ roomTitle }: { roomTitle: string }) {
     })
 
     if (res.status === 200) {
+      router.prefetch(
+        `/payments?customerKey=${session?.user?.id}&roomTitle=${roomTitle}&checkIn=${checkIn}&checkOut=${checkOut}&guestCount=${guestCount}&totalAmount=${totalAmount}&totalDays=${totalDays}&bookingId=${res.data?.id}`,
+      )
       router.replace(
         `/payments?customerKey=${session?.user?.id}&roomTitle=${roomTitle}&checkIn=${checkIn}&checkOut=${checkOut}&guestCount=${guestCount}&totalAmount=${totalAmount}&totalDays=${totalDays}&bookingId=${res.data?.id}`,
       )

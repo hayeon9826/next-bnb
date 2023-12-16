@@ -29,6 +29,7 @@ export default function RoomRegisterAddress() {
       ...roomForm,
       address: data?.address,
     })
+    router.prefetch(Domains.REGISTER_ROOM_FEATURE)
     router.push(Domains.REGISTER_ROOM_FEATURE)
   }
 
