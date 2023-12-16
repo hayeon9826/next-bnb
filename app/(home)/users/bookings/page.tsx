@@ -11,6 +11,7 @@ import Image from 'next/image'
 
 import dayjs from 'dayjs'
 import 'dayjs/locale/ko'
+// import { BiChevronRight } from 'react-icons/bi'
 import { BiChevronRight } from 'react-icons/bi'
 
 export default function BookingsPage() {
