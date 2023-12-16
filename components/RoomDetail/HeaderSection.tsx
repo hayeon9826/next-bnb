@@ -1,13 +1,17 @@
 import { RoomType } from '@/interface'
 
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
+
 import { BLUR_DATA_URL } from '@/constants'
 import ShareButtonModal from './ShareButtonModal'
-import ImageListButtonModal from './ImageListButtonModal'
 import LikeButton from './LikeButton'
 
 export default function HeaderSection({ data }: { data: RoomType }) {
   const SHOW_DOUBLE_IMG_BANNER = data?.images?.length >= 2
+
+  // @see - https://nextjs.org/docs/app/building-your-application/optimizing/lazy-loading
+  const ImageListButtonModal = dynamic(() => import('./ImageListButtonModal'))
 
   return (
     <>

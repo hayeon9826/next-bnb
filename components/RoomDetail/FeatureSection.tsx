@@ -37,6 +37,7 @@ export default function FeatureSection({ data }: { data: RoomType }) {
             alt="logo"
             width={50}
             height={50}
+            loading="lazy"
             className="rounded-full shadow"
           />
         </div>

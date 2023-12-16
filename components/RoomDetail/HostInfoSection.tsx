@@ -13,6 +13,7 @@ export default function HostInfoSection({ data }: { data: RoomType }) {
           alt="logo"
           width={50}
           height={50}
+          loading="lazy"
           className="rounded-full shadow"
         />
         <div className="flex flex-col gap-1">
