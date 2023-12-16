@@ -12,6 +12,7 @@ import Image from 'next/image'
 import dayjs from 'dayjs'
 import 'dayjs/locale/ko'
 import { BiChevronRight } from 'react-icons/bi'
+import { BLUR_DATA_URL } from '@/constants'
 
 export default function BookingsPage() {
   const router = useRouter()
@@ -74,8 +75,11 @@ export default function BookingsPage() {
                         src={booking?.room?.images?.[0] || '/images/logo.png'}
                         width={80}
                         height={80}
+                        quality={50}
                         className="rounded-md"
                         alt="booking img"
+                        placeholder="blur"
+                        blurDataURL={BLUR_DATA_URL}
                       />
                       <div className="flex flex-col gap-1 w-full">
                         <div className="flex gap-4 items-center flex-wrap justify-between">

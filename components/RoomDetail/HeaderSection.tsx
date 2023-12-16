@@ -32,6 +32,8 @@ export default function HeaderSection({ data }: { data: RoomType }) {
               <div className="w-full relative" key={img}>
                 <Image
                   src={img}
+                  priority
+                  quality={100}
                   alt="room img"
                   style={{ objectFit: 'cover' }}
                   fill
@@ -48,6 +50,8 @@ export default function HeaderSection({ data }: { data: RoomType }) {
               src={data?.images?.[0] || '/images/no-image-long.jpg'}
               alt="room img"
               fill
+              priority
+              quality={100}
               sizes="(min-width: 640px) 400px, 320px"
               style={{ objectFit: 'cover', objectPosition: 'middle' }}
               className="rounded-lg absolute bottom-0 top-0 my-auto"
