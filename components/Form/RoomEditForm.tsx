@@ -153,6 +153,7 @@ export default function RoomEditForm({ data }: { data: RoomType }) {
           if (result.status === 200) {
             // 성공 케이스
             toast.success('숙소를 수정했습니다.')
+            router.prefetch('/users/rooms')
             router.replace('/users/rooms')
           } else {
             // 실패 케이스

@@ -269,29 +269,31 @@ Navbar.RightMenu = function ({ setShowMenu, showMenu }: RightMenuProps) {
         <div className="border border-gray-20 shadow-lg py-2 flex flex-col absolute bg-white w-60 rounded-lg top-16">
           {status === 'unauthenticated'
             ? LOGIN_MENU?.map((menu) => (
-                <div
+                <button
                   key={menu.id}
                   onClick={() => {
                     setShowMenu(false)
+                    router.prefetch(menu.url)
                     router.push(menu.url)
                   }}
                   className="h-10 hover:bg-gray-50 cursor-pointer text-sm text-gray-700 pl-3 flex flex-col justify-center"
                 >
                   {menu.title}
-                </div>
+                </button>
               ))
             : LOGOUT_MENU?.map((menu) => (
-                <div
+                <button
                   key={menu.id}
                   onClick={() => {
                     setShowMenu(false)
+                    router.prefetch(menu.url)
                     router.push(menu.url)
                     menu?.signOut ? signOut({ callbackUrl: '/' }) : null
                   }}
                   className="h-10 hover:bg-gray-50 cursor-pointer text-sm text-gray-700 pl-3 flex flex-col justify-center"
                 >
                   {menu.title}
-                </div>
+                </button>
               ))}
         </div>
       )}

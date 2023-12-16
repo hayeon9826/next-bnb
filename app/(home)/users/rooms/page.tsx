@@ -184,7 +184,10 @@ export default function UserRooms() {
               <td className="px-6 py-4 text-center" colSpan={9}>
                 <div className="mt-2">등록한 숙소가 없습니다.</div>
                 <button
-                  onClick={() => router.push(Domains.REGISTER_ROOM)}
+                  onClick={() => {
+                    router.prefetch(Domains.REGISTER_ROOM)
+                    router.push(Domains.REGISTER_ROOM)
+                  }}
                   className="mt-4 px-4 py-2 rounded-md bg-rose-600 text-white hover:bg-rose-500"
                 >
                   숙소 등록하러 가기

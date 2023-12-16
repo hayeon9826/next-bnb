@@ -35,6 +35,7 @@ export default function RoomRegisterInfo() {
       bedroomDesc: data.bedroomDesc,
       price: data.price,
     })
+    router.prefetch(Domains.REGISTER_ROOM_ADDRESS)
     router.push(Domains.REGISTER_ROOM_ADDRESS)
   }
 

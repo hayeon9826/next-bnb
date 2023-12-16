@@ -106,7 +106,10 @@ export default function UserComments() {
                     </div>
                     <button
                       type="button"
-                      onClick={() => router.push(`/rooms/${comment?.roomId}`)}
+                      onClick={() => {
+                        router.prefetch(`/rooms/${comment?.roomId}`)
+                        router.push(`/rooms/${comment?.roomId}`)
+                      }}
                       className="underline font-semibold text-left flex gap-1 items-center justify-start hover:text-gray-500"
                     >
                       <BiChevronRight className="text-xl" />

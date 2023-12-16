@@ -80,6 +80,10 @@ export default function Home() {
     throw new Error('room API fetching error')
   }
 
+  useEffect(() => {
+    router.prefetch('/map')
+  }, [router])
+
   return (
     <>
       <CategoryList />

@@ -42,6 +42,9 @@ export default function BookingSection({ data }: { data: RoomType }) {
   const totalValue = `₩${totalAmount?.toLocaleString()}`
 
   const handleSubmit = useCallback(() => {
+    router.prefetch(
+      `/rooms/${data.id}/bookings?checkIn=${filterValue?.checkIn}&checkOut=${filterValue?.checkOut}&guestCount=${guestCount}&totalAmount=${totalAmount}&totalDays=${dayCount}`,
+    )
     router.push(
       `/rooms/${data.id}/bookings?checkIn=${filterValue?.checkIn}&checkOut=${filterValue?.checkOut}&guestCount=${guestCount}&totalAmount=${totalAmount}&totalDays=${dayCount}`,
     )

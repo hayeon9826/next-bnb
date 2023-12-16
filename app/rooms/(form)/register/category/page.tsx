@@ -21,6 +21,7 @@ export default function RoomRegisterCategory() {
       ...roomForm,
       category: selectedCategory,
     })
+    router.prefetch(Domains.REGISTER_ROOM_INFO)
     router.push(Domains.REGISTER_ROOM_INFO)
   }
 
