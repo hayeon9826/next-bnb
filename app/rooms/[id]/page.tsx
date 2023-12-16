@@ -1,3 +1,5 @@
+import type { Metadata, ResolvingMetadata } from 'next'
+
 import FeatureSection from '@/components/RoomDetail/FeatureSection'
 import HeaderSection from '@/components/RoomDetail/HeaderSection'
 import HostInfoSection from '@/components/RoomDetail/HostInfoSection'
@@ -42,5 +44,33 @@ async function getData(id: string) {
     return res.json()
   } catch (e) {
     console.log(e)
+  }
+}
+
+// @see - https://nextjs.org/docs/app/building-your-application/optimizing/metadata#dynamic-metadata
+export async function generateMetadata(
+  { params }: ParamsProps,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  // read route params
+  const id = params.id
+
+  // fetch data
+  const product = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/rooms?id=${id}`,
+    {
+      next: {
+        revalidate: 60 * 60,
+      },
+    },
+  ).then((res) => res.json())
+
+  // optionally access and extend (rather than replace) parent metadata
+  const prevKeywords = (await parent).keywords || []
+
+  return {
+    title: `Nextbnb 숙소 - ${product?.title}`,
+    description: product?.description,
+    keywords: [product?.category, ...prevKeywords],
   }
 }
