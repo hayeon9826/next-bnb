@@ -9,12 +9,13 @@ export function RoomItem({ room }: { room: RoomType }) {
   return (
     <div key={room.id}>
       <Link href={`/rooms/${room.id}`}>
-        <div className="h-[320px] md:h-[240px] overflow-hidden relative z-0">
+        <div className="h-[320px] md:h-[240px] overflow-hidden block relative z-0">
           <Image
             src={room.images?.[0] || '/images/no-image.jpg'}
             alt="room image"
             style={{ objectFit: 'cover' }}
             fill
+            quality={80}
             sizes="(min-width: 640px) 240px, 320px"
             className="rounded-md w-full h-auto object-fit hover:shadow-lg relative z-0"
             placeholder="blur"

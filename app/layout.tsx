@@ -1,9 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { noto_sans } from './fonts'
 import { NextLayout, NextProvider } from './providers'
-
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   // @see - https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
@@ -43,7 +41,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={noto_sans.className}>
         <NextProvider>
           <NextLayout>{children}</NextLayout>
         </NextProvider>
