@@ -1,22 +1,22 @@
-import Image from 'next/image';
+import Image from 'next/image'
 
-import { RoomType } from '@/interface';
+import { RoomType } from '@/interface'
 import {
   AiOutlineCheckCircle,
   AiOutlineDesktop,
   AiOutlineWifi,
-} from 'react-icons/ai';
-import { BsDoorClosed, BsFan } from 'react-icons/bs';
-import { IoBedOutline } from 'react-icons/io5';
-import { PiMountainsDuotone, PiBathtub } from 'react-icons/pi';
-import { MdOutlineLocalLaundryService } from 'react-icons/md';
-import { LuParkingCircle } from 'react-icons/lu';
-import { GiBarbecue } from 'react-icons/gi';
-import { FeatureDesc } from '@/constants';
+} from 'react-icons/ai'
+import { BsDoorClosed, BsFan } from 'react-icons/bs'
+import { IoBedOutline } from 'react-icons/io5'
+import { PiMountainsDuotone, PiBathtub } from 'react-icons/pi'
+import { MdOutlineLocalLaundryService } from 'react-icons/md'
+import { LuParkingCircle } from 'react-icons/lu'
+import { GiBarbecue } from 'react-icons/gi'
+import { FeatureDesc } from '@/constants'
 
-import cn from 'classnames';
-import BookingSection from './BookingSection';
-import CalendarSection from './CalendarSection';
+import cn from 'classnames'
+import BookingSection from './BookingSection'
+import CalendarSection from './CalendarSection'
 
 export default function FeatureSection({ data }: { data: RoomType }) {
   return (
@@ -153,7 +153,7 @@ export default function FeatureSection({ data }: { data: RoomType }) {
       </div>
       <BookingSection data={data} />
     </div>
-  );
+  )
 }
 
 interface FeatureItemType {
@@ -178,5 +178,5 @@ FeatureSection.FeatureItem = function ({
         {featureTitle}
       </span>
     </div>
-  );
-};
+  )
+}

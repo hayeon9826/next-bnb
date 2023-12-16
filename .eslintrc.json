@@ -1,66 +1,9 @@
 {
-  "extends": [
-    // 기본 설정
-    "next/core-web-vitals",
-    // eslint와 prettier간의 충돌할수 있는 규칙을 제거해주는 세팅
-    "prettier",
-    // airbnb eslint 적용
-    "airbnb",
-    "airbnb-typescript"
-  ],
-  // airbnb-typescript를 사용하기 위해 적용
-  "parserOptions": {
-    "project": "./tsconfig.json"
-  },
-  // 예시 (optional). 본인이 원하는 rules 추가하기
+  "extends": ["plugin:prettier/recommended", "next/core-web-vitals"],
+  "plugins": ["prettier"],
   "rules": {
-    // React를 import하지 않았을 때 경고 비활성화
-    "react/react-in-jsx-scope": "off",
-    // 사용되지 않은 변수에 대한 경고 비활성화
-    "no-unused-vars": "off",
-    // 사용되지 않은 import에 대한 경고를 활성화
-    "unused-imports/no-unused-imports": "off",
-    "@typescript-eslint/no-unused-vars": "off",
-    "unused-imports/unused-vars": "off",
-    "react/prop-types": "off",
-    "react/no-array-index-key": "warn",
-    "jsx-a11y/anchor-is-valid": "warn",
-    "@typescript-eslint/no-use-before-defin": "off",
-    // statement 끝에 세미콜론 off
-    "@typescript-eslint/semi": "off",
-    "semi-style": "off",
-    // button에 기본 button 타입 추가 off
-    "react/button-has-type": "off",
-    "react/jsx-props-no-spreading": "off",
-    "jsx-a11y/label-has-associated-control": "off",
-    "@typescript-eslint/no-use-before-define": "off",
-    "@typescript-eslint/no-shadow": "warn",
-    "react/jsx-one-expression-per-line": "warn",
-    "react/jsx-curly-newline": "warn",
-    "implicit-arrow-linebreak": "warn",
-    "no-confusing-arrow": "warn",
-    "react/require-default-props": "warn",
-    "no-await-in-loop": "warn",
-    "import/prefer-default-export": "off",
-    "object-curly-newline": "off",
-    "consistent-return": "warn",
+    "prettier/prettier": "error",
     "react-hooks/rules-of-hooks": "warn",
-    "array-callback-return": "off",
-    "operator-linebreak": "off",
-    "no-restricted-syntax": "off",
-    "@typescript-eslint/naming-convention": "off",
-    "jsx-a11y/no-interactive-element-to-noninteractive-role": "off",
-    "jsx-a11y/no-static-element-interactions": "off",
-    "max-len": "warn",
-    "radix": "off",
-    "no-param-reassign": "warn",
-    "jsx-a11y/click-events-have-key-events": "warn",
-    "@typescript-eslint/no-unused-expressions": "warn",
-    "@typescript-eslint/return-await": "warn",
-    "react/jsx-indent": "off",
-    "@typescript-eslint/indent": "off",
-    // undefined로 확인되는 값에서 optional chanining에 대한 경고를 활성화
-    "no-unsafe-optional-chaining": 1,
-    "unused-imports/no-unused-vars": ["off"]
+    "react/display-name": "warn"
   }
 }

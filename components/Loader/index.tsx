@@ -1,4 +1,4 @@
-import { GridLayout } from '../RoomGrid';
+import { GridLayout } from '../RoomGrid'
 
 export function Loader({ className }: { className?: string }) {
   return (
@@ -7,7 +7,7 @@ export function Loader({ className }: { className?: string }) {
       <div className="w-1 h-1 animate-ping rounded-full bg-gray-600" />
       <div className="w-1 h-1 animate-ping rounded-full bg-gray-600" />
     </div>
-  );
+  )
 }
 
 export function GridLoader({ className }: { className?: string }) {
@@ -20,7 +20,7 @@ export function GridLoader({ className }: { className?: string }) {
         />
       ))}
     </GridLayout>
-  );
+  )
 }
 
 export function ListLoader({ className }: { className?: string }) {
@@ -33,7 +33,7 @@ export function ListLoader({ className }: { className?: string }) {
         />
       ))}
     </div>
-  );
+  )
 }
 
 export function FullPageLoader() {
@@ -41,5 +41,5 @@ export function FullPageLoader() {
     <div className="fixed w-full top-0 inset-x-0 h-screen flex flex-col justify-center bg-black/60 z-50">
       <div className="animate-spin w-10 h-10 text-gray-400 rounded-full border-[4px] m-auto border-t-transparent border-current" />
     </div>
-  );
+  )
 }

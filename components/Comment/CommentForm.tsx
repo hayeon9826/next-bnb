@@ -1,11 +1,11 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { toast } from 'react-hot-toast';
+import { useState } from 'react'
+import { toast } from 'react-hot-toast'
 
-import { RoomType } from '@/interface';
-import axios from 'axios';
-import { useQueryClient } from 'react-query';
+import { RoomType } from '@/interface'
+import axios from 'axios'
+import { useQueryClient } from 'react-query'
 
 interface CommentFormProps {
   room: RoomType
@@ -13,34 +13,34 @@ interface CommentFormProps {
 }
 
 export default function CommentForm({ room, refetch }: CommentFormProps) {
-  const [comment, setComment] = useState<string>('');
-  const queryClient = useQueryClient();
+  const [comment, setComment] = useState<string>('')
+  const queryClient = useQueryClient()
 
   const handleSubmit = async () => {
     const res = await axios.post('/api/comments', {
       body: comment,
       roomId: room.id,
-    });
+    })
 
     if (res.status === 200) {
-      toast.success('댓글을 생성했습니다.');
-      setComment('');
-      refetch?.();
-      queryClient.invalidateQueries(`comments-infinite-${room.id}`);
+      toast.success('댓글을 생성했습니다.')
+      setComment('')
+      refetch?.()
+      queryClient.invalidateQueries(`comments-infinite-${room.id}`)
     } else {
-      toast.error('다시 시도해주세요.');
+      toast.error('다시 시도해주세요.')
     }
-  };
+  }
 
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const {
       target: { name, value },
-    } = e;
+    } = e
 
     if (name === 'comment') {
-      setComment(value);
+      setComment(value)
     }
-  };
+  }
 
   return (
     <form className="mt-20">
@@ -63,5 +63,5 @@ export default function CommentForm({ room, refetch }: CommentFormProps) {
         </button>
       </div>
     </form>
-  );
+  )
 }

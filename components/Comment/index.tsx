@@ -1,18 +1,18 @@
-'use client';
+'use client'
 
-import { RoomType } from '@/interface';
-import axios from 'axios';
-import { useQuery } from 'react-query';
-import { useSession } from 'next-auth/react';
-import CommentList from './CommentList';
-import CommentForm from './CommentForm';
+import { RoomType } from '@/interface'
+import axios from 'axios'
+import { useQuery } from 'react-query'
+import { useSession } from 'next-auth/react'
+import CommentList from './CommentList'
+import CommentForm from './CommentForm'
 
 export default function Comment({ room }: { room: RoomType }) {
-  const { status } = useSession();
+  const { status } = useSession()
   const fetchComments = async () => {
-    const { data } = await axios(`/api/comments?roomId=${room.id}&limit=6`);
-    return data;
-  };
+    const { data } = await axios(`/api/comments?roomId=${room.id}&limit=6`)
+    return data
+  }
 
   const {
     data: comments,
@@ -20,7 +20,7 @@ export default function Comment({ room }: { room: RoomType }) {
     isLoading,
   } = useQuery(`comments-${room.id}`, fetchComments, {
     enabled: !!room.id,
-  });
+  })
 
   return (
     <div className="border-b border-gray-300 py-8 px-4 text-gray-800">
@@ -29,5 +29,5 @@ export default function Comment({ room }: { room: RoomType }) {
         <CommentForm room={room} refetch={refetch} />
       )}
     </div>
-  );
+  )
 }

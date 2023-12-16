@@ -1,11 +1,11 @@
-'use client';
+'use client'
 
-import { useRouter } from 'next/navigation';
-import { BiChevronLeft } from 'react-icons/bi';
-import cn from 'classnames';
+import { useRouter } from 'next/navigation'
+import { BiChevronLeft } from 'react-icons/bi'
+import cn from 'classnames'
 
 export default function BackButton({ className }: { className?: string }) {
-  const router = useRouter();
+  const router = useRouter()
   return (
     <button
       type="button"
@@ -14,5 +14,5 @@ export default function BackButton({ className }: { className?: string }) {
     >
       <BiChevronLeft />
     </button>
-  );
+  )
 }

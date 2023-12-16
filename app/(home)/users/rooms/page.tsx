@@ -1,36 +1,36 @@
-'use client';
+'use client'
 
-import { RoomType } from '@/interface';
-import axios from 'axios';
-import { useSession } from 'next-auth/react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import React, { useCallback, useEffect, useRef } from 'react';
-import { useInfiniteQuery } from 'react-query';
+import { RoomType } from '@/interface'
+import axios from 'axios'
+import { useSession } from 'next-auth/react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import React, { useCallback, useEffect, useRef } from 'react'
+import { useInfiniteQuery } from 'react-query'
 
-import { storage } from '@/utils/firebaseApp';
-import { ref, deleteObject } from 'firebase/storage';
+import { storage } from '@/utils/firebaseApp'
+import { ref, deleteObject } from 'firebase/storage'
 
-import dayjs from 'dayjs';
-import useIntersectionObserver from '@/hooks/useIntersectionObserver';
-import { Loader } from '@/components/Loader';
-import { Domains } from '@/constants';
-import toast from 'react-hot-toast';
-import UserSearchFilter from '@/components/Filter/UserSearchFilter';
-import { useRecoilValue } from 'recoil';
-import { searchState } from '@/atom';
+import dayjs from 'dayjs'
+import useIntersectionObserver from '@/hooks/useIntersectionObserver'
+import { Loader } from '@/components/Loader'
+import { Domains } from '@/constants'
+import toast from 'react-hot-toast'
+import UserSearchFilter from '@/components/Filter/UserSearchFilter'
+import { useRecoilValue } from 'recoil'
+import { searchState } from '@/atom'
 
 export default function UserRooms() {
-  const router = useRouter();
-  const searchStateValue = useRecoilValue(searchState);
-  const observerRef = useRef<HTMLDivElement | null>(null);
-  const pageRef = useIntersectionObserver(observerRef, {});
-  const isPageEnd = !!pageRef?.isIntersecting;
-  const { data: session } = useSession();
+  const router = useRouter()
+  const searchStateValue = useRecoilValue(searchState)
+  const observerRef = useRef<HTMLDivElement | null>(null)
+  const pageRef = useIntersectionObserver(observerRef, {})
+  const isPageEnd = !!pageRef?.isIntersecting
+  const { data: session } = useSession()
 
   const searchParams = {
     q: searchStateValue.q,
-  };
+  }
 
   const fetchMyRooms = async ({ pageParam = 1 }) => {
     const { data } = await axios(`/api/rooms?my=true&page=${pageParam}`, {
@@ -39,10 +39,10 @@ export default function UserRooms() {
         page: pageParam,
         ...searchParams,
       },
-    });
+    })
 
-    return data;
-  };
+    return data
+  }
 
   const {
     data: rooms,
@@ -56,69 +56,70 @@ export default function UserRooms() {
     [`rooms-user-${session?.user?.id}`, searchParams],
     fetchMyRooms,
     {
-      getNextPageParam: (lastPage: any) => (lastPage.data?.length > 0 ? lastPage.page + 1 : undefined),
+      getNextPageParam: (lastPage: any) =>
+        lastPage.data?.length > 0 ? lastPage.page + 1 : undefined,
     },
-  );
+  )
 
   async function deleteImages(imageKeys: string[] | null) {
     if (imageKeys) {
       imageKeys?.forEach((key) => {
-        const imageRef = ref(storage, `${session?.user?.id}/${key}`);
+        const imageRef = ref(storage, `${session?.user?.id}/${key}`)
         deleteObject(imageRef)
           .then(() => {
-            console.log('File deleted successfully: ', key);
+            console.log('File deleted successfully: ', key)
           })
           .catch((error) => {
-            console.log(error);
-          });
-      });
+            console.log(error)
+          })
+      })
     }
 
-    return imageKeys;
+    return imageKeys
   }
 
   const handleDelete = async (data: RoomType) => {
-    const confirm = window.confirm('해당 숙소를 삭제하시겠습니까?');
+    const confirm = window.confirm('해당 숙소를 삭제하시겠습니까?')
 
     if (confirm && data) {
       try {
-        await deleteImages(data?.imageKeys || null);
-        const result = await axios.delete(`/api/rooms?id=${data.id}`);
+        await deleteImages(data?.imageKeys || null)
+        const result = await axios.delete(`/api/rooms?id=${data.id}`)
 
         if (result.status === 200) {
-          toast.success('숙소를 삭제했습니다.');
-          refetch();
+          toast.success('숙소를 삭제했습니다.')
+          refetch()
         } else {
-          toast.error('다시 시도해주세요.');
+          toast.error('다시 시도해주세요.')
         }
       } catch (e) {
-        console.log(e);
-        toast.error('다시 시도해주세요.');
+        console.log(e)
+        toast.error('다시 시도해주세요.')
       }
     }
-  };
+  }
 
   const fetchNext = useCallback(async () => {
-    const res = await fetchNextPage();
+    const res = await fetchNextPage()
     if (res.isError) {
-      console.log(res.error);
+      console.log(res.error)
     }
-  }, [fetchNextPage]);
+  }, [fetchNextPage])
 
   useEffect(() => {
-    let timerId: NodeJS.Timeout | undefined;
+    let timerId: NodeJS.Timeout | undefined
 
     if (isPageEnd && hasNextPage) {
       timerId = setTimeout(() => {
-        fetchNext();
-      }, 500);
+        fetchNext()
+      }, 500)
     }
 
-    return () => clearTimeout(timerId);
-  }, [fetchNext, isPageEnd, hasNextPage]);
+    return () => clearTimeout(timerId)
+  }, [fetchNext, isPageEnd, hasNextPage])
 
   if (isError) {
-    throw new Error('room API fetching error');
+    throw new Error('room API fetching error')
   }
 
   return (
@@ -167,7 +168,7 @@ export default function UserRooms() {
                     <td className="px-6 py-4 min-w-[100px]">
                       <button
                         onClick={() => {
-                          handleDelete(room);
+                          handleDelete(room)
                         }}
                         className="font-medium text-rose-600  hover:underline"
                       >
@@ -196,7 +197,7 @@ export default function UserRooms() {
       {(isFetching || hasNextPage || isFetchingNextPage) && <Loader />}
       <div className="w-full touch-none h-10 mb-10" ref={observerRef} />
     </div>
-  );
+  )
 }
 
 UserRooms.TableHead = function () {
@@ -232,5 +233,5 @@ UserRooms.TableHead = function () {
         </th>
       </tr>
     </thead>
-  );
-};
+  )
+}

@@ -1,9 +1,9 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server'
 
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 
-import prisma from '@/db';
+import prisma from '@/db'
 
 interface BookingProps {
   roomId: string
@@ -21,11 +21,11 @@ interface RefundProps {
 }
 
 export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url);
-  const id = searchParams.get('id') as string;
-  const userId = searchParams.get('userId') as string;
-  const page = searchParams.get('page') as string;
-  const limit = searchParams.get('limit') as string;
+  const { searchParams } = new URL(req.url)
+  const id = searchParams.get('id') as string
+  const userId = searchParams.get('userId') as string
+  const page = searchParams.get('page') as string
+  const limit = searchParams.get('limit') as string
 
   if (id) {
     const booking = await prisma.booking.findFirst({
@@ -40,12 +40,13 @@ export async function GET(req: Request) {
         },
         payments: true,
       },
-    });
+    })
 
     return NextResponse.json(booking, {
       status: 200,
-    });
-  } if (page) {
+    })
+  }
+  if (page) {
     const count = await prisma.booking.count({
       where: {
         userId,
@@ -53,8 +54,8 @@ export async function GET(req: Request) {
           status: 'PENDING',
         },
       },
-    });
-    const skipPage = parseInt(page) - 1;
+    })
+    const skipPage = parseInt(page) - 1
     const bookings = await prisma.booking.findMany({
       orderBy: { updatedAt: 'desc' },
       where: {
@@ -66,7 +67,7 @@ export async function GET(req: Request) {
         user: true,
         room: true,
       },
-    });
+    })
 
     return NextResponse.json(
       {
@@ -78,13 +79,13 @@ export async function GET(req: Request) {
       {
         status: 200,
       },
-    );
+    )
   }
 }
 
 export async function POST(req: Request) {
-  const session = await getServerSession(authOptions);
-  const formData = await req.json();
+  const session = await getServerSession(authOptions)
+  const formData = await req.json()
 
   const {
     roomId,
@@ -94,7 +95,7 @@ export async function POST(req: Request) {
     totalAmount,
     totalDays,
     status,
-  }: BookingProps = formData;
+  }: BookingProps = formData
 
   if (!session?.user) {
     return NextResponse.json(
@@ -102,7 +103,7 @@ export async function POST(req: Request) {
       {
         status: 401,
       },
-    );
+    )
   }
 
   const booking = await prisma.booking.create({
@@ -118,18 +119,18 @@ export async function POST(req: Request) {
       updatedAt: new Date(),
       status,
     },
-  });
+  })
 
   return NextResponse.json(booking, {
     status: 200,
-  });
+  })
 }
 
 export async function PATCH(req: Request) {
   // 데이터 수정을 처리한다 (환불)
-  const formData = await req.json();
-  const { id, status }: RefundProps = formData;
-  const session = await getServerSession(authOptions);
+  const formData = await req.json()
+  const { id, status }: RefundProps = formData
+  const session = await getServerSession(authOptions)
 
   if (!session?.user) {
     return NextResponse.json(
@@ -137,7 +138,7 @@ export async function PATCH(req: Request) {
       {
         status: 401,
       },
-    );
+    )
   }
 
   const result = await prisma.booking.update({
@@ -145,9 +146,9 @@ export async function PATCH(req: Request) {
       id,
     },
     data: { status },
-  });
+  })
 
   return NextResponse.json(result, {
     status: 200,
-  });
+  })
 }

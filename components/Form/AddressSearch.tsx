@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState } from 'react'
 
-import { RoomFormType } from '@/interface';
-import { FieldErrors, UseFormRegister, UseFormSetValue } from 'react-hook-form';
-import DaumPostcodeEmbed from 'react-daum-postcode';
+import { RoomFormType } from '@/interface'
+import { FieldErrors, UseFormRegister, UseFormSetValue } from 'react-hook-form'
+import DaumPostcodeEmbed from 'react-daum-postcode'
 
 interface AddressProps {
   setValue: UseFormSetValue<RoomFormType>
@@ -15,27 +15,27 @@ export default function AddressSearch({
   errors,
   setValue,
 }: AddressProps) {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false)
 
   // 코드 참고: https://www.npmjs.com/package/react-daum-postcode
   const handleComplete = (data: any) => {
-    let fullAddress = data.address;
-    let extraAddress = '';
+    let fullAddress = data.address
+    let extraAddress = ''
 
     if (data.addressType === 'R') {
       if (data.bname !== '') {
-        extraAddress += data.bname;
+        extraAddress += data.bname
       }
       if (data.buildingName !== '') {
-        extraAddress
-          += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
+        extraAddress +=
+          extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName
       }
-      fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
+      fullAddress += extraAddress !== '' ? ` (${extraAddress})` : ''
     }
 
-    setValue('address', fullAddress);
-    setIsOpen(false);
-  };
+    setValue('address', fullAddress)
+    setIsOpen(false)
+  }
 
   return (
     <>
@@ -68,5 +68,5 @@ export default function AddressSearch({
         </div>
       )}
     </>
-  );
+  )
 }

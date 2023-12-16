@@ -1,23 +1,23 @@
-'use client';
+'use client'
 
-import { UserType } from '@/interface';
-import axios from 'axios';
-import { signOut, useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { useQuery } from 'react-query';
+import { UserType } from '@/interface'
+import axios from 'axios'
+import { signOut, useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { useQuery } from 'react-query'
 
 export default function UserInfo() {
-  const { status } = useSession();
-  const router = useRouter();
+  const { status } = useSession()
+  const router = useRouter()
 
   const fetchUser = async () => {
-    const { data } = await axios('/api/users');
-    return data as UserType;
-  };
+    const { data } = await axios('/api/users')
+    return data as UserType
+  }
 
   const { data: user, isSuccess } = useQuery('user', fetchUser, {
     enabled: status === 'authenticated',
-  });
+  })
 
   return (
     <div className="mt-10 max-w-3xl mx-auto px-4">
@@ -75,5 +75,5 @@ export default function UserInfo() {
         </div>
       </div>
     </div>
-  );
+  )
 }
