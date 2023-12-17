@@ -39,7 +39,19 @@ export function ListLoader({ className }: { className?: string }) {
 export function FullPageLoader() {
   return (
     <div className="fixed w-full top-0 inset-x-0 h-screen flex flex-col justify-center bg-black/60 z-50">
-      <div className="animate-spin w-10 h-10 text-gray-400 rounded-full border-[4px] m-auto border-t-transparent border-current" />
+      <div className="animate-spin w-10 h-10 text-rose-400 rounded-full border-[4px] m-auto border-t-transparent border-current" />
+    </div>
+  )
+}
+
+export function ColorLoader({ className }: { className?: string }) {
+  return (
+    <div className="min-h-screen flex flex-col justify-center z-50">
+      <div className="flex gap-5 items-center justify-center">
+        <div className="w-2 h-2 animate-ping rounded-full bg-rose-600" />
+        <div className="w-2 h-2 animate-ping rounded-full bg-rose-600" />
+        <div className="w-2 h-2 animate-ping rounded-full bg-rose-600" />
+      </div>
     </div>
   )
 }
