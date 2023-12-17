@@ -10,6 +10,7 @@ import { calculatedFilterState } from '@/atom/selector'
 import { useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
+import { event } from '@/utils/gtag'
 
 export default function BookingSection({ data }: { data: RoomType }) {
   const router = useRouter()
@@ -42,6 +43,12 @@ export default function BookingSection({ data }: { data: RoomType }) {
   const totalValue = `₩${totalAmount?.toLocaleString()}`
 
   const handleSubmit = useCallback(() => {
+    event({
+      action: 'click_booking',
+      category: 'booking',
+      label: `submit_booking_${data.id}`,
+      value: totalAmount,
+    })
     router.prefetch(
       `/rooms/${data.id}/bookings?checkIn=${filterValue?.checkIn}&checkOut=${filterValue?.checkOut}&guestCount=${guestCount}&totalAmount=${totalAmount}&totalDays=${dayCount}`,
     )
