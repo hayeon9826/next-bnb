@@ -28,6 +28,7 @@ import AddressSearch from './AddressSearch'
 
 export default function RoomEditForm({ data }: { data: RoomType }) {
   const { data: session } = useSession()
+  const [disableSubmit, setDisableSubmit] = useState<boolean>(false)
   const [images, setImages] = useState<string[] | null>(null)
   const [imageKeys, setImageKeys] = useState<string[] | null>(null)
   const router = useRouter()
@@ -144,6 +145,7 @@ export default function RoomEditForm({ data }: { data: RoomType }) {
       className="px-4 md:max-w-4xl mx-auto py-8 my-20"
       onSubmit={handleSubmit(async (res) => {
         try {
+          setDisableSubmit(true)
           const imagesUrls = await uploadImages(images)
           const result = await axios.patch(`/api/rooms?id=${data.id}`, {
             ...res,
@@ -161,6 +163,7 @@ export default function RoomEditForm({ data }: { data: RoomType }) {
             deleteImages()
           }
         } catch (e) {
+          setDisableSubmit(false)
           console.log(e)
           toast.error('데이터 수정중 문제가 생겼습니다. 다시 시도해주세요.')
           deleteImages()
@@ -379,7 +382,7 @@ export default function RoomEditForm({ data }: { data: RoomType }) {
         </button>
         <button
           type="submit"
-          disabled={isSubmitting}
+          disabled={isSubmitting || disableSubmit}
           className="rounded-lg bg-rose-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-600"
         >
           수정하기

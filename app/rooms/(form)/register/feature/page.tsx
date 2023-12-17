@@ -4,7 +4,7 @@ import { roomFormState } from '@/atom'
 import NextButton from '@/components/Form/NextButton'
 import Stepper from '@/components/Form/Stepper'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useRecoilState } from 'recoil'
 import cn from 'classnames'
@@ -35,6 +35,7 @@ interface RoomFeatureProps {
 
 export default function RoomRegisterFeature() {
   const router = useRouter()
+  const [disableSubmit, setDisableSubmit] = useState<boolean>(false)
   const [roomForm, setRoomForm] = useRecoilState(roomFormState)
   const {
     register,
@@ -58,7 +59,7 @@ export default function RoomRegisterFeature() {
       hasBarbeque: data.hasBarbeque,
       hasFreeParking: data.hasFreeParking,
     })
-    router.prefetch(Domains.REGISTER_ROOM_IMAGE)
+    setDisableSubmit(true)
     router.push(Domains.REGISTER_ROOM_IMAGE)
   }
 
@@ -82,6 +83,8 @@ export default function RoomRegisterFeature() {
       setValue('hasBarbeque', roomForm?.hasBarbeque)
       setValue('hasFreeParking', roomForm?.hasFreeParking)
     }
+
+    router.prefetch(Domains.REGISTER_ROOM_IMAGE)
   }, [roomForm])
 
   return (
@@ -225,7 +228,7 @@ export default function RoomRegisterFeature() {
             무료 주차
           </RoomRegisterFeature.CheckBoxLayout>
         </section>
-        <NextButton type="submit" disabled={isSubmitting} />
+        <NextButton type="submit" disabled={isSubmitting || disableSubmit} />
       </form>
     </>
   )

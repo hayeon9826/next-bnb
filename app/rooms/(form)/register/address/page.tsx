@@ -6,7 +6,7 @@ import NextButton from '@/components/Form/NextButton'
 import Stepper from '@/components/Form/Stepper'
 import { Domains } from '@/constants'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useRecoilState } from 'recoil'
 
@@ -16,6 +16,7 @@ interface RoomAddressProps {
 
 export default function RoomRegisterAddress() {
   const router = useRouter()
+  const [disableSubmit, setDisableSubmit] = useState<boolean>(false)
   const [roomForm, setRoomForm] = useRecoilState(roomFormState)
   const {
     register,
@@ -29,7 +30,7 @@ export default function RoomRegisterAddress() {
       ...roomForm,
       address: data?.address,
     })
-    router.prefetch(Domains.REGISTER_ROOM_FEATURE)
+    setDisableSubmit(true)
     router.push(Domains.REGISTER_ROOM_FEATURE)
   }
 
@@ -37,6 +38,8 @@ export default function RoomRegisterAddress() {
     if (roomForm) {
       setValue('address', roomForm?.address)
     }
+
+    router.prefetch(Domains.REGISTER_ROOM_FEATURE)
   }, [roomForm])
 
   return (
@@ -61,7 +64,7 @@ export default function RoomRegisterAddress() {
             setValue={setValue}
           />
         </div>
-        <NextButton type="submit" disabled={isSubmitting} />
+        <NextButton type="submit" disabled={isSubmitting || disableSubmit} />
       </form>
     </>
   )
