@@ -8,6 +8,7 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import { Toaster } from 'react-hot-toast'
 import { SessionProvider } from 'next-auth/react'
 import { RecoilRoot } from 'recoil'
+import GoogleAnalytics from './googleAnalytics'
 
 const queryClient = new QueryClient()
 
@@ -20,6 +21,7 @@ export function NextProvider({ children }: Props) {
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>
         <SessionProvider>
+          <GoogleAnalytics GA_TRACKING_ID={process.env.NEXT_PUBLIC_GA_ID} />
           {children}
           <ReactQueryDevtools />
           <Toaster />
