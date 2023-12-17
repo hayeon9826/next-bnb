@@ -12,6 +12,7 @@ import { roomFormState } from '@/atom'
 
 export default function RoomRegisterCategory() {
   const [roomForm, setRoomForm] = useRecoilState(roomFormState)
+  const [disableSubmit, setDisableSubmit] = useState<boolean>(false)
   const [selectedCategory, setSelectedCategory] = useState<string>('')
 
   const router = useRouter()
@@ -21,13 +22,14 @@ export default function RoomRegisterCategory() {
       ...roomForm,
       category: selectedCategory,
     })
-    router.prefetch(Domains.REGISTER_ROOM_INFO)
+    setDisableSubmit(true)
     router.push(Domains.REGISTER_ROOM_INFO)
   }
 
   useEffect(() => {
     setSelectedCategory(roomForm?.category || '')
-  }, [])
+    router.prefetch(Domains.REGISTER_ROOM_INFO)
+  }, [router])
 
   return (
     <>
@@ -57,7 +59,10 @@ export default function RoomRegisterCategory() {
           ))}
         </div>
       </section>
-      <NextButton disabled={!selectedCategory} onClick={handleSubmit} />
+      <NextButton
+        disabled={!selectedCategory || disableSubmit}
+        onClick={handleSubmit}
+      />
     </>
   )
 }

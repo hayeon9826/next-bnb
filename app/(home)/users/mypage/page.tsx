@@ -32,6 +32,7 @@ export default function Mypage() {
       </div>
       <div className="grid md:grid-cols-3 gap-4 mt-12 mb-20">
         <Link
+          prefetch
           href="/users/info"
           className="shadow-lg rounded-lg flex flex-col justify-between p-4 gap-12 cursor-pointer hover:shadow-xl"
         >
@@ -42,6 +43,7 @@ export default function Mypage() {
           </div>
         </Link>
         <Link
+          prefetch
           href={Domains.REGISTER_ROOM}
           className="shadow-lg rounded-lg flex flex-col justify-between p-4 gap-12 cursor-pointer hover:shadow-xl"
         >
@@ -52,6 +54,7 @@ export default function Mypage() {
           </div>
         </Link>
         <Link
+          prefetch
           href="/users/rooms"
           className="shadow-lg rounded-lg flex flex-col justify-between p-4 gap-12 cursor-pointer hover:shadow-xl"
         >
@@ -62,6 +65,7 @@ export default function Mypage() {
           </div>
         </Link>
         <Link
+          prefetch
           href="/users/likes"
           className="shadow-lg rounded-lg flex flex-col justify-between p-4 gap-12 cursor-pointer hover:shadow-xl"
         >
@@ -72,6 +76,7 @@ export default function Mypage() {
           </div>
         </Link>
         <Link
+          prefetch
           href="/users/comments"
           className="shadow-lg rounded-lg flex flex-col justify-between p-4 gap-12 cursor-pointer hover:shadow-xl"
         >
@@ -82,6 +87,7 @@ export default function Mypage() {
           </div>
         </Link>
         <Link
+          prefetch
           href="/users/bookings"
           className="shadow-lg rounded-lg flex flex-col justify-between p-4 gap-12 cursor-pointer hover:shadow-xl"
         >

@@ -29,6 +29,7 @@ export default function RoomRegisterImage() {
   const { data: session } = useSession()
   const router = useRouter()
   const roomForm = useRecoilValue(roomFormState)
+  const [disableSubmit, setDisableSubmit] = useState<boolean>(false)
   const [images, setImages] = useState<string[] | null>(null)
   const imageKeys: string[] = []
 
@@ -97,6 +98,7 @@ export default function RoomRegisterImage() {
 
   const onSubmit = async () => {
     try {
+      setDisableSubmit(true)
       uploadImages(images).then(async (images) => {
         const result = await axios.post('/api/rooms', {
           ...roomForm,
@@ -115,6 +117,7 @@ export default function RoomRegisterImage() {
         }
       })
     } catch (e) {
+      setDisableSubmit(false)
       console.log(e)
       toast.error('다시 시도해주세요.')
       deleteImages()
@@ -192,7 +195,11 @@ export default function RoomRegisterImage() {
             <span className="text-red-600 text-sm">필수 항목입니다.</span>
           )}
         </div>
-        <NextButton type="submit" text="완료" disabled={isSubmitting} />
+        <NextButton
+          type="submit"
+          text="완료"
+          disabled={isSubmitting || disableSubmit}
+        />
       </form>
     </>
   )

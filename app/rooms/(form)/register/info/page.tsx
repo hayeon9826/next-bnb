@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 
 import { useRouter } from 'next/navigation'
 import { useRecoilState } from 'recoil'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Domains } from '@/constants'
 
 interface RoomInfoProps {
@@ -19,6 +19,7 @@ interface RoomInfoProps {
 
 export default function RoomRegisterInfo() {
   const router = useRouter()
+  const [disableSubmit, setDisableSubmit] = useState<boolean>(false)
   const [roomForm, setRoomForm] = useRecoilState(roomFormState)
   const {
     register,
@@ -35,7 +36,7 @@ export default function RoomRegisterInfo() {
       bedroomDesc: data.bedroomDesc,
       price: data.price,
     })
-    router.prefetch(Domains.REGISTER_ROOM_ADDRESS)
+    setDisableSubmit(true)
     router.push(Domains.REGISTER_ROOM_ADDRESS)
   }
 
@@ -46,6 +47,7 @@ export default function RoomRegisterInfo() {
       setValue('price', roomForm?.price)
       setValue('desc', roomForm?.desc)
     }
+    router.prefetch(Domains.REGISTER_ROOM_ADDRESS)
   }, [roomForm])
 
   return (
@@ -129,7 +131,7 @@ export default function RoomRegisterInfo() {
             </span>
           )}
         </div>
-        <NextButton type="submit" disabled={isSubmitting} />
+        <NextButton type="submit" disabled={isSubmitting || disableSubmit} />
       </form>
     </>
   )

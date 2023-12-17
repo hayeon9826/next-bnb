@@ -48,7 +48,7 @@ export default function SignInPage() {
   }, [status])
 
   return (
-    <div className="max-w-xl mx-auto pt-10 pb-24">
+    <div className="max-w-xl mx-auto pt-20 pb-32">
       <div className="flex flex-col gap-6">
         <h1 className="text-lg font-semibold text-center">
           로그인 또는 회원가입
