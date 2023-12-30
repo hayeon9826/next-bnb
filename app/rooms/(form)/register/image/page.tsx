@@ -20,6 +20,7 @@ import { useRecoilValue, useResetRecoilState } from 'recoil'
 import { useSession } from 'next-auth/react'
 import { nanoid } from 'nanoid'
 import axios from 'axios'
+import { FullPageLoader } from '@/components/Loader'
 
 interface RoomImageProps {
   images?: string[]
@@ -27,11 +28,11 @@ interface RoomImageProps {
 
 export default function RoomRegisterImage() {
   const { data: session } = useSession()
+  const [disableSubmit, setDisableSubmit] = useState<boolean>(false)
   const router = useRouter()
   const roomForm = useRecoilValue(roomFormState)
   const [images, setImages] = useState<string[] | null>(null)
-  let imageKeys: string[] = []
-
+  const [imageKeys, setImageKeys] = useState<string[]>([])
   const resetRoomForm = useResetRecoilState(roomFormState)
 
   const handleFileUpload = (e: any) => {
@@ -64,15 +65,15 @@ export default function RoomRegisterImage() {
     const uploadedImageUrls = []
 
     if (!images) return
-
+    setImageKeys([])
     for (const imageFile of images) {
       const imageKey = nanoid()
       const imageRef = ref(storage, `${session?.user?.id}/${imageKey}`)
-      imageKeys.push(imageKey)
       try {
         const data = await uploadString(imageRef, imageFile, 'data_url')
         const imageUrl = await getDownloadURL(data.ref)
         uploadedImageUrls.push(imageUrl)
+        setImageKeys((val) => [...val, imageKey])
       } catch (error) {
         console.error('Error uploading image:', error)
       }
@@ -97,6 +98,7 @@ export default function RoomRegisterImage() {
 
   const onSubmit = async () => {
     try {
+      setDisableSubmit(true)
       uploadImages(images).then(async (images) => {
         const result = await axios.post('/api/rooms', {
           ...roomForm,
@@ -115,6 +117,7 @@ export default function RoomRegisterImage() {
         }
       })
     } catch (e) {
+      setDisableSubmit(false)
       console.log(e)
       toast.error('다시 시도해주세요.')
       deleteImages()
@@ -123,6 +126,7 @@ export default function RoomRegisterImage() {
 
   return (
     <>
+      {(isSubmitting || disableSubmit) && <FullPageLoader />}
       <Stepper className="mt-10" count={5} />
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -190,7 +194,11 @@ export default function RoomRegisterImage() {
             <span className="text-red-600 text-sm">필수 항목입니다.</span>
           )}
         </div>
-        <NextButton type="submit" text="완료" disabled={isSubmitting} />
+        <NextButton
+          type="submit"
+          text="완료"
+          disabled={isSubmitting || disableSubmit}
+        />
       </form>
     </>
   )
