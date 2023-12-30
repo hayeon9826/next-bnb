@@ -20,6 +20,7 @@ import { useRecoilValue, useResetRecoilState } from 'recoil'
 import { useSession } from 'next-auth/react'
 import { nanoid } from 'nanoid'
 import axios from 'axios'
+import { FullPageLoader } from '@/components/Loader'
 
 interface RoomImageProps {
   images?: string[]
@@ -31,8 +32,7 @@ export default function RoomRegisterImage() {
   const roomForm = useRecoilValue(roomFormState)
   const [disableSubmit, setDisableSubmit] = useState<boolean>(false)
   const [images, setImages] = useState<string[] | null>(null)
-  const imageKeys: string[] = []
-
+  const [imageKeys, setImageKeys] = useState<string[]>([])
   const resetRoomForm = useResetRecoilState(roomFormState)
 
   const handleFileUpload = (e: any) => {
@@ -65,15 +65,15 @@ export default function RoomRegisterImage() {
     const uploadedImageUrls = []
 
     if (!images) return
-
+    setImageKeys([])
     for (const imageFile of images) {
       const imageKey = nanoid()
       const imageRef = ref(storage, `${session?.user?.id}/${imageKey}`)
-      imageKeys.push(imageKey)
       try {
         const data = await uploadString(imageRef, imageFile, 'data_url')
         const imageUrl = await getDownloadURL(data.ref)
         uploadedImageUrls.push(imageUrl)
+        setImageKeys((val) => [...val, imageKey])
       } catch (error) {
         console.error('Error uploading image:', error)
       }
@@ -126,6 +126,7 @@ export default function RoomRegisterImage() {
 
   return (
     <>
+      {(isSubmitting || disableSubmit) && <FullPageLoader />}
       <Stepper className="mt-10" count={5} />
       <form
         onSubmit={handleSubmit(onSubmit)}
