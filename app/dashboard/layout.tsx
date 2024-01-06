@@ -5,8 +5,8 @@ export default function Layout(props: {
 }) {
   return (
     <div className="grid grid-cols-3 gap-4 min-h-screen">
-      {props.children}
       {props.left}
+      {props.children}
       {props.right}
     </div>
   )
