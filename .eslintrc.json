@@ -1,6 +1,12 @@
 {
-  "extends": ["plugin:prettier/recommended", "next/core-web-vitals"],
-  "plugins": ["prettier"],
+  "extends": [
+    "plugin:prettier/recommended",
+    "next/core-web-vitals",
+    "plugin:storybook/recommended"
+  ],
+  "plugins": [
+    "prettier"
+  ],
   "rules": {
     "prettier/prettier": "error",
     "react-hooks/rules-of-hooks": "warn",
