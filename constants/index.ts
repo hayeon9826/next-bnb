@@ -13,23 +13,6 @@ import { BiSolidTree, BiWater } from 'react-icons/bi'
 import { AiOutlineStar } from 'react-icons/ai'
 import { TbSwimming, TbMoodKid } from 'react-icons/tb'
 
-const weatherIcon = IoPartlySunnyOutline
-const natureIcon = GiHolyOak
-const caveIcon = GiCaveEntrance
-const campingIcon = GiCampingTent
-const roomIcon = MdOutlineBedroomChild
-const koreanHouseIcon = FaHouseUser
-const beachIcon = FaUmbrellaBeach
-const treeIcon = BiSolidTree
-const popularIcon = AiOutlineStar
-const swimmingIcon = TbSwimming
-const farmIcon = GiBarn
-const skiIcon = GiSkier
-const lakeIcon = BiWater
-const kidIcon = TbMoodKid
-const keyIcon = GiStarKey
-const surfingIcon = MdOutlineSurfing
-
 export const CATEGORY = [
   { title: '전망좋은', Icon: IoPartlySunnyOutline },
   { title: '자연', Icon: GiHolyOak },

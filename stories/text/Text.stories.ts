@@ -1,10 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { fn } from '@storybook/test'
 import { Text } from './Text'
 import { TextType } from './text.constant'
 
 const meta = {
-  title: 'Components/Text',
+  title: 'Foundation/Text',
   component: Text,
   tags: ['autodocs'],
   argTypes: {
