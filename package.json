@@ -12,7 +12,8 @@
     "format:fix": "prettier --write --ignore-path .gitignore .",
     "analyze": "ANALYZE=true yarn build",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "chromatic": "npx chromatic --project-token=chpt_c7c277e3a8f0497"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
